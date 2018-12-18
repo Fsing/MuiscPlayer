@@ -1,0 +1,31 @@
+不使用第三方中间件
+	自己实现数据库类的话，用线程池不会啊，那就一个tcp连接给他初始化一个数据库操作对象吧 ，构造函数中传入账户基本信息，调用查询函数就不用传参啦。
+	考虑下业务上是否允许同时有多个get/set操作，有的话MYSQL mysql对象就需要每个操作函数声明一个.我感觉是没有的QWQ（你总不能一边获取歌曲列表一边登录之类的吧） 没有的话用着一个就成
+	以下是示例：只写了一个操作函数：
+	
+	数据库类返回结果由右值引用返回 全部使用异常机制（出了异常的话会自动析构）-------异常是由DatabaseOperation类抛出
+	class DatabaseOperation{
+
+		void getSongList(JSON &json)；
+		
+		private:
+			MYSQL mysql;
+	}
+
+数据库类：
+	函数命名规则：就是控制器/命令类的操作函数重载参数就是个json----------------也就是说所有实体Broker中的查询函数都有一个在DatabaseOperation中对应的重载函数，所有的SQl操作都在这个重载函数里面，然后broker查询时，再调用Database中的相应函数
+	
+	所有的控制器类内部都不写sql,所有的sql都在数据库类的一个public方法中；
+	数据库类根据不同的结果抛出自定义的异常，控制类只需要捕获这些异常就知道执行情况
+	
+	如控制器获取歌单：
+	void Controller::getSongList(int accountId){
+		try {
+			getSongList(returnJson);
+		}catch(EXCEPTION &E){
+			//
+		}
+	}
+	
+	
+	

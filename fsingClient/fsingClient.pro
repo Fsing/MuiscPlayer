@@ -13,7 +13,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 #DEFINES += QT_DISABLE_DEPRECATED_BEFORE=0x060000    # disables all the APIs deprecated before Qt 6.0.0
 
 SOURCES += \
-        main.cpp
+        main.cpp \
+    fsingclient.cpp \
+    listenmusiccontroller.cpp \
+    downloadmusiccontroller.cpp \
+    logincontroller.cpp \
+    collectcontroller.cpp \
+    attentionorfansquerycontroller.cpp \
+    searchcontroller.cpp \
+    attenusercontroller.cpp \
+    fsingcontroller.cpp
 
 RESOURCES += qml.qrc
 
@@ -27,3 +36,17 @@ QML_DESIGNER_IMPORT_PATH =
 qnx: target.path = /tmp/$${TARGET}/bin
 else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
+
+HEADERS += \
+    head.h \
+    fsingclient.h \
+    listenmusiccontroller.h \
+    downloadmusiccontroller.h \
+    logincontroller.h \
+    collectcontroller.h \
+    attentionorfansquerycontroller.h \
+    searchcontroller.h \
+    attenusercontroller.h \
+    fsingcontroller.h
+
+LIBS += -lpthread -lboost_system -lboost_thread

@@ -4,6 +4,7 @@ import QtQuick.Controls.Styles 1.4
 import QtQuick.Dialogs 1.2
 import QtQuick.Window 2.2
 import QtMultimedia 5.6
+import FSingClient 1.0
 import "topArea"
 import "middleArea"
 import "bottomArea"
@@ -32,5 +33,9 @@ Window {
     //---------------------bottom栏
     BottomArea {
         id: bottomArea
+    }
+
+    FSingClient {
+        id: client
     }
 }

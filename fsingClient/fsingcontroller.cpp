@@ -4,3 +4,8 @@ FSingController::FSingController()
 {
 
 }
+
+FSingController::~FSingController()
+{
+
+}

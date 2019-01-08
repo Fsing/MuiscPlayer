@@ -1,6 +1,6 @@
 #include "logincontroller.h"
 
-LoginController::LoginController()
-{
+//LoginController::LoginController()
+//{
 
-}
+//}

@@ -1,6 +1,6 @@
 #include "collectcontroller.h"
 
-CollectController::CollectController()
-{
+//CollectController::CollectController()
+//{
 
-}
+//}

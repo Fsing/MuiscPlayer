@@ -1,6 +1,6 @@
 #include "attentionorfansquerycontroller.h"
 
-AttentionOrFansQueryController::AttentionOrFansQueryController()
-{
+//AttentionOrFansQueryController::AttentionOrFansQueryController()
+//{
 
-}
+//}

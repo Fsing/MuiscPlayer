@@ -1,6 +1,6 @@
 #include "downloadmusiccontroller.h"
 
-DownloadMusicController::DownloadMusicController()
-{
+//DownloadMusicController::DownloadMusicController()
+//{
 
-}
+//}

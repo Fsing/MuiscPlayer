@@ -1,6 +1,6 @@
 #include "attenusercontroller.h"
 
-AttenUserController::AttenUserController()
-{
+//AttenUserController::AttenUserController()
+//{
 
-}
+//}

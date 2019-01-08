@@ -1,6 +1,6 @@
 #include "listenmusiccontroller.h"
 
-ListenMusicController::ListenMusicController()
-{
+//ListenMusicController::ListenMusicController()
+//{
 
-}
+//}

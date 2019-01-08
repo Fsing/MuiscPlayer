@@ -49,4 +49,4 @@ HEADERS += \
     attenusercontroller.h \
     fsingcontroller.h
 
-LIBS += -lpthread -lboost_system -lboost_thread
+LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp

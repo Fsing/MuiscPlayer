@@ -1,6 +1,6 @@
 #include "searchcontroller.h"
 
-SearchController::SearchController()
-{
+//SearchController::SearchController()
+//{
 
-}
+//}

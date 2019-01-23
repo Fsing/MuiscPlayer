@@ -22,7 +22,9 @@ SOURCES += \
     attentionorfansquerycontroller.cpp \
     searchcontroller.cpp \
     attenusercontroller.cpp \
-    fsingcontroller.cpp
+    fsingcontroller.cpp \
+    lyric.cpp \
+    main.cpp
 
 RESOURCES += qml.qrc
 
@@ -47,6 +49,7 @@ HEADERS += \
     attentionorfansquerycontroller.h \
     searchcontroller.h \
     attenusercontroller.h \
-    fsingcontroller.h
+    fsingcontroller.h \
+    lyric.h
 
 LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp

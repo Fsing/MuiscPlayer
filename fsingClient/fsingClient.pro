@@ -24,7 +24,6 @@ SOURCES += \
     attenusercontroller.cpp \
     fsingcontroller.cpp \
     lyric.cpp \
-    main.cpp
 
 RESOURCES += qml.qrc
 

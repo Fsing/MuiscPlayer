@@ -1,7 +1,6 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Window 2.0
-import "../dialog"
 
 Rectangle {
     id: topArea
@@ -11,25 +10,19 @@ Rectangle {
     radius: 0
     border.width: 0
 
-    property var xPosition: 0.0
-    property var yPosition: 0.0
-    property alias loginDialog: loginDialog
-    property alias topSearch: topSearch
+    property double xPosition: 0.0
+    property double yPosition: 0.0
 
-    //--------------左上角图标
-//    Image {
-//        id: titleImage
-//        x: 14
-//        anchors.verticalCenter: parent.verticalCenter
-//        source: "qrc:/images/topArea/title.png"
-//    }
+    property int titleFontSize: 20
+    property string titleColor: "#e0abab"
+
     Text {
         id: titleName
         x:14
         anchors.verticalCenter: parent.verticalCenter
         text: qsTr("FSing 音乐")
-        font.pixelSize: 20
-        color: "#CCCCCC"
+        font.pixelSize: titleFontSize
+        color: titleColor
 
     }
     //---------------前进后退按钮组件
@@ -42,18 +35,14 @@ Rectangle {
     //----------------搜索组件
     TopSearch {
         id: topSearch
+        anchors.left: leftRightButton.right
+        anchors.leftMargin: 10
+        anchors.verticalCenter: parent.verticalCenter
     }
 
     //-----------------右上角功能组件
     TopRightButton {
         id: topRightButton
-    }
-    LoginDialog {
-        id: loginDialog
-    }
-
-    LogoutDialog {
-        id: logoutDialog
     }
 
     //-----------------------------
@@ -86,6 +75,7 @@ Rectangle {
         property point clickPos: "0,0"
         onPressed: {
             clickPos = Qt.point(mouse.x, mouse.y)
+            topSearch.inputFocus = false
         }
         onPositionChanged: {
             var delta = Qt.point(mouse.x - clickPos.x, mouse.y - clickPos.y)

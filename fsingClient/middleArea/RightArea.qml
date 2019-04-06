@@ -1,7 +1,6 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.1
-import "../songList"
-import "RightAreaComponents"
+import "rightAreaComponents"
 import "RightAreaJS.js" as Js
 
 Rectangle {
@@ -10,24 +9,16 @@ Rectangle {
     anchors.top: parent.top
     anchors.bottom: parent.bottom
 
-    property alias downloadModel2:downloadModel1
+   // property alias downloadModel2:downloadModel1
 
-    ListModel{
-        id:downloadModel1
-    }
+//    ListModel{
+//        id:downloadModel1
+//    }
 
-    property var songListInfo
+    //property var songListInfo
     property alias stackView: stackView
-    property alias searchComponent: searchComponent
-    //    property alias searchMusicModel: searchMusicModel
+    //property alias searchComponent: searchComponent
 
-    //    Connections {
-    //        target: mainWindow
-    //        onStartSearch: {
-    //            console.log("search--------------------------------")
-    //            stackView.push(searchComponent)
-    //        }
-    //    }
     StackView {
         id: stackView
         anchors.fill: parent
@@ -119,7 +110,7 @@ Rectangle {
 //        property alias dowload: download
         Download {
             id: download
-            downloadModels:downloadModel1
+            //downloadModels:downloadModel1
         }
     }
     Component {
@@ -140,32 +131,17 @@ Rectangle {
             id: mymv
         }
     }
-    Component {
-        id: searchComponent
-        Search {
-            id: search
-            searchModel: searchMusicModel
-        }
-    }
-    Component {
-        id: favoriteComponent
-        MyFavorite {
-            id: favorite
-        }
-    }
-    Component {
-        id: mySongListComponent
-        SongList {
-
-        }
-    }
-
-    ListModel {
-        id: songsModel
-    }
-
-    ListModel {
-        id: searchMusicModel
-    }
-
+  //  Component {
+ //       id: searchComponent
+//        Search {
+//            id: search
+//            searchModel: searchMusicModel
+//        }
+   // }
+//    Component {
+//        id: favoriteComponent
+//        MyFavorite {
+//            id: favorite
+//        }
+//    }
 }

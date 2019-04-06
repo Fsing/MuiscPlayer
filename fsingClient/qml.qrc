@@ -1,43 +1,19 @@
 <RCC>
     <qresource prefix="/">
         <file>main.qml</file>
-        <file>bottomArea/BottomRightButton.qml</file>
-        <file>bottomArea/BottomMiddleButton.qml</file>
-        <file>bottomArea/BottomLeftButton.qml</file>
-        <file>bottomArea/BottomArea.qml</file>
-        <file>dialog/common/ButtonItem.qml</file>
-        <file>dialog/common/CommonDialog.qml</file>
-        <file>dialog/common/ImageButton.qml</file>
-        <file>dialog/common/MyButton.qml</file>
-        <file>dialog/common/MyTextInput.qml</file>
-        <file>dialog/CollectSongDialog.qml</file>
-        <file>dialog/CollectSongItem.qml</file>
-        <file>dialog/CreateSongistDialogItem.qml</file>
-        <file>dialog/CreateSongListDialog.qml</file>
-        <file>dialog/LoginDialog.qml</file>
-        <file>dialog/LoginDialogItem.qml</file>
-        <file>dialog/LogoutDialog.qml</file>
-        <file>dialog/LogoutDialogItem.qml</file>
-        <file>dialog/SongOperationDialog.qml</file>
-        <file>dialog/SongOperationItem.qml</file>
-        <file>images/bottomArea/circle.png</file>
-        <file>images/bottomArea/liric.png</file>
-        <file>images/bottomArea/next.png</file>
-        <file>images/bottomArea/pause.png</file>
-        <file>images/bottomArea/play.png</file>
-        <file>images/bottomArea/previous.png</file>
-        <file>images/bottomArea/random.png</file>
-        <file>images/bottomArea/sequence.png</file>
-        <file>images/bottomArea/single.png</file>
-        <file>images/bottomArea/songlist.png</file>
-        <file>images/bottomArea/voice.png</file>
-        <file>images/common/ac0.png</file>
-        <file>images/common/download.png</file>
-        <file>images/common/like.png</file>
-        <file>images/common/right_arrow.png</file>
-        <file>images/common/setting.png</file>
-        <file>images/common/tringle.png</file>
-        <file>images/common/user.png</file>
+        <file>topArea/TopSearch.qml</file>
+        <file>topArea/TopRightButton.qml</file>
+        <file>topArea/LeftRightButton.qml</file>
+        <file>topArea/TopArea.qml</file>
+        <file>images/topArea/close.png</file>
+        <file>images/topArea/left.png</file>
+        <file>images/topArea/message.png</file>
+        <file>images/topArea/mini.png</file>
+        <file>images/topArea/search.png</file>
+        <file>images/topArea/setting1.png</file>
+        <file>images/topArea/skin.png</file>
+        <file>images/topArea/title.png</file>
+        <file>images/middleArea/play.png</file>
         <file>images/leftArea/btndownload.png</file>
         <file>images/leftArea/btnfavorite.png</file>
         <file>images/leftArea/btnfriends.png</file>
@@ -53,63 +29,45 @@
         <file>images/leftArea/showAllCreatedSongList.png</file>
         <file>images/leftArea/sound.png</file>
         <file>images/leftArea/sound.svg</file>
-        <file>images/middleArea/play.png</file>
-        <file>images/topArea/close.png</file>
-        <file>images/topArea/left.png</file>
-        <file>images/topArea/message.png</file>
-        <file>images/topArea/mini.png</file>
-        <file>images/topArea/search.png</file>
-        <file>images/topArea/setting1.png</file>
-        <file>images/topArea/skin.png</file>
-        <file>images/topArea/title.png</file>
-        <file>images/logo.jpg</file>
-        <file>middleArea/RightAreaComponents/Advert.qml</file>
-        <file>middleArea/RightAreaComponents/Download.qml</file>
-        <file>middleArea/RightAreaComponents/FindMusic.qml</file>
-        <file>middleArea/RightAreaComponents/FM.qml</file>
-        <file>middleArea/RightAreaComponents/Friends.qml</file>
-        <file>middleArea/RightAreaComponents/Liric.qml</file>
-        <file>middleArea/RightAreaComponents/LocalMusic.qml</file>
-        <file>middleArea/RightAreaComponents/Mv.qml</file>
-        <file>middleArea/RightAreaComponents/MyFavorite.qml</file>
-        <file>middleArea/RightAreaComponents/MyMusicCloudDisk.qml</file>
-        <file>middleArea/RightAreaComponents/MyMv.qml</file>
-        <file>middleArea/RightAreaComponents/MySinger.qml</file>
-        <file>middleArea/RightAreaComponents/Search.qml</file>
-        <file>middleArea/RightAreaComponents/SongListRectangle.qml</file>
+        <file>images/common/ac0.png</file>
+        <file>images/common/download.png</file>
+        <file>images/common/like.png</file>
+        <file>images/common/right_arrow.png</file>
+        <file>images/common/setting.png</file>
+        <file>images/common/tringle.png</file>
+        <file>images/common/user.png</file>
+        <file>images/bottomArea/circle.png</file>
+        <file>images/bottomArea/liric.png</file>
+        <file>images/bottomArea/next.png</file>
+        <file>images/bottomArea/pause.png</file>
+        <file>images/bottomArea/play.png</file>
+        <file>images/bottomArea/previous.png</file>
+        <file>images/bottomArea/random.png</file>
+        <file>images/bottomArea/sequence.png</file>
+        <file>images/bottomArea/single.png</file>
+        <file>images/bottomArea/songlist.png</file>
+        <file>images/bottomArea/voice.png</file>
+        <file>bottomArea/BottomArea.qml</file>
+        <file>bottomArea/BottomLeftButton.qml</file>
+        <file>bottomArea/BottomMiddleButton.qml</file>
+        <file>bottomArea/BottomRightButton.qml</file>
         <file>middleArea/LeftArea.qml</file>
         <file>middleArea/LeftItem.qml</file>
         <file>middleArea/MiddleArea.qml</file>
-        <file>middleArea/RightArea.qml</file>
+        <file>middleArea/rightAreaComponents/Download.qml</file>
+        <file>middleArea/rightAreaComponents/FindMusic.qml</file>
+        <file>middleArea/rightAreaComponents/FM.qml</file>
+        <file>middleArea/rightAreaComponents/Friends.qml</file>
+        <file>middleArea/rightAreaComponents/Mv.qml</file>
+        <file>middleArea/rightAreaComponents/LocalMusic.qml</file>
+        <file>middleArea/rightAreaComponents/MyMusicCloudDisk.qml</file>
+        <file>middleArea/rightAreaComponents/MySinger.qml</file>
+        <file>middleArea/rightAreaComponents/MyMv.qml</file>
         <file>middleArea/RightAreaJS.js</file>
-        <file>personalinfo/element/NumberText.qml</file>
-        <file>personalinfo/element/TextText.qml</file>
-        <file>personalinfo/element/UserIcon.qml</file>
-        <file>personalinfo/element/UserInfoOverView.qml</file>
-        <file>songList/SongList.qml</file>
-        <file>songList/SongListBottom.qml</file>
-        <file>songList/SongListTop.qml</file>
-        <file>personalinfo/AllAttentions.qml</file>
-        <file>personalinfo/FriendInfo.qml</file>
-        <file>personalinfo/FriendRightBaseInfo.qml</file>
-        <file>personalinfo/PersonalCollectedSongLists.qml</file>
-        <file>personalinfo/PersonalCreatedSongLists.qml</file>
-        <file>personalinfo/PersonalInformation.qml</file>
-        <file>personalinfo/RightBaseInfo.qml</file>
-        <file>personalinfo/UserBaseInfo.qml</file>
-        <file>personalinfo/UserCollectedSongList.qml</file>
-        <file>personalinfo/UserCreatedSongList.qml</file>
-        <file>songList/element/CircleIcon.qml</file>
-        <file>songList/element/ListSongs.qml</file>
-        <file>songList/element/ListSongs.qmlc</file>
-        <file>songList/element/PlayAllBtn.qml</file>
-        <file>songList/element/RecIcon.qml</file>
-        <file>songList/element/TwoButton.qml</file>
-        <file>songList/element/TwoButton.qmlc</file>
-        <file>topArea/CurrentPlayList.qml</file>
-        <file>topArea/LeftRightButton.qml</file>
-        <file>topArea/TopArea.qml</file>
-        <file>topArea/TopRightButton.qml</file>
-        <file>topArea/TopSearch.qml</file>
+        <file>middleArea/RightArea.qml</file>
+        <file>middleArea/rightAreaComponents/MyFavorite.qml</file>
+        <file>middleArea/rightAreaComponents/Liric.qml</file>
+        <file>element/CircleIcon.qml</file>
+        <file>element/CurrentPlayList.qml</file>
     </qresource>
 </RCC>

@@ -7,6 +7,10 @@ Rectangle {
     anchors.left: parent.left
     color: parent.color
 
+    property string buttonColor: ""
+    property double noHoverOpacity: 1.0
+    property double hoverOpacity:0.8
+
     Button {
         id: prebutton
         anchors.left: parent.left
@@ -26,12 +30,12 @@ Rectangle {
         background:Rectangle{
             id:preButtonRectangle
             anchors.fill: parent
-            color: "#C62F2F"
+            color: buttonColor
             radius: 30
             Image {
                         id:preButtonImage
                         anchors.centerIn:parent
-                        opacity: preButtonMouseArea.containsMouse ? 0.8 : 1.0
+                        opacity: preButtonMouseArea.containsMouse ? hoverOpacity : noHoverOpacity
                         source: "qrc:/images/bottomArea/previous.png"
                     }
         }
@@ -55,15 +59,17 @@ Rectangle {
         background:Rectangle{
             id:pauseButtonRectangle
             anchors.fill: parent
-            color: "#C62F2F"
+            color: buttonColor
             radius: 30
             Image {
                         width: 44
                         height: 44
                         id:pauseButtonImage
                         anchors.centerIn:parent
-                        opacity: pauseButtonMouseArea.containsMouse ? 0.8 : 1.0
-                        source: "qrc:/images/bottomArea/pause.png"
+                        opacity: pauseButtonMouseArea.containsMouse ? hoverOpacity : noHoverOpacity
+                        source: mediaPlayer.playbackState === 1 ?
+                            "qrc:/images/bottomArea/pause.png"
+                                  : "qrc:/images/bottomArea/play.png"
                     }
         }
     }
@@ -86,12 +92,12 @@ Rectangle {
         background:Rectangle{
             id:nextButtonRectangle
             anchors.fill: parent
-            color: "#C62F2F"
+            color: buttonColor
             radius: 30
             Image {
                         id:nextButtonImage
                         anchors.centerIn:parent
-                        opacity: nextButtonMouseArea.containsMouse ? 0.8 : 1.0
+                        opacity: nextButtonMouseArea.containsMouse ? hoverOpacity : noHoverOpacity
                         source: "qrc:/images/bottomArea/next.png"
                     }
         }

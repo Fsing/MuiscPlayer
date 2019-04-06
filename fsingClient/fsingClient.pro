@@ -14,16 +14,16 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-    fsingclient.cpp \
-    listenmusiccontroller.cpp \
-    downloadmusiccontroller.cpp \
-    logincontroller.cpp \
-    collectcontroller.cpp \
     attentionorfansquerycontroller.cpp \
-    searchcontroller.cpp \
     attenusercontroller.cpp \
+    collectcontroller.cpp \
+    downloadmusiccontroller.cpp \
+    fsingclient.cpp \
     fsingcontroller.cpp \
+    listenmusiccontroller.cpp \
+    logincontroller.cpp \
     lyric.cpp \
+    searchcontroller.cpp
 
 RESOURCES += qml.qrc
 
@@ -39,16 +39,15 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    head.h \
-    fsingclient.h \
-    listenmusiccontroller.h \
-    downloadmusiccontroller.h \
-    logincontroller.h \
-    collectcontroller.h \
     attentionorfansquerycontroller.h \
-    searchcontroller.h \
     attenusercontroller.h \
+    collectcontroller.h \
+    downloadmusiccontroller.h \
+    fsingclient.h \
     fsingcontroller.h \
-    lyric.h
+    listenmusiccontroller.h \
+    logincontroller.h \
+    lyric.h \
+    searchcontroller.h
 
 LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp

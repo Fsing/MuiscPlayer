@@ -1,6 +1,5 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
-import "../personalinfo"
 
 Rectangle {
     anchors.top: topArea.bottom
@@ -11,25 +10,23 @@ Rectangle {
 
     property var listmodel: leftArea.listmodel
     property alias leftArea: leftArea
-    property alias rightArea: rightArea
-    property alias personal: personal
-    property alias allAttentions: allAttentions
-    property alias attentedUserModel: allAttentions.attenedUsersModel
-    property alias rightAreaaDownload: rightArea.downloadModel2
+    //property alias rightArea: rightArea
+    //property alias personal: personal
+   // property alias allAttentions: allAttentions
+   // property alias attentedUserModel: allAttentions.attenedUsersModel
+    //property alias rightAreaaDownload: rightArea.downloadModel2
 
     LeftArea {
         id: leftArea
     }
     RightArea {
         id: rightArea
-        PersonalInformation {
-            id: personal
-            visible: false
-        }
 
-        AllAttentions {
-            id: allAttentions
-            visible: false
-        }
     }
+
+//        AllAttentions {
+//            id: allAttentions
+//            visible: false
+//        }
+//    }
 }

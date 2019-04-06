@@ -1,20 +1,26 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 Rectangle {
-    id: rectangle1
+    id: topLeftRight
     width: 50
     height: 20
     color: parent.color
-    x:192
+    x:190
     anchors.verticalCenter: parent.verticalCenter
     radius: 3
     border.color: "#a82828"
 
+    property int buttonWidth: 15
+    property int buttonHeight: 15
+
+    property double noHoverOpacity: 1.0
+    property double hoverOpacity:0.5
+
     Button {
         anchors.left: parent.left
         anchors.leftMargin: 5
-        width: 15
-        height: 15
+        width: buttonWidth
+        height: buttonHeight
         anchors.verticalCenter: parent.verticalCenter
         MouseArea{
             id: leftButtonMouseArea;
@@ -28,7 +34,7 @@ Rectangle {
         background: Image {
             id:leftButtonImage
             anchors.fill: parent
-            opacity: leftButtonMouseArea.containsMouse ? 1.0 : 0.5
+            opacity: leftButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
             source: "qrc:/images/topArea/left.png"
         }
 
@@ -38,14 +44,14 @@ Rectangle {
         width: 1
         height: parent.height
         anchors.centerIn: parent
-        color: "#a82828"
+        color: parent.border.color
     }
 
     Button {
         anchors.right: parent.right
         anchors.rightMargin: 5
-        width: 15
-        height: 15
+        width: buttonWidth
+        height: buttonHeight
         anchors.verticalCenter: parent.verticalCenter
 
         MouseArea{
@@ -58,7 +64,7 @@ Rectangle {
         background: Image {
             mirror: true
             anchors.fill: parent
-            opacity: rightButtonMouseArea.containsMouse ? 1.0 : 0.5
+            opacity: rightButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
             source: "qrc:/images/topArea/left.png"
         }
     }

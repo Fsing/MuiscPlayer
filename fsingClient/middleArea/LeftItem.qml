@@ -4,12 +4,13 @@ Item {
     //    width: parent.width - 10
     //    height: classify.visible ? 60 : 35
 
+
     //main里面的什么都没改，就是去掉了长宽
     property alias classfify: classify
-    property var leftElementTextColor: "#333333"
-    property var leftElementTextSize: 12.5
+    //左侧字的颜色
+    property string leftElementTextColor: "#333333"
+    property double leftElementTextSize: 12.5
 
-    signal createClicked
     signal itemClicked(int index)
 
     Text {
@@ -157,16 +158,17 @@ Item {
                 //console.log(index)
                 if (rec_parent.modelindex != -1) {
                     listModel.setProperty(rec_parent.modelindex, "recColor",
-                                          "#F5F5F7")
+                                         "transparent") //左侧条目底色
                     listModel.setProperty(rec_parent.modelindex, "opaci", 0.55)
                 }
 
                 mouse.accepted = false
                 listModel.setProperty(index, "opaci", 1)
+                //鼠标点击时的条目颜色
                 listModel.setProperty(index, "recColor", "#DCDCDC")
                 rec_parent.modelindex = index
-                middleArea.personal.visible = false
-                middleArea.allAttentions.visible = false
+                //middleArea.personal.visible = false
+                //middleArea.allAttentions.visible = false
                 //                        console.log("item click.  " + rec_parent.modelindex + "  " + index)
             }
         }

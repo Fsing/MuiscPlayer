@@ -1,5 +1,7 @@
 #include "fsingclient.h"
-#include "head.h"
+#include <iostream>
+#include <boost/asio.hpp>
+#include <boost/shared_ptr.hpp>
 
 using std::endl;
 using std::cout;

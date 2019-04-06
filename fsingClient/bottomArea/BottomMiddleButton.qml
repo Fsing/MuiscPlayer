@@ -8,6 +8,8 @@ Rectangle {
     anchors.right: bottomRightButton.left
     color: parent.color
 
+    property string slidercolor: ""
+
     Text {
         id: totalTime
         anchors.right: parent.right
@@ -43,7 +45,7 @@ Rectangle {
             Rectangle {
                 width: 4
                 height: 4
-                color: "red"
+                color: slidercolor
                 radius: 13
                 anchors.centerIn: parent
             }
@@ -57,7 +59,7 @@ Rectangle {
             y: positionSlider.topPadding + positionSlider.availableHeight / 2 - height / 2
             radius: 13
             height: 4
-            color: "red"
+            color: slidercolor
         }
         MouseArea{
             anchors.fill: parent;
@@ -68,17 +70,5 @@ Rectangle {
             onWheel: wheel.accepted = true;
 
         }
-    }
-    function change(value){
-        var s = Math.round(value / 1000);
-        var m = Math.round(s / 60);
-        s = s % 60;
-        var mm = "0" + m;
-        if(m > 9)
-            mm = "%1".arg(m);
-        var ss = "0" + s;
-        if(s > 9)
-            ss = "%1".arg(s);
-        return mm + ":" + ss;
     }
 }

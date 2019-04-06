@@ -10,13 +10,19 @@ Rectangle {
     anchors.rightMargin: 5
     color: parent.color
 
+    property double noHoverOpacity: 1.0
+    property double hoverOpacity:0.5
+    property int buttonWidth: 18
+    property int buttonHeight: 18
+    property string slidercolor: ""
+
     Button {
         id: songlistButton
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        width: 18
-        height: 18
+        width: buttonWidth
+        height: buttonHeight
         MouseArea{
             id: songlistButtonMouseArea
             anchors.fill: parent
@@ -32,7 +38,7 @@ Rectangle {
         background: Image {
             id:songlistButtonImage
             anchors.fill: parent
-            opacity: songlistButtonMouseArea.containsMouse ? 1.0 : 0.5
+            opacity: songlistButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
             source: "qrc:/images/bottomArea/songlist.png"
         }
     }
@@ -41,8 +47,8 @@ Rectangle {
         anchors.right: songlistButton.left
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        width: 18
-        height: 18
+        width: buttonWidth
+        height: buttonHeight
         MouseArea{
             id: liricButtonMouseArea
             anchors.fill: parent
@@ -52,7 +58,7 @@ Rectangle {
         background: Image {
             id:liricButtonnImage
             anchors.fill: parent
-            opacity: liricButtonMouseArea.containsMouse ? 1.0 : 0.5
+            opacity: liricButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
             source: "qrc:/images/bottomArea/liric.png"
         }
     }
@@ -62,8 +68,8 @@ Rectangle {
         anchors.right: liricButton.left
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        width: 18
-        height: 18
+        width: buttonWidth
+        height: buttonHeight
         property int index: 0
         state: "sequence"
         states: [
@@ -99,7 +105,7 @@ Rectangle {
         background: Image {
             id:orderButtonImage
             anchors.fill: parent
-            opacity: orderButtonMouseArea.containsMouse ? 1.0 : 0.5
+            opacity: orderButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
         }
     }
     Slider{
@@ -127,7 +133,7 @@ Rectangle {
             Rectangle{
                 width: 4;
                 height: 4;
-                color: "red";
+                color: slidercolor;
                 radius: 13;
                 anchors.centerIn: parent;
             }
@@ -136,11 +142,11 @@ Rectangle {
             anchors.left: voiceSlider.left
             anchors.leftMargin: voiceSlider.leftPadding
             anchors.right: handleRectangle.left
-            anchors.rightMargin: voiceSlider.rightPadding
+            anchors.rightMargin: -2
             y: voiceSlider.topPadding + voiceSlider.availableHeight / 2 - height / 2
             radius: 13
             height: 4
-            color: "red"
+            color: slidercolor
         }
         MouseArea{
             id:sliderMouseArea
@@ -160,8 +166,8 @@ Rectangle {
         anchors.right: voiceSlider.left
         anchors.rightMargin: 5
         anchors.verticalCenter: parent.verticalCenter
-        width: 18
-        height: 18
+        width: buttonWidth
+        height: buttonHeight
         MouseArea{
             id: voiceButtonMouseArea
             anchors.fill: parent
@@ -171,7 +177,7 @@ Rectangle {
         background: Image {
             id:voiceButtonImage
             anchors.fill: parent
-            opacity: voiceButtonMouseArea.containsMouse ? 1.0 : 0.5
+            opacity: voiceButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
             source: "qrc:/images/bottomArea/voice.png"
         }
     }

@@ -1,7 +1,8 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Window 2.0
-import "../songList/element"
+
+import "../element"
 
 Rectangle {
     id: topright
@@ -11,21 +12,25 @@ Rectangle {
     anchors.rightMargin: 5
     color: parent.color
 
-    signal loginButtonClicked
-    signal userImageClick
     property string loginButtonSource: "qrc:/images/common/ac0.png"
+    property int buttonWidth: 18
+    property int buttonHeight: 18
 
+    property int userImageWidth: 25
+    property int userImageHeight: 25
+
+    property double noHoverOpacity: 1.0
+    property double hoverOpacity:0.5
 
     property string fanName: "未登录"
-    property int userx: 263
 
     Button {
         id: closebutton
         anchors.right: parent.right
         anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
-        width: 18
-        height: 18
+        width: buttonWidth
+        height: buttonHeight
         MouseArea {
             id: closeButtonMouseArea
             anchors.fill: parent
@@ -36,7 +41,7 @@ Rectangle {
         background: Image {
             id: leftButtonImage
             anchors.fill: parent
-            opacity: closeButtonMouseArea.containsMouse ? 1.0 : 0.5
+            opacity: closeButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
             source: "qrc:/images/topArea/close.png"
         }
     }
@@ -45,8 +50,8 @@ Rectangle {
         anchors.right: closebutton.left
         anchors.rightMargin: 5
         anchors.verticalCenter: parent.verticalCenter
-        width: 18
-        height: 18
+        width: buttonWidth
+        height: buttonHeight
         MouseArea {
             id: maxButtonMouseArea
             anchors.fill: parent
@@ -57,6 +62,7 @@ Rectangle {
                     mainWindow.height = 670
                     mainWindow.setX(xPosition)
                     mainWindow.setY(yPosition)
+                    mainWindow.showNormal()
                 } else {
                     xPosition = mainWindow.x
                     yPosition = mainWindow.y
@@ -68,11 +74,11 @@ Rectangle {
         background: Rectangle {
             id: maxButton
             anchors.centerIn: parent
-            width: 14
+            width: 13
             height: 11
             border.width: 1
-            border.color: maxButtonMouseArea.containsMouse ? "#FFFFFF" : "#E29595"
-            color: "#C62F2F"
+            border.color: maxButtonMouseArea.containsMouse ? "#DCDCDC" : "#E29595"
+            color: topright.color
             radius: 2
         }
     }
@@ -81,8 +87,8 @@ Rectangle {
         anchors.right: maxbutton.left
         anchors.rightMargin: 5
         anchors.verticalCenter: parent.verticalCenter
-        width: 18
-        height: 18
+        width: buttonWidth
+        height: buttonHeight
         MouseArea {
             id: minButtonMouseArea
             anchors.fill: parent
@@ -93,26 +99,26 @@ Rectangle {
         background: Image {
             id: minButtonImage
             anchors.fill: parent
-            opacity: minButtonMouseArea.containsMouse ? 1.0 : 0.5
+            opacity: minButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
             source: "qrc:/images/topArea/mini.png"
         }
     }
     Rectangle {
         id: rec
         width: 1
-        height: 18
+        height: buttonHeight
         anchors.right: minbutton.left
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        color: "#a82828"
+        color:"#a82828"
     }
     Button {
         id: settingbutton
         anchors.right: rec.left
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        width: 16
-        height: 16
+        width: buttonWidth
+        height: buttonHeight
         MouseArea {
             id: settingbuttonMouseArea
             anchors.fill: parent
@@ -122,7 +128,7 @@ Rectangle {
         background: Image {
             id: settingbuttonImage
             anchors.fill: parent
-            opacity: settingbuttonMouseArea.containsMouse ? 1.0 : 0.5
+            opacity: settingbuttonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
             source: "qrc:/images/topArea/setting1.png"
         }
     }
@@ -131,8 +137,8 @@ Rectangle {
         anchors.right: settingbutton.left
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        width: 16
-        height: 16
+        width: buttonWidth
+        height: buttonHeight
         MouseArea {
             id: emailbuttonMouseArea
             anchors.fill: parent
@@ -142,7 +148,7 @@ Rectangle {
         background: Image {
             id: emailbuttonImage
             anchors.fill: parent
-            opacity: emailbuttonMouseArea.containsMouse ? 1.0 : 0.5
+            opacity: emailbuttonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
             source: "qrc:/images/topArea/message.png"
         }
     }
@@ -151,8 +157,8 @@ Rectangle {
         anchors.right: emailbutton.left
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        width: 16
-        height: 16
+        width: buttonWidth
+        height: buttonHeight
         MouseArea {
             id: skinbuttonMouseArea
             anchors.fill: parent
@@ -162,7 +168,7 @@ Rectangle {
         background: Image {
             id: skinbuttonImage
             anchors.fill: parent
-            opacity: skinbuttonMouseArea.containsMouse ? 1.0 : 0.5
+            opacity: skinbuttonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
             source: "qrc:/images/topArea/skin.png"
         }
     }
@@ -174,16 +180,16 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         opacity: 0.5
         width: 50
-        height: 16
+        height: buttonHeight
         color: topright.color
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
             onEntered: {
-                loginButton.opacity = 1
+                loginButton.opacity = hoverOpacity
             }
             onExited: {
-                loginButton.opacity = 0.5
+                loginButton.opacity = hoverOpacity
             }
             onClicked: {
                 loginButtonClicked()
@@ -216,21 +222,17 @@ Rectangle {
         anchors.right: loginButton.left
         anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
-        width: 25
-        height: 25
-        //        MouseArea {
-        //            id: loginbuttonMouseArea
-        //            anchors.fill: parent
-        //            hoverEnabled: true
+        width: userImageWidth
+        height: userImageHeight
+
         onClicked: {
 
         }
-        //        }
 
         background: CircleIcon {
             id: loginbuttonImage
             anchors.fill: parent
-            opacity: 1
+            opacity: noHoverOpacity
             userImage: loginButtonSource
         }
     }

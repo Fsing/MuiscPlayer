@@ -24,6 +24,8 @@ Rectangle {
 
     property string fanName: "未登录"
 
+    signal loginButtonClicked()
+
     Button {
         id: closebutton
         anchors.right: parent.right

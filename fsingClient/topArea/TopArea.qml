@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Window 2.0
+import "../dialog"
 
 Rectangle {
     id: topArea
@@ -31,6 +32,8 @@ Rectangle {
         width: 52
         height: 21
         radius: 3
+
+
     }
     //----------------搜索组件
     TopSearch {
@@ -43,6 +46,20 @@ Rectangle {
     //-----------------右上角功能组件
     TopRightButton {
         id: topRightButton
+
+        onLoginButtonClicked: {
+                loginDialog.open()
+        }
+    }
+
+    LoginDialog{
+        id:loginDialog
+        x: mainWindow.width / 2 - 150
+        y: 100
+    }
+
+    LogoutDialog {
+        id: logoutDialog
     }
 
     //-----------------------------

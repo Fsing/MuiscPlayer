@@ -12,6 +12,7 @@ Item {
     property double leftElementTextSize: 12.5
 
     signal itemClicked(int index)
+    signal createClicked()
 
     Text {
         id: classify

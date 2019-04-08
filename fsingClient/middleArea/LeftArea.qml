@@ -1,6 +1,7 @@
 import QtQuick 2.0
 import QtQuick.Controls.Styles 1.4
 import QtQuick.Controls 1.4
+import "../dialog"
 
 Rectangle {
     id: rec_parent
@@ -85,6 +86,10 @@ Rectangle {
             onItemClicked: {
                 listView.currentIndex = index
                 leftAreaClicked(index)
+            }
+
+            onCreateClicked: {
+                createSongListDialog.open()
             }
         }
     }
@@ -173,6 +178,15 @@ Rectangle {
             classifyText: "创建的歌单"
             showAllCreateVisible: true
             delegate_listVisible: false
+        }
+    }
+
+    CreateSongListDialog {
+        id: createSongListDialog
+        x: mainWindow.width / 2 - 150
+        y: 100
+        onInputAccepted: {
+
         }
     }
 }

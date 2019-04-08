@@ -69,5 +69,16 @@
         <file>middleArea/rightAreaComponents/Liric.qml</file>
         <file>element/CircleIcon.qml</file>
         <file>element/CurrentPlayList.qml</file>
+        <file>dialog/common/CommonDialog.qml</file>
+        <file>dialog/LoginDialog.qml</file>
+        <file>dialog/LoginDialogItem.qml</file>
+        <file>dialog/common/MyTextInput.qml</file>
+        <file>dialog/common/MyButton.qml</file>
+        <file>images/common/close.png</file>
+        <file>dialog/LogoutDialog.qml</file>
+        <file>dialog/LogoutDialogItem.qml</file>
+        <file>dialog/common/ButtonItem.qml</file>
+        <file>dialog/CreateSongListDialog.qml</file>
+        <file>dialog/CreateSongistDialogItem.qml</file>
     </qresource>
 </RCC>

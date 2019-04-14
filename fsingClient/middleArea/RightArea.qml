@@ -131,17 +131,11 @@ Rectangle {
             id: mymv
         }
     }
-  //  Component {
- //       id: searchComponent
-//        Search {
-//            id: search
-//            searchModel: searchMusicModel
-//        }
-   // }
-//    Component {
-//        id: favoriteComponent
-//        MyFavorite {
-//            id: favorite
-//        }
-//    }
+
+    Component {
+        id: favoriteComponent
+        MyFavorite {
+            id: favorite
+        }
+    }
 }

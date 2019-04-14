@@ -12,7 +12,7 @@ Item {
         sourceSize: Qt.size(parent.width, parent.height)
         anchors.fill: parent
         smooth: true
-        visible: false
+        visible: false //是图片变成圆形
     }
 
     //轮廓

@@ -22,7 +22,9 @@ Window {
     }
 
     MiddleArea {
-
+        anchors.top: topArea.bottom
+        width: parent.width
+        height: parent.height - topArea.height - bottomArea.height
     }
 
     BottomArea{

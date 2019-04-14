@@ -5,8 +5,7 @@ import "./common"
 
 CommonDialog {
     id: loginDialog
-//    x: mainWindow.width / 2 - 150
-//    y: 100
+    x: mainWindow.width / 2 - 150
     width: 300
     height: 400
 

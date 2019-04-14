@@ -46,6 +46,7 @@ Rectangle {
     //-----------------右上角功能组件
     TopRightButton {
         id: topRightButton
+        //loginButtonSource:
 
         onLoginButtonClicked: {
                 loginDialog.open()
@@ -54,7 +55,7 @@ Rectangle {
 
     LoginDialog{
         id:loginDialog
-        x: mainWindow.width / 2 - 150
+        //x: mainWindow.width / 2 - 150
         y: 100
     }
 

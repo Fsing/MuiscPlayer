@@ -29,7 +29,6 @@
         <file>images/leftArea/showAllCreatedSongList.png</file>
         <file>images/leftArea/sound.png</file>
         <file>images/leftArea/sound.svg</file>
-        <file>images/common/ac0.png</file>
         <file>images/common/download.png</file>
         <file>images/common/like.png</file>
         <file>images/common/right_arrow.png</file>
@@ -80,5 +79,17 @@
         <file>dialog/common/ButtonItem.qml</file>
         <file>dialog/CreateSongListDialog.qml</file>
         <file>dialog/CreateSongistDialogItem.qml</file>
+        <file>songList/SongList.qml</file>
+        <file>element/RecIcon.qml</file>
+        <file>element/PlayAllButton.qml</file>
+        <file>element/ActionButton.qml</file>
+        <file>songList/SongListTop.qml</file>
+        <file>songList/SongListBottom.qml</file>
+        <file>images/common/ac0.png</file>
+        <file>images/logo.jpg</file>
+        <file>element/IconButton.qml</file>
+        <file>images/common/dialogColse.png</file>
+        <file>images/common/playAll.png</file>
+        <file>element/MyTabBar.qml</file>
     </qresource>
 </RCC>

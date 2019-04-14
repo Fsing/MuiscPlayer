@@ -41,6 +41,7 @@ function popView(n) {
 
             return item.index === n ? true : false
         })
+        console.log("friend: " + friend)
         if (friend === null) {
             stackView.push(friendComponent)
         } else {
@@ -101,12 +102,28 @@ function popView(n) {
 
             return item.index === n ? true : false
         })
+
+        console.log("mymv:*************** " + mymv)
         if (mymv === null) {
             stackView.push(myMvComponent)
         } else {
             stackView.pop(mymv)
         }
         ;
+        break
+    case 9:
+        var songlist = stackView.find(function (item) {
+
+            return item.index === n ? true : false
+        })
+        console.log("songlist:*************** " + songlist)
+        if (songlist === null) {
+            stackView.push(favoriteComponent)
+        } else {
+            stackView.pop(favoriteComponent)
+        }
+        ;
+
         break
     default:
         break

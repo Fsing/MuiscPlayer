@@ -33,7 +33,9 @@ Rectangle {
             id: close
             width: 15
             height: 15
-            source: "qrc:/images/common/close.png"
+            source: "qrc:/images/common/dialogColse.png"
+            opacity: closeMouseArea.containsMouse ? 1 :0.5
+            scale: 0.8
             anchors{
                 right: parent.right
                 rightMargin: 10
@@ -42,9 +44,10 @@ Rectangle {
 
             }
             MouseArea {
+                id:closeMouseArea
                 anchors.fill: close
                 focus: true
-
+                hoverEnabled: true
                 acceptedButtons: Qt.LeftButton
                 onClicked: {
                     loginDialog.close()

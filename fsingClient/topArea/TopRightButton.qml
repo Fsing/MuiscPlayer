@@ -12,7 +12,7 @@ Rectangle {
     anchors.rightMargin: 5
     color: parent.color
 
-    property string loginButtonSource: "qrc:/images/common/ac0.png"
+
     property int buttonWidth: 18
     property int buttonHeight: 18
 
@@ -23,6 +23,7 @@ Rectangle {
     property double hoverOpacity:0.5
 
     property string fanName: "未登录"
+    property string loginButtonSource: "qrc:/images/common/ac0.png"
 
     signal loginButtonClicked()
 
@@ -224,11 +225,11 @@ Rectangle {
         anchors.right: loginButton.left
         anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
-        width: userImageWidth
-        height: userImageHeight
+        width: 25
+        height: 25
 
         onClicked: {
-
+            console.log("userImageClick")
         }
 
         background: CircleIcon {

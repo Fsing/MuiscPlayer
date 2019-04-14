@@ -171,13 +171,27 @@ Rectangle {
         }
         ListElement {
             recColor: "transparent"
-            imagesource: "../images/leftArea/btnfavorite.png"
+            imagesource: "../images/leftArea/btnlove2.png"
             tx: "我喜欢的音乐"
             opaci: 0.55
             classifyVisible: true
             classifyText: "创建的歌单"
             showAllCreateVisible: true
             delegate_listVisible: false
+        }
+    }
+
+    onShowAllCreateClickedChanged: {
+        if (rec_parent.showAllCreateClicked) {
+            var i = maxIndex - 1
+            for (i; i >= creatIndex; i--) {
+                listModel.setProperty(i, "delegate_listVisible", true)
+            }
+        } else {
+            var j = maxIndex - 1
+            for (j; j >= creatIndex; j--) {
+                listModel.setProperty(j, "delegate_listVisible", false)
+            }
         }
     }
 

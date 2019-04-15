@@ -1,0 +1,16 @@
+服务器启动前，
+1:mysql数据库打开：systemctl start  mysqld 
+2:创建mysql账户,账户名：mxy,账户密码:mxy 
+    mysql> create user 'mxy'@'localhost' identified by 'mxy'
+    mysql> flush privileges;//一定要这一句
+3.创建数据库，名为mxy，并给账户mxy赋予操作mxy数据库的权限
+    mysql> grant all privileges on mxy.* to mxy@localhost identified by 'mxy';
+    mysql> flush privileges;
+
+
+
+
+create table songinfo(songname char(30) not null primary key,source char(50) not null);
+insert into songinfo(songname,source) values("yiluxiangbei","rtsp://192.168.30.21/music/yiluxiangbei.mp3");
+
+

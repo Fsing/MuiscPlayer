@@ -90,37 +90,42 @@ void Server::dealMessage(string sig,vector<string> str,socket_ptr sock)
 {
     string res;
     cout << "dealMessage:" << sig << endl;
-    if(sig == "SONGINFO"){
-        res = _songProxy->songInformation(str[1]);
-    }else if(sig == "REGISTER"){
-        res = _fanProxy->myRegister(str[1],str[2]);
-    }else if(sig == "LOGIN"){
-        cout << "enter dealMessage" << endl;
-        res = _fanProxy->myLogin(str[1],str[2]);
-    }else if(sig == "SEARCH"){
-        res = database.search(str[1]);
-    }else if(sig == "FILETRANSFER"){
-        fileSender(str[1],sock);
-        res = "TRANSFER SUCCESS";
-    }else if(sig == "CREATESONGLIST"){
-        res = _songListProxy->addSongList(str[1],str[2],str[3]);
-    }else if(sig == "ADDSONGTOSONGLIST"){
-        res = _songListProxy->addSongToSongList(str[1], str[2]);
-    }else if(sig == "GETSONGSFROMSONGLIST"){
-        res = _songListProxy->songListInformation(str[1]);
-    }else if(sig == "SONGLIST"){
-        res = _songListProxy->songListInformation(str[1]) ;
-    }else if(sig == "INTERFACE"){
-        res = database.interface(str[1]);
-    }else if(sig == "FETCHSONG"){
-        res = _songProxy->fetchSong(str[1]);
-    }else if(sig == "SONGALBUM"){
-        res = database.songAlbumInformation(str[1]);
-    }else if(sig == "wrongParameter"){
-        res = "wrongParameter";
+
+    try {
+        if(sig == "SONGINFO"){
+            res = _songProxy->songInformation(str[1]);
+        }else if(sig == "REGISTER"){
+            res = _fanProxy->myRegister(str[1],str[2]);
+        }else if(sig == "LOGIN"){
+            cout << "enter dealMessage" << endl;
+            res = _fanProxy->myLogin(str[1],str[2]);
+        }else if(sig == "SEARCH"){
+            res = database.search(str[1]);
+        }else if(sig == "FILETRANSFER"){
+            fileSender(str[1],sock);
+            res = "fileTransfer";
+        }else if(sig == "CREATESONGLIST"){
+            res = _songListProxy->addSongList(str[1],str[2],str[3]);
+        }else if(sig == "ADDSONGTOSONGLIST"){
+            res = _songListProxy->addSongToSongList(str[1], str[2]);
+        }else if(sig == "GETSONGSFROMSONGLIST"){
+            res = _songListProxy->songListInformation(str[1]);
+        }else if(sig == "SONGLIST"){
+            res = _songListProxy->songListInformation(str[1]) ;
+        }else if(sig == "INTERFACE"){
+            res = database.interface(str[1]);
+        }else if(sig == "FETCHSONG"){
+            res = _songProxy->fetchSong(str[1]);
+        }else if(sig == "SONGALBUM"){
+            res = database.songAlbumInformation(str[1]);
+        }else
+            res = "wrongParameter";
+
+        sendMessage(res,sock);
+    }catch (std::exception &e){
+        cout << "dealMessage "<< e.what() << endl;
+        throw e;
     }
-    sendMessage(res,sock);
-    cout << res << endl;
 }
 
 //接受客户端传来的请求事务,并将结果返回给客户端
@@ -129,92 +134,96 @@ void Server::serviceHandle(socket_ptr sock)
     boost::system::error_code ec;
     auto ep1 = sock->remote_endpoint(ec); //获得客户端的连接端口
     try {
-    if(ec)
-    {
-        std::cout << boost::system::system_error(ec).what() << std::endl;
-    }
-    pushHostList(ep1.address().to_string());
-
-    while(true)
-    {
-        char data1[512];
-        memset(data1,0,sizeof(char)*512);
-
-        //同步接收消息，异步处理
-        sock->read_some(buffer(data1), ec);
         if(ec)
+            std::cout << boost::system::system_error(ec).what() << std::endl;
+        pushHostList(ep1.address().to_string());
+        while(true)
         {
-            throw boost::system::system_error(ec);
-        }
-        cout << "receive from client : " << data1<<endl;
+            char data1[512];
+            memset(data1,0,sizeof(char)*512);
+            //同步接收消息，异步处理
+            sock->read_some(buffer(data1), ec);
+            if(ec)
+            {
+                throw boost::system::system_error(ec);
+            }
+            cout << "receive from client : " << data1<<endl;
 
-        if(strlen(data1) != 0){
-            vector<string> result1;
-            parameterAnalysis(data1,result1);//deal json parameter into vector
+            try {
+                if(strlen(data1) != 0){
+                    vector<string> result1;
+                    parameterAnalysis(data1,result1);//deal json parameter into vector
 
-            cout << "++++++++++++++++++: " << result1[0] << endl;
-            if(result1[0]== "FILETRANSFER")
-                dealMessage(result1[0],result1,sock);
-            else
-                boost::thread(boost::bind(&Server::dealMessage,this,result1[0],result1,sock));
+                    if(result1[0]== "FILETRANSFER")
+                        dealMessage(result1[0],result1,sock);
+                    else
+                        boost::thread(boost::bind(&Server::dealMessage,this,result1[0],result1,sock));
+                }
+            }catch (const char* msg){
+                cout << "serviceHandle" << msg << endl;
+            }
         }
-    }
     }catch(std::exception){
-         popHostList(ep1.address().to_string());
-         cout << "disconnected:"<<ep1.address().to_string()<< endl;
+        popHostList(ep1.address().to_string());
+        cout << "disconnected:"<<ep1.address().to_string()<< endl;
     }
 }
 void Server::parameterAnalysis(char data[], vector<string> &parameter){
     Json::Value  value;
     Json::Reader reader;
-    if (!reader.parse(data, value))
-    {
-        cout << "receive from client failed" <<endl;
-        cout << data <<endl;
-    }else{
-        string type = value["type"].asString();
-        if(type == "SONGINFO"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["songInfo"].asString());
-        }else if(type == "REGISTER"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["userName"].asString());
-            parameter.push_back(value["userPassword"].asString());
-        }else if(type == "LOGIN"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["userName"].asString());
-            parameter.push_back(value["userPassword"].asString());
-        }else if(type == "SEARCH"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["songKey"].asString());
-        }else if(type == "FILETRANSFER"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["fileName"].asString());
-        }else if(type == "CREATESONGLIST"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["username"].asString());
-            parameter.push_back(value["songListName"].asString());
-            parameter.push_back(value["createTime"].asString());
-        }else if(type == "ADDSONGTOSONGLIST"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["songListID"].asString());
-            parameter.push_back(value["songID"].asString());
-        }else if(type == "SONGLIST"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["songListId"].asString());
-        }else if(type == "SONGALBUM"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["songId"].asString());
-        }else if(type == "GETSONGSFROMSONGLIST"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["songListID"].asString());
-        }else if(type == "INTERFACE"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["interfaceName"].asString());
-        }else if(type == "FETCHSONG"){
-            parameter.push_back(value["type"].asString());
-            parameter.push_back(value["songID"].asString());
-        }else parameter.push_back("wrongParameter");
+
+    try {
+        if (!reader.parse(data, value))
+        {
+            throw "no post data!";
+        }else{
+            string type = value["type"].asString();
+            if(type == "SONGINFO"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["songInfo"].asString());
+            }else if(type == "REGISTER"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["userName"].asString());
+                parameter.push_back(value["userPassword"].asString());
+            }else if(type == "LOGIN"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["userName"].asString());
+                parameter.push_back(value["userPassword"].asString());
+            }else if(type == "SEARCH"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["songKey"].asString());
+            }else if(type == "FILETRANSFER"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["fileName"].asString());
+            }else if(type == "CREATESONGLIST"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["username"].asString());
+                parameter.push_back(value["songListName"].asString());
+                parameter.push_back(value["createTime"].asString());
+            }else if(type == "ADDSONGTOSONGLIST"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["songListID"].asString());
+                parameter.push_back(value["songID"].asString());
+            }else if(type == "SONGLIST"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["songListId"].asString());
+            }else if(type == "SONGALBUM"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["songId"].asString());
+            }else if(type == "GETSONGSFROMSONGLIST"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["songListID"].asString());
+            }else if(type == "INTERFACE"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["interfaceName"].asString());
+            }else if(type == "FETCHSONG"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["songID"].asString());
+            }else parameter.push_back("wrongParameter");
+        }
+    }catch (std::exception &e){
+        cout << "parameterAnalysis " <<e.what() << endl;
+        throw e;
     }
 }
 

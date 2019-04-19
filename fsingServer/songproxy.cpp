@@ -8,7 +8,7 @@ std::string SongProxy::songInformation(std::string songId){
 
     Json::Value root;
     root["type"] = "SONGINFO";
-    if(res == NULL){
+    if(res == nullptr){
         root["hasData"] = "no";
         return root.toStyledString();
     }else{

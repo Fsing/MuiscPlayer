@@ -13,8 +13,10 @@ SOURCES += main.cpp \
     songbroker.cpp \
     fanproxy.cpp \
     songproxy.cpp \
-    songlistproxy.cpp
-LIBS += -lmysqlclient
+    songlistproxy.cpp \
+    comment.cpp \
+    rediscontrol.cpp
+LIBS += -lmysqlclient  -lhiredis
 
 HEADERS += \
     database.h \
@@ -30,7 +32,9 @@ HEADERS += \
     songlistbroker.h \
     fanproxy.h \
     songlistproxy.h \
-    songproxy.h
+    songproxy.h \
+    comment.h \
+    rediscontrol.h
 LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp
 
 DISTFILES += \

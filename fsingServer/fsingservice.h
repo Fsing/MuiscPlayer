@@ -11,6 +11,8 @@
 #include "fanproxy.h"
 #include "songlistproxy.h"
 #include "songproxy.h"
+#include "comment.h"
+#include "rediscontrol.h"
 
 using std::vector;
 typedef boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
@@ -48,6 +50,7 @@ private:
     std::shared_ptr<FanProxy > _fanProxy;
     std::shared_ptr<SongListProxy> _songListProxy;
     std::shared_ptr<SongProxy> _songProxy;
+    std::shared_ptr<Comment> _commentProxy;
     DatabaseController database;
     vector<string> m_hostList;
 };

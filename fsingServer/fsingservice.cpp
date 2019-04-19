@@ -56,35 +56,35 @@ void Server::waitingForConnect()
     }
 }
 
+
 //异步传送消息,写回客户端
 void sendMessage(string result2,socket_ptr sock)
 {
     boost::system::error_code ec;
     if(result2 != "fileTransfer"){
-        //写回客户端
         char data2[1024*10];
-        memset(data2,0,sizeof(char)*1024*10);
+        memset(data2,0,sizeof(data2));
 
         char headLength[10];
-        memset(headLength,0,sizeof(char)*(10));
-        sprintf(headLength, "%d", (result2.size()));
+        memset(headLength,0,sizeof(headLength));
+        sprintf(headLength, "%lu", result2.size());
         result2.copy(data2,result2.size(),0);
-        //memcpy(data2,headLength,sizeof(headLength));
 
-        cout << strlen(data2) << "ss"<<headLength<< endl;
-        sock->write_some(buffer(headLength), ec);  //客户输入的消息，重新写到客户端
+        sock->write_some(buffer(headLength), ec);  //send the length of message to client
         if(ec)
         {
             std::cout << boost::system::system_error(ec).what() << std::endl;
+            throw ec;
         }
-        sock->write_some(buffer(data2), ec);  //客户输入的消息，重新写到客户端
+        sock->write_some(buffer(data2), ec);  //send message to client
         if(ec)
         {
             std::cout << boost::system::system_error(ec).what() << std::endl;
+            throw ec;
         }
-        cout << "send to client : " << data2<<endl;
     }
 }
+
 
 void Server::dealMessage(string sig,vector<string> str,socket_ptr sock)
 {
@@ -118,13 +118,15 @@ void Server::dealMessage(string sig,vector<string> str,socket_ptr sock)
             res = _songProxy->fetchSong(str[1]);
         }else if(sig == "SONGALBUM"){
             res = database.songAlbumInformation(str[1]);
+        }else if(sig == "COMMENT"){
+            res = _commentProxy->getComment(str[1],str[2],str[3]);
         }else
             res = "wrongParameter";
 
         sendMessage(res,sock);
     }catch (std::exception &e){
         cout << "dealMessage "<< e.what() << endl;
-        throw e;
+        //throw e;
     }
 }
 
@@ -160,12 +162,12 @@ void Server::serviceHandle(socket_ptr sock)
                         boost::thread(boost::bind(&Server::dealMessage,this,result1[0],result1,sock));
                 }
             }catch (const char* msg){
-                cout << "serviceHandle" << msg << endl;
+                cout << "serviceHandle LOOP" << msg << endl;
             }
         }
     }catch(std::exception){
         popHostList(ep1.address().to_string());
-        cout << "disconnected:"<<ep1.address().to_string()<< endl;
+        cout << "Host disconnected: "<<ep1.address().to_string()<< endl;
     }
 }
 void Server::parameterAnalysis(char data[], vector<string> &parameter){
@@ -219,6 +221,11 @@ void Server::parameterAnalysis(char data[], vector<string> &parameter){
             }else if(type == "FETCHSONG"){
                 parameter.push_back(value["type"].asString());
                 parameter.push_back(value["songID"].asString());
+            }else if(type == "COMMENT"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["songId"].asString());
+                parameter.push_back(value["left"].asString());
+                parameter.push_back(value["right"].asString());
             }else parameter.push_back("wrongParameter");
         }
     }catch (std::exception &e){

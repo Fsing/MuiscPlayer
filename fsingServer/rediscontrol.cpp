@@ -7,7 +7,7 @@ shared_ptr<RedisControl> RedisControl::_instance =
 RedisControl::RedisControl()
 {
     try {
-            connect();
+        connect();
     } catch (exception &e) {
         cout << e.what() << endl;
     }
@@ -29,8 +29,12 @@ vector<string> RedisControl::excuteCommand(string command){
     vector<string> retVec;
     redisReply * reply;
     try {
+        cout << command.c_str() <<endl;
         reply = static_cast<redisReply*>(redisCommand(c,command.c_str()));
         if (reply->type == REDIS_REPLY_ARRAY) { //array
+            if(0 == reply->elements){
+                throw "nodata";
+            }
             for (unsigned long j = 0; j < reply->elements; j++) {
                 retVec.push_back(reply->element[j]->str);
             }
@@ -38,16 +42,23 @@ vector<string> RedisControl::excuteCommand(string command){
             retVec.push_back(reply->str);
         }else if(reply->type == REDIS_REPLY_STATUS) { //set
             retVec.push_back(reply->str);
-        }else
+        }else {
+            cout << command <<endl;
+            cout << reply->str <<endl;
             throw reply->type;
-
+        }
 
         freeReplyObject(reply);
         return retVec;
-    } catch (exception &e) {
-        cout << e.what() << endl;
-        if(reply)
-            freeReplyObject(reply);
+    } catch (const char *e) {
+        cout << e << endl;
+        freeReplyObject(reply);
+        throw e;
+    } catch (int &e){
+        cout << e << endl;
+        freeReplyObject(reply);
         throw e;
     }
 }
+
+

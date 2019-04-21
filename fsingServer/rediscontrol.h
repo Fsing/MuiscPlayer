@@ -11,7 +11,6 @@
 #define REDISHOSTPORT 6379
 
 using namespace std;
-
 class RedisControl
 {
 public:

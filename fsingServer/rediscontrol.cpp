@@ -29,7 +29,6 @@ vector<string> RedisControl::excuteCommand(string command){
     vector<string> retVec;
     redisReply * reply;
     try {
-        cout << command.c_str() <<endl;
         reply = static_cast<redisReply*>(redisCommand(c,command.c_str()));
         if (reply->type == REDIS_REPLY_ARRAY) { //array
             if(0 == reply->elements){
@@ -42,6 +41,10 @@ vector<string> RedisControl::excuteCommand(string command){
             retVec.push_back(reply->str);
         }else if(reply->type == REDIS_REPLY_STATUS) { //set
             retVec.push_back(reply->str);
+        }else if(reply->type == REDIS_REPLY_NIL) { //set
+            retVec.push_back("null");
+        }else if(reply->type == REDIS_REPLY_INTEGER) { //zadd
+            retVec.push_back("ok");
         }else {
             cout << command <<endl;
             cout << reply->str <<endl;
@@ -56,6 +59,10 @@ vector<string> RedisControl::excuteCommand(string command){
         throw e;
     } catch (int &e){
         cout << e << endl;
+        freeReplyObject(reply);
+        throw e;
+    } catch (exception & e){
+        cout << e.what() <<endl;
         freeReplyObject(reply);
         throw e;
     }

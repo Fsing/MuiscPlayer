@@ -13,6 +13,8 @@ class Comment
 public:
     Comment();
     string getComment(string songId, string left = "0", string right = "10");
+    string commentLike(string songId, string accountId, string method);
+    string addComment(string songId,string accountId,string comment);
     vector<string> getAccount(string accountId);
     void setAccount(string accountId);
 

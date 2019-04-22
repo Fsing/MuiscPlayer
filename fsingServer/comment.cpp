@@ -67,8 +67,91 @@ string Comment::getComment(string songId,string left,string right ){
         throw e;
     }
 }
+string Comment::commentLike(string songId, string accountId, string method){
+    auto redisControl = RedisControl::getInstance();
+    Json::Value root;
+    root["type"] = "COMMENTLIKE";
+    try {
+        string command;
+        command += "zincrby ";
+        command += "point_";
+        command += songId;
+        command += " ";
+        if("like" == method){
+            command += "1";
+        }else if("unlike" == method){
+            command += "-1";
+        }else {
+            throw "like method is not right ";
+        }
+        command += " ";
+        command += accountId;
+        vector<string> vec = redisControl->excuteCommand(command);
+        root["status"] = "800";
+        return root.toStyledString();
+    } catch (const char * e) {
+        cout << "commendLike receive exception " << e << endl;
+        root["message"] = e;
+    } catch (int & e){
+        cout << "commendLike receive exception " << e << endl;
+        root["message"] = e;
+    } catch (...){
+        cout << "commendLike receive exception " <<  endl;
+        root["message"] = "unknon error";
+    }
+    root["status"] = "500";
+    return root.toStyledString();
+}
+string Comment::addComment(string songId,string accountId,string comment){
+    auto redisControl = RedisControl::getInstance();
+    Json::Value root;
+    root["type"] = "ADDCOMMENT";
+    try {
+        string command;
+        command += "zscore ";
+        command += "point_";
+        command += songId;
+        command += " ";
+        command += accountId;
+        vector<string> vec = redisControl->excuteCommand(command);
+        if("null"==vec[0]){
+            string command1;
+            command1 += "zadd ";
+            command1 += "point_";
+            command1 += songId;
+            command1 += " 1 ";
+            command1 += accountId;
+            redisControl->excuteCommand(command1);
 
+            string command2;
+            command2 += "set ";
+            command2 += songId;
+            command2 += "_";
+            command2 += accountId;
+            command2 += " ";
+            command2 += replace_all(comment," ","&nbsp");
+            cout << command2 <<endl;
+            redisControl->excuteCommand(command2);
 
+            root["status"] = "800";
+            return root.toStyledString();
+        }else {
+            throw "there is already have a comment";
+        }
+
+    } catch (const char * e) {
+        cout << "addComment receive exception " << e << endl;
+        root["message"] = e;
+    } catch (int & e){
+        cout << "addComment receive exception " << e << endl;
+        root["message"] = e;
+    } catch (...){
+        cout << "addComment receive exception " <<  endl;
+        root["message"] = "unknon error";
+    }
+    root["status"] = "500";
+    return root.toStyledString();
+}
 vector<string> Comment::getAccount(string accountId){
     auto redisControl = RedisControl::getInstance();
     vector<string> retVec;
@@ -80,7 +163,7 @@ vector<string> Comment::getAccount(string accountId){
         vector<string> vec = redisControl->excuteCommand(command);
 
         for(unsigned long i = 0;i < vec.size();i+=2){
-            retVec.push_back(vec[i+1]);
+            retVec.push_back(replace_all(vec[i+1],"&nbsp"," "));
         }
         return retVec;
     } catch (const char * e) {

@@ -120,6 +120,10 @@ void Server::dealMessage(string sig,vector<string> str,socket_ptr sock)
             res = database.songAlbumInformation(str[1]);
         }else if(sig == "COMMENT"){
             res = _commentProxy->getComment(str[1],str[2],str[3]);
+        }else if(sig == "COMMENTLIKE"){
+            res = _commentProxy->commentLike(str[1],str[2],str[3]);
+        }else if(sig == "ADDCOMMENT"){
+            res = _commentProxy->addComment(str[1],str[2],str[3]);
         }else
             res = "wrongParameter";
 
@@ -226,7 +230,18 @@ void Server::parameterAnalysis(char data[], vector<string> &parameter){
                 parameter.push_back(value["songId"].asString());
                 parameter.push_back(value["left"].asString());
                 parameter.push_back(value["right"].asString());
-            }else parameter.push_back("wrongParameter");
+            }else if(type == "COMMENTLIKE"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["songId"].asString());
+                parameter.push_back(value["accountId"].asString());
+                parameter.push_back(value["method"].asString());
+            }else if(type == "ADDCOMMENT"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["songId"].asString());
+                parameter.push_back(value["accountId"].asString());
+                parameter.push_back(value["comment"].asString());
+            }
+            else parameter.push_back("wrongParameter");
         }
     }catch (std::exception &e){
         cout << "parameterAnalysis " <<e.what() << endl;

@@ -28,13 +28,12 @@ Rectangle {
         }
         horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
 
-        ColumnLayout {
-            //spacing: 10
+        Column{
+            //spacing: 0
             SongListTop {
                 id: songListTop
-                y:20
                 width: songlist.width
-                height: 300
+                height: 250
 
                 username: userName
                 userImg: userImage
@@ -48,6 +47,7 @@ Rectangle {
                 id: songListBottom
                 width: songlist.width
                 height: 500
+               //y:songListTop.y+songListTop.height
             }
         }
     }

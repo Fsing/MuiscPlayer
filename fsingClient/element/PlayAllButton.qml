@@ -55,6 +55,7 @@ Item{
             id:addToListMouse
             anchors.fill: parent
             hoverEnabled: true
+            cursorShape:(pressed||addToListMouse.containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
         }
     }
 

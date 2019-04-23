@@ -11,7 +11,7 @@ CommonDialog {
 
     width: 300
     height: 300
-    contentItem: CreateSongistDialogItem {
+    contentItem: CreateSongListDialogItem {
         onQuitClicked: createSongListDialog.close()
         onOkButtonClicked: {
 

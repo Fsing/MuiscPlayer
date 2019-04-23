@@ -1,0 +1,7 @@
+#include "searchcontroller.h"
+#include "database.h"
+
+SearchController::SearchController()
+{
+
+}

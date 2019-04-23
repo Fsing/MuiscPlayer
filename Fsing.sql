@@ -1,5 +1,4 @@
-create database Fsing;
-use Fsing;
+
 create table Song(id int not null AUTO_INCREMENT PRIMARY KEY,name char(30) not null,source char(50) not null,singer char(30) not null,album char(30) not null,playQuantity int not null,downloadQuantity int not null,shareQuantity int not null);
 CREATE TABLE Account(id int not null AUTO_INCREMENT PRIMARY KEY,name char(30) not null,password char(30) not null,label char(50) not null,sex char(10) not null,birthday date not null,address char(50) not null,icon char(100) not null,isVaild bool);
 create table SongList(id int not null AUTO_INCREMENT PRIMARY KEY,name char(100) not null,author char(30) not null,createTime date not null,label char(30) not null,info varchar(1000) not null,icon char(50) not null,collectionQuantity int not null,clickQuantity int not null,shareQuantity int not null);

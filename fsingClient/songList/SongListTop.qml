@@ -3,7 +3,7 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.2
 import "../element"
 
-Item {
+Rectangle {
     //歌单名
     property string listName
     //歌单图片
@@ -24,6 +24,9 @@ Item {
     signal shareClick
     signal downloadClick
     signal editClick
+
+//    border.width: 2
+//    border.color: "blue"
 
     RowLayout {
         x: 50
@@ -137,17 +140,17 @@ Item {
         }
     }
 
-    Text {
-        x: 365
-        y: 204
-        width: 420
-        //text:briefInfo
-        height: 75
-        wrapMode: Text.Wrap
-        smooth:true        //是平滑
-        elide: Text.ElideRight
+//    Text {
+//        x: 365
+//        y: 204
+//        width: 420
+//        //text:briefInfo
+//        height: 75
+//        wrapMode: Text.Wrap
+//        smooth:true        //是平滑
+//        elide: Text.ElideRight
 
-    }
+//    }
 
 }
 

@@ -40,6 +40,7 @@ Rectangle {
         id:playMouseArea
         anchors.fill: playAll
         hoverEnabled: true
+        cursorShape:(pressed||playMouseArea.containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
         onClicked: {
             clicked()
         }

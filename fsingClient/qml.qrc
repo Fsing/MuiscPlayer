@@ -78,7 +78,6 @@
         <file>dialog/LogoutDialogItem.qml</file>
         <file>dialog/common/ButtonItem.qml</file>
         <file>dialog/CreateSongListDialog.qml</file>
-        <file>dialog/CreateSongistDialogItem.qml</file>
         <file>songList/SongList.qml</file>
         <file>element/RecIcon.qml</file>
         <file>element/PlayAllButton.qml</file>
@@ -91,5 +90,8 @@
         <file>images/common/dialogColse.png</file>
         <file>images/common/playAll.png</file>
         <file>element/MyTabBar.qml</file>
+        <file>dialog/CreateSongListDialogItem.qml</file>
+        <file>dialog/SelectLocalMusicDialogItem.qml</file>
+        <file>dialog/SelectLocalMusicDialog.qml</file>
     </qresource>
 </RCC>

@@ -1,6 +1,13 @@
 QT += quick
 CONFIG += c++11
 
+INCLUDEPATH += -I /usr/local/ffmpeg/include\
+-I /usr/local/include
+
+LIBS += -L/usr/local/ffmpeg/lib -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lswresample -lswscale\
+ -L/usr/local/lib -ltag -ltag_c\
+-L/usr/local/lib -lz
+
 # The following define makes your compiler emit warnings if you use
 # any feature of Qt which as been marked deprecated (the exact warnings
 # depend on your compiler). Please consult the documentation of the
@@ -23,7 +30,9 @@ SOURCES += \
     listenmusiccontroller.cpp \
     logincontroller.cpp \
     lyric.cpp \
-    searchcontroller.cpp
+    searchcontroller.cpp \
+    songinfo.cpp \
+    localmusic.cpp
 
 RESOURCES += qml.qrc
 
@@ -48,6 +57,8 @@ HEADERS += \
     listenmusiccontroller.h \
     logincontroller.h \
     lyric.h \
-    searchcontroller.h
+    searchcontroller.h \
+    songinfo.h \
+    localmusic.h
 
 LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp

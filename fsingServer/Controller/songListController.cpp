@@ -1,10 +1,10 @@
 #include "songlistController.h"
-#include "songlistbroker.h"
-#include "songbroker.h"
+#include "Entity/songlistbroker.h"
+#include "Entity/songbroker.h"
 #include "listenMusicController.h"
 #include "json/json.h"
 #include "loginController.h"
-#include "fanbroker.h"
+#include "Entity/fanbroker.h"
 
 #include <iostream>
 #include <string.h>
@@ -13,15 +13,15 @@ using std::endl;
 
 std::string SongListController::songListInformation(std::string songListId){
     auto songListBroker = SongListBroker::getInstance();
-    auto res =songListBroker->findSongList(songListId);
-
     Json::Value root;
     Json::Value arryObj;
     root["type"] = "SONGLIST";
-    if(res == NULL){
-        root["hasData"] = "no";
-        return root.toStyledString();
+    try {
+    auto res =songListBroker->findSongList(songListId);
+    if(res == nullptr){
+        throw "nodata";
     }else{
+        root["hasData"] = "yes";
         root["id"] = res->getId();
         root["name"] = res->getName();
         root["author"] = res->getAuthor();
@@ -47,8 +47,22 @@ std::string SongListController::songListInformation(std::string songListId){
              arryObj.append(item);
          }
         root["array"] = arryObj;
-        return root.toStyledString();
     }
+    root["status"] = "800";
+    return root.toStyledString();
+} catch (const char * e) {
+    cout << "songListInformation receive exception " << e << endl;
+    root["hasData"] = "no";
+    root["message"] = e;
+} catch (int & e){
+    cout << "songListInformation receive exception " << e << endl;
+    root["message"] = e;
+} catch (...){
+    cout << "songListInformation receive exception " <<  endl;
+    root["message"] = "unknon error";
+}
+root["status"] = "500";
+return root.toStyledString();
 }
 std::string SongListController::addSongList(std::string username, std::string songListName, std::string time)
 {

@@ -2,7 +2,7 @@
 #define COMMENT_H
 #include <string>
 #include <vector>
-#include "rediscontrol.h"
+#include "DB/rediscontrol.h"
 #include "mysql/mysql.h"
 
 using namespace std;

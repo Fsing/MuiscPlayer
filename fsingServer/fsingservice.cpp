@@ -6,7 +6,7 @@
 #include <iostream>
 #include <algorithm>
 #include <vector>
-#include "macro.h"
+#include "Include/macro.h"
 #include "json/json.h"
 
 using namespace boost::asio;
@@ -117,7 +117,7 @@ void Server::dealMessage(string sig,vector<string> str,socket_ptr sock)
         }else if(sig == "FETCHSONG"){
             res = _listenMusicController->fetchSong(str[1]);
         }else if(sig == "SONGALBUM"){
-            res = database.songAlbumInformation(str[1]);
+            res = _listenMusicController->songAlbumInformation(str[1]);
         }else if(sig == "COMMENT"){
             res = _commentController->getComment(str[1],str[2],str[3]);
         }else if(sig == "COMMENTLIKE"){
@@ -130,7 +130,7 @@ void Server::dealMessage(string sig,vector<string> str,socket_ptr sock)
         sendMessage(res,sock);
     }catch (std::exception &e){
         cout << "dealMessage "<< e.what() << endl;
-        //throw e;
+        sendMessage("server error",sock);
     }
 }
 
@@ -293,7 +293,7 @@ void Server::fileSender(string fileName,socket_ptr sock){
     char buffer[k_buffer_size];
     File_info file_info;
 
-    int filename_size  = strlen(filename) + 1;
+    size_t filename_size  = strlen(filename) + 1;
     size_t file_info_size = sizeof(file_info);
     size_t total_size = file_info_size + filename_size;
     if (total_size > k_buffer_size) {
@@ -303,7 +303,7 @@ void Server::fileSender(string fileName,socket_ptr sock){
     file_info.filename_size = filename_size;
 
     fseek(fp, 0, SEEK_END);
-    file_info.filesize = ftell(fp);
+    file_info.filesize = static_cast<unsigned long long>(ftell(fp)) ;
     rewind(fp);
 
     memcpy(buffer, &file_info, file_info_size);
@@ -324,7 +324,7 @@ void Server::fileSender(string fileName,socket_ptr sock){
     if (cost_time == 0) cost_time = 1;
 
     double speed = total_bytes_read * (CLOCKS_PER_SEC / 1024.0 / 1024.0) / cost_time;
-    std::cout << "cost time: " << cost_time / (double) CLOCKS_PER_SEC  << " s "
+    std::cout << "cost time: " << cost_time / static_cast<double>(CLOCKS_PER_SEC)  << " s "
               << "  transferred_bytes: " << total_bytes_read << " bytes\n"
               << "speed: " <<  speed << " MB/s\n\n";
 

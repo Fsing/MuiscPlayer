@@ -3,12 +3,11 @@
 #include <cstring>
 #include <algorithm>
 #include <string>
-#include <database.h>
+#include <DB/database.h>
 #include <sstream>
 #include <thread>
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
-#include "database.h"
 #include "fsingservice.h"
 
 using namespace std;

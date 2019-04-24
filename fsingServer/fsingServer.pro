@@ -4,40 +4,40 @@ CONFIG -= app_bundle
 CONFIG -= qt
 
 SOURCES += main.cpp \
-    database.cpp \
     fsingservice.cpp \
-    fan.cpp \
-    songlist.cpp \
-    fanbroker.cpp \
-    songlistbroker.cpp \
-    songbroker.cpp \
-    rediscontrol.cpp \
+    DB/database.cpp \
+    DB/rediscontrol.cpp \
     Controller/commentController.cpp \
     Controller/listenMusicController.cpp \
     Controller/loginController.cpp \
     Controller/searchController.cpp \
-    Controller/songListController.cpp
-LIBS += -lmysqlclient  -lhiredis
+    Controller/songListController.cpp \
+    Entity/fan.cpp \
+    Entity/fanbroker.cpp \
+    Entity/songbroker.cpp \
+    Entity/songlist.cpp \
+    Entity/songlistbroker.cpp
 
-HEADERS += \
-    database.h \
-    fsingservice.h \
-    macro.h \
-    song.h \
-    songlist.h \
-    user.h \
-    ralationbroker.h \
-    fan.h \
-    fanbroker.h \
-    songbroker.h \
-    songlistbroker.h \
-    rediscontrol.h \
-    Controller/commentControler.h \
-    Controller/listenMusicController.h \
-    Controller/loginController.h \
-    Controller/searchController.h \
-    Controller/songlistController.h
-LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp
+LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp -lmysqlclient  -lhiredis
 
 DISTFILES += \
     文本文件
+
+HEADERS += \
+    fsingservice.h \
+    Include/macro.h \
+    Include/user.h \
+    DB/database.h \
+    DB/rediscontrol.h \
+    Controller/listenMusicController.h \
+    Controller/loginController.h \
+    Controller/searchController.h \
+    Controller/songlistController.h \
+    Controller/commentControler.h \
+    Entity/fan.h \
+    Entity/fanbroker.h \
+    Entity/ralationbroker.h \
+    Entity/song.h \
+    Entity/songbroker.h \
+    Entity/songlist.h \
+    Entity/songlistbroker.h

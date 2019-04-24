@@ -4,7 +4,7 @@
 #include <string>
 #include <algorithm>
 #include <cstring>
-#include <macro.h>
+#include "Include/macro.h"
 #include "json/json.h"
 
 using std::string;           using std::cout;
@@ -112,60 +112,6 @@ std::string DatabaseController::search(std::string songKey)
         }
     }
     return "null infomation";
-}
-std::string DatabaseController::songAlbumInformation(std::string songId){
-    MYSQL mysql;
-    mysql_init(&mysql);
-    if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,NULL,0)){
-        cout << "songAlbumInformation conect MYSQL failed!" << endl;
-        return "FAILD";
-    }
-
-    char sql[512];
-    memset(sql,0,sizeof(char)*512);
-    auto key = songId.data();
-    //    auto pw = password.data();
-    std::sprintf(sql,"select * from SongAlbumRelation WHERE songID like '%s'",key);
-    size_t length =strlen(sql);
-    int res = mysql_real_query(&mysql,sql,length);
-    if(res != 0){
-        cout <<"songAlbumInformation select * from SongAlbumRelation failed" << endl;
-    }else{
-        MYSQL_RES *result;
-        MYSQL_RES *resultAlbum;
-        MYSQL_ROW row;
-        MYSQL_ROW rowAlbum;
-        //    MYSQL_FIELD *fields;
-
-        result = mysql_store_result(&mysql);
-        if(result){
-            row = mysql_fetch_row(result);
-            Json::Value root;
-            root["type"] = "SONGALBUM";
-            string songAlbumId = row[1];
-
-
-            memset(sql,0,sizeof(char)*512);
-            std::sprintf(sql,"select * from SongAlbum WHERE songAlbumID like '%s'",songAlbumId.data());
-            length =strlen(sql);
-            res = mysql_real_query(&mysql,sql,length);
-            if(res != 0){
-                cout <<"SongAlbum select * from SongAlbumRelation failed" << endl;
-            }else{
-                resultAlbum = mysql_store_result(&mysql);
-                if(resultAlbum){
-                   rowAlbum = mysql_fetch_row(resultAlbum);
-                           root["songAlbumName"] = rowAlbum[1];
-                           root["songAlbumSource"] = rowAlbum[2];
-
-                           std::string out = root.toStyledString();
-                           return out;
-                }
-        }
-    }
-    }
-    return "no album";
-
 }
 
 std::string DatabaseController::interface(std::string interfaceName){

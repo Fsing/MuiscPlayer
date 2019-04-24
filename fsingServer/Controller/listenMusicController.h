@@ -2,10 +2,13 @@
 #define SONGPROXY_H
 #include <string>
 
+using namespace  std;
 class ListenMusicController
 {
 public:
-    std::string songInformation(std::string songId);
-    std::string fetchSong(std::string songID);
+    string songInformation(string songId);
+    string fetchSong(string songID);
+    string songAlbumInformation(string songId);
+
 };
 #endif // SONGPROXY_H

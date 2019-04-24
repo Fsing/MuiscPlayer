@@ -1,13 +1,13 @@
 #ifndef SEARCHCONTROLLER_H
 #define SEARCHCONTROLLER_H
 
-#include "database.h"
+#include "DB/database.h"
 #include <mysql/mysql.h>
 #include <iostream>
 #include <string>
 #include <algorithm>
 #include <cstring>
-#include <macro.h>
+#include <Include/macro.h>
 #include "json/json.h"
 
 using namespace std;

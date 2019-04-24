@@ -1,6 +1,6 @@
 #ifndef FAN_H
 #define FAN_H
-#include "user.h"
+#include "Include/user.h"
 #include "songlist.h"
 #include <string>
 #include <map>

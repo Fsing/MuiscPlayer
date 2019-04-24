@@ -4,10 +4,10 @@
 #include <boost/asio.hpp>
 #include <string>
 #include <memory>
-#include "fanbroker.h"
-#include <songlistbroker.h>
-#include <songbroker.h>
-#include "database.h"
+#include "Entity/fanbroker.h"
+#include <Entity/songlistbroker.h>
+#include <Entity/songbroker.h>
+#include "DB/database.h"
 #include "Controller/commentControler.h"
 #include "Controller/listenMusicController.h"
 #include "Controller/loginController.h"

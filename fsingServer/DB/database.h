@@ -13,7 +13,7 @@ public:
     std::string search(std::string songKey);
     std::string songList(std::string songListName);
     std::string interface(std::string interfaceName);
-    std::string songAlbumInformation(std::string songId);
+    //std::string songAlbumInformation(std::string songId);
 private:
     std::string m_userName;
     std::string m_userPassword;

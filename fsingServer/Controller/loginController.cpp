@@ -1,7 +1,7 @@
 #include "loginController.h"
 #include <json/json.h>
 #include <iostream>
-#include "fanbroker.h"
+#include "Entity/fanbroker.h"
 #include <string>
 #include <cstring>
 #include <sstream>
@@ -18,88 +18,103 @@ std::string LoginController::myLogin(std::string username, std::string password)
     Json::Value arrayObj4;   //粉丝对象基本信息
     root["type"] = "LOGIN";
 
-    auto fanBroker = FanBroker::getInstance();
-    auto res =fanBroker->findUser(username);
+    try {
+        auto fanBroker = FanBroker::getInstance();
+        auto res =fanBroker->findUser(username);
 
-    if(res == nullptr){
-        root["loginSuccess"] = "NAME_INVALID";   //用户不存在
-    }else{
-        //用户存在
-        root["userName"] = username;
-        root["userPassword"] = password;
-        root["userLabel"] = res->getlabel();
-        root["userSex"] = res->getSex();
-        root["userBirthday"] = res->getBirthday();
-        root["userAddress"] = res->getAddress();
-        root["userIcon"] = res->getIcon();
-        if(password != res->getUserPw()){
-            root["loginSuccess"] = "PW_INVALID";  //用户密码错误
+        if(res == nullptr){
+            root["loginSuccess"] = "NAME_INVALID";   //用户不存在
+            throw "NAME_INVALID";
         }else{
-            root["loginSuccess"] = "SUCCESS";
-            for(auto l:res->getCreatedSongList()){
-                Json::Value item;
-                item["id"] = l.second->getId();
-                item["name"] = l.second->getName();
-                item["author"] = l.second->getAuthor();
-                item["createTime"] = l.second->getCreateTime();
-                item["label"] = l.second->getLabel();
-                item["info"] = l.second->getInfo();
-                item["icon"] = l.second->getIcon();
-                item["collectionQuantity"] = l.second->getCollectionQuantity();
-                item["clickQuantity"] = l.second->getClickQuantity();
-                item["shareQuantity"] = l.second->getShareQuantity();
-                arrayObj1.append(item);
-            }
-            for(auto l:res->getCollectedSongList()){
-                Json::Value item;
-                item["id"] = l.second->getId();
-                item["name"] = l.second->getName();
-                item["author"] = l.second->getAuthor();
-                item["createTime"] = l.second->getCreateTime();
-                item["label"] = l.second->getLabel();
-                item["info"] = l.second->getInfo();
-                item["icon"] = l.second->getIcon();
-                item["collectionQuantity"] = l.second->getCollectionQuantity();
-                item["clickQuantity"] = l.second->getClickQuantity();
-                item["shareQuantity"] = l.second->getShareQuantity();
-                arrayObj2.append(item);
-            }
-            for(auto l:res->getAttenedFans()){
-                Json::Value item;
-                item["name"] = l.second->getUserName();
-                item["password"] = l.second->getUserPw();
-                item["label"] = l.second->getlabel();
-                item["sex"] = l.second->getSex();
-                item["birthday"] = l.second->getBirthday();
-                item["address"] = l.second->getAddress();
-                item["icon"] = l.second->getIcon();
-                arrayObj3.append(item);
-            }
-            for(auto l:res->getFanusers()){
-                Json::Value item;
-                item["name"] = l.second->getUserName();
-                item["password"] = l.second->getUserPw();
-                item["label"] = l.second->getlabel();
-                item["sex"] = l.second->getSex();
-                item["birthday"] = l.second->getBirthday();
-                item["address"] = l.second->getAddress();
-                item["icon"] = l.second->getIcon();
-                arrayObj4.append(item);
+            //用户存在
+            root["userName"] = username;
+            root["userPassword"] = password;
+            root["userLabel"] = res->getlabel();
+            root["userSex"] = res->getSex();
+            root["userBirthday"] = res->getBirthday();
+            root["userAddress"] = res->getAddress();
+            root["userIcon"] = res->getIcon();
+            if(password != res->getUserPw()){
+                root["loginSuccess"] = "PW_INVALID";  //用户密码错误
+                throw  "PW_INVALID";
+            }else{
+                root["loginSuccess"] = "SUCCESS";
+                for(auto l:res->getCreatedSongList()){
+                    Json::Value item;
+                    item["id"] = l.second->getId();
+                    item["name"] = l.second->getName();
+                    item["author"] = l.second->getAuthor();
+                    item["createTime"] = l.second->getCreateTime();
+                    item["label"] = l.second->getLabel();
+                    item["info"] = l.second->getInfo();
+                    item["icon"] = l.second->getIcon();
+                    item["collectionQuantity"] = l.second->getCollectionQuantity();
+                    item["clickQuantity"] = l.second->getClickQuantity();
+                    item["shareQuantity"] = l.second->getShareQuantity();
+                    arrayObj1.append(item);
+                }
+                for(auto l:res->getCollectedSongList()){
+                    Json::Value item;
+                    item["id"] = l.second->getId();
+                    item["name"] = l.second->getName();
+                    item["author"] = l.second->getAuthor();
+                    item["createTime"] = l.second->getCreateTime();
+                    item["label"] = l.second->getLabel();
+                    item["info"] = l.second->getInfo();
+                    item["icon"] = l.second->getIcon();
+                    item["collectionQuantity"] = l.second->getCollectionQuantity();
+                    item["clickQuantity"] = l.second->getClickQuantity();
+                    item["shareQuantity"] = l.second->getShareQuantity();
+                    arrayObj2.append(item);
+                }
+                for(auto l:res->getAttenedFans()){
+                    Json::Value item;
+                    item["name"] = l.second->getUserName();
+                    item["password"] = l.second->getUserPw();
+                    item["label"] = l.second->getlabel();
+                    item["sex"] = l.second->getSex();
+                    item["birthday"] = l.second->getBirthday();
+                    item["address"] = l.second->getAddress();
+                    item["icon"] = l.second->getIcon();
+                    arrayObj3.append(item);
+                }
+                for(auto l:res->getFanusers()){
+                    Json::Value item;
+                    item["name"] = l.second->getUserName();
+                    item["password"] = l.second->getUserPw();
+                    item["label"] = l.second->getlabel();
+                    item["sex"] = l.second->getSex();
+                    item["birthday"] = l.second->getBirthday();
+                    item["address"] = l.second->getAddress();
+                    item["icon"] = l.second->getIcon();
+                    arrayObj4.append(item);
+                }
             }
         }
-    }
 
-    root["array"] = arrayObj1;
-    root["collectedArray"] = arrayObj2;
-    root["attentedUsers"] = arrayObj3;
-    root["fanUsers"] = arrayObj4;
-    root.toStyledString();
+        root["array"] = arrayObj1;
+        root["collectedArray"] = arrayObj2;
+        root["attentedUsers"] = arrayObj3;
+        root["fanUsers"] = arrayObj4;
+
+        root["status"] = "800";
+        return root.toStyledString();
+    } catch (const char * e) {
+        cout << "myLogin receive exception " << e << endl;
+        root["message"] = e;
+    } catch (int & e){
+        cout << "myLogin receive exception " << e << endl;
+        root["message"] = e;
+    } catch (...){
+        cout << "myLogin receive exception " <<  endl;
+        root["message"] = "unknon error";
+    }
+    root["status"] = "500";
     return root.toStyledString();
 }
 
 std::string LoginController::myRegister(std::string username, std::string password)
 {
-    cout <<"enter Myregister" << endl;
     Json::Value root;
     root["type"] = "REGISTER";
     root["userName"] = username;
@@ -107,53 +122,60 @@ std::string LoginController::myRegister(std::string username, std::string passwo
 
     MYSQL mysql;
     mysql_init(&mysql);
-    if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,nullptr,0)){
-        cout << "myRegister conect MYSQL failed!" << endl;
-        root["registerSuccess"] = "FAILD";
-        root.toStyledString();
-        return root.toStyledString();
-    }
 
-    //先查询是否有Account表，如果没有，则说明一个用户也没有，则可以直接创建Account,再往表中添加用户信息，完成注册
-    //没有Account表,则创建Account表
-    if(!hasTable("Account")){
-        if(!createAccountTable()){
+    try{
+        if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,nullptr,0)){
             root["registerSuccess"] = "FAILD";
-            root.toStyledString();
-            return root.toStyledString();
-        }
-        if(insertUser(username,password,"","","","","")){
-            root["registerSuccess"] = "SUCCESS";
-        }else{
-            root["registerSuccess"] = "FAILD";
-            root.toStyledString();
-            return root.toStyledString();
+            throw "myRegister conect MYSQL failed!";
         }
 
-        //创建 CollectionRelation表
-        createCollectionRelationTable();
-    }else{
-        auto fanBroker = FanBroker::getInstance();
-        auto res =fanBroker->findUser(username);
-
-        //用户不存在，可以注册,往数据库中添加一个用户
-        if(res == nullptr){
+        //先查询是否有Account表，如果没有，则说明一个用户也没有，则可以直接创建Account,再往表中添加用户信息，完成注册
+        //没有Account表,则创建Account表
+        if(!hasTable("Account")){
+            if(!createAccountTable()){
+                root["registerSuccess"] = "FAILD";
+                throw "registerFaild";
+            }
             if(insertUser(username,password,"","","","","")){
                 root["registerSuccess"] = "SUCCESS";
             }else{
                 root["registerSuccess"] = "FAILD";
-                root.toStyledString();
-                return root.toStyledString();
+                throw "registerFaild";
             }
-        }else{
-            //用户存在，不可注册
-            root["registerSuccess"] = "NAME_INVALID";
-            root.toStyledString();
-            return root.toStyledString();
-        }
-    }
 
-    root.toStyledString();
+            //创建 CollectionRelation表
+            createCollectionRelationTable();
+        }else{
+            auto fanBroker = FanBroker::getInstance();
+            auto res =fanBroker->findUser(username);
+
+            //用户不存在，可以注册,往数据库中添加一个用户
+            if(res == nullptr){
+                if(insertUser(username,password,"","","","","")){
+                    root["registerSuccess"] = "SUCCESS";
+                }else{
+                    root["registerSuccess"] = "FAILD";
+                    throw "registerFaild";
+                }
+            }else{
+                //用户存在，不可注册
+                root["registerSuccess"] = "NAME_INVALID";
+                throw "registerFaild";
+            }
+        }
+        root["status"] = "800";
+        return root.toStyledString();
+    } catch (const char * e) {
+        cout << "myRegister receive exception " << e << endl;
+        root["message"] = e;
+    } catch (int & e){
+        cout << "myRegister receive exception " << e << endl;
+        root["message"] = e;
+    } catch (...){
+        cout << "myRegister receive exception " <<  endl;
+        root["message"] = "unknon error";
+    }
+    root["status"] = "500";
     return root.toStyledString();
 }
 
@@ -162,7 +184,7 @@ int LoginController::getMaxid(string tableName)
 {
     MYSQL mysql;
     mysql_init(&mysql);
-    if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,NULL,0)){
+    if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,nullptr,0)){
         cout << "findUser conect MYSQL failed!" << endl;
         return 0;
     }
@@ -178,12 +200,12 @@ int LoginController::getMaxid(string tableName)
     result = mysql_store_result(&mysql);
     if(result){
         if((row = mysql_fetch_row(result))){
-            if(row[0] == NULL)
+            if(row[0] == nullptr)
                 maxid = 0;
             else{
-            string str = row[0];
-            std::stringstream in(str);
-            in >> maxid;
+                string str = row[0];
+                std::stringstream in(str);
+                in >> maxid;
             }
         }
     }
@@ -242,15 +264,15 @@ void LoginController::createCollectionRelationTable()
 {
     MYSQL mysql;
     mysql_init(&mysql);
-    if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,NULL,0)){
+    if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,nullptr,0)){
         cout << "createCreatedSongList conect MYSQL failed!" << endl;
         return;
     }
 
     //char sql[512];
     string str{"create table CollectionRelation(songListID char(50) not null,collectedUser char(50) not null);"};
-//    std::sprintf(sql,"create table CollectionRelation(songListName char(50) not null,collecteUser char(50) not null);");
-//    auto length = strlen(sql);
+    //    std::sprintf(sql,"create table CollectionRelation(songListName char(50) not null,collecteUser char(50) not null);");
+    //    auto length = strlen(sql);
     if(!mysql_real_query(&mysql,"create table CollectionRelation(songListName char(50) not null,collecteUser char(50) not null);",str.size())){
         cout <<"create table CollectionRelation!" << endl;
     }
@@ -266,10 +288,10 @@ bool LoginController::createAccountTable()
     }
 
     //创建Account表
-//    string str{"CREATE TABLE Account("
-//               "id int NOT NULL AUTO_INCREMENT PRIMARY KEY,"
-//               "name char(20) not null,"
-//               "password char(20) not null);"};
+    //    string str{"CREATE TABLE Account("
+    //               "id int NOT NULL AUTO_INCREMENT PRIMARY KEY,"
+    //               "name char(20) not null,"
+    //               "password char(20) not null);"};
     string str{"CREATE TABLE Account("
                "id int not null AUTO_INCREMENT PRIMARY KEY,"
                "name char(30) not null,"

@@ -1,4 +1,5 @@
 #include "fsingclient.h"
+#include "listenmusiccontroller.h"
 #include <iostream>
 #include <boost/asio.hpp>
 #include <boost/shared_ptr.hpp>
@@ -33,3 +34,15 @@ void FSingClient::connect_server()
 
     service.run();
 }
+
+void FSingClient::receiveMessage(std::string &&string)
+{
+
+}
+
+QList<QObject *> FSingClient::getLocalSongInfo(QList<QString> dirList)
+{
+    ListenMusicController listenMusicController;
+    return listenMusicController.getLocalSongInfo(dirList);
+}
+

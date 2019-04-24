@@ -10,8 +10,9 @@ Rectangle {
 
     anchors.fill: parent
 
-    signal quitClicked
-    signal okButtonClicked
+    signal quitClicked()
+    signal okButtonClicked()
+    signal checkChanged()
 
     Item {
         id: topitem
@@ -136,10 +137,19 @@ Rectangle {
                 width: centeritem.width-2
                 height: 25
                 color: "transparent"
+
+                //property alias checkState: checkBox.checked
+
                 CheckBox{
+                    id:checkBox
                     x:10
-                    checked: true
+                    checked: isChecked
                     text: path
+
+                    onCheckedChanged: {
+                        //checkChanged()
+                        pathModel.setProperty(index, "isChecked", checked)
+                    }
                 }
 
                 Rectangle {
@@ -148,7 +158,7 @@ Rectangle {
                     border.width: 0
                     width: 15
                     height: 15
-                    visible: recImgMouse.containsMouse ? true : false
+
                     anchors {
                         right: viewItem.right
                         rightMargin: 10
@@ -161,22 +171,29 @@ Rectangle {
                         source: "qrc:/images/common/dialogColse.png"
                         scale: 0.7
                         anchors.fill: recImg
+                        visible: recImgMouse.containsMouse ? true : false
+                    }
+                    MouseArea {
+                        id:recImgMouse
+                        anchors.fill: recImg
+                        hoverEnabled: true
+                        focus: true
+                        acceptedButtons: Qt.LeftButton
+                        onClicked: {
+                            pathModel.remove(pathView.currentIndex)
+                        }
                     }
                 }
-                MouseArea {
-                    id:recImgMouse
-                    anchors.fill: viewItem
-                    focus: true
-                    hoverEnabled: true
-                    acceptedButtons: Qt.LeftButton
-                    onClicked: {
-                        pathModel.remove(pathView.currentIndex)
-                    }
-                }
-
             }
         }
+
     }
+//    onCheckChanged: {
+//        pathModel.setProperty(pathView.currentIndex, "isChecked", pathView.currentItem)
+//        console.log("isChecked:   " + pathModel.get(pathView.currentIndex).isChecked)
+//    }
+
+
     Item {
         id: bottomitem
         width: parent.width
@@ -207,7 +224,10 @@ Rectangle {
                 color: "#3333CC"
                 textColor: "white"
                 onButtonClicked: {
-
+                    getSelectPath()
+                    quitClicked()
+                    okButtonClicked()
+                    console.log("okButtonClicked")
                 }
             }
             MyButton {
@@ -234,7 +254,24 @@ Rectangle {
 
             console.log("You chose: " + fileDialog.fileUrl)
             //console.log("res" + res)
-            pathModel.append({"path": res})
+            pathModel.append({"isChecked": true, "path": res})
         }
+    }
+
+    function getSelectPath(){
+        var count = pathModel.count
+        var i = 0;
+        var list = []
+        for (; i <  count; i++){
+            if (pathModel.get(i).isChecked === true){
+                list.push(pathModel.get(i).path)
+            }
+        }
+        console.log(list.length)
+        console.log(list[0])
+        pathList = list
+        var j =  0
+        for (; j < pathList.length; j++)
+            console.log(pathList[j]+"0000")
     }
 }

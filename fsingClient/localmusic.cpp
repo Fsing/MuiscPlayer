@@ -14,22 +14,61 @@ using namespace std;
 
 LocalMusic::LocalMusic()
 {
-    QDir dir("/root/tmp");
-    dir.setFilter(QDir::Files | QDir::NoSymLinks);
+//    QDir dir("/root/tmp");
+//    dir.setFilter(QDir::Files | QDir::NoSymLinks);
 
-    QStringList nameFilters;
-    nameFilters << "*.mp3";
-    dir.setNameFilters(nameFilters);
-    QStringList files = dir.entryList();
-    m_songList.clear();
-    for (int i = 0; i < files.size(); ++i){
-        QString path = "/root/tmp/" + files.at(i);
+//    QStringList nameFilters;
+//    nameFilters << "*.mp3";
+//    dir.setNameFilters(nameFilters);
+//    QStringList files = dir.entryList();
+//    m_songList.clear();
+//    for (int i = 0; i < files.size(); ++i){
+//        QString path = "/root/tmp/" + files.at(i);
 
-        addSongInfo(resolveSongInfo(path));
+//        addSongInfo(resolveSongInfo(path));
+//    }
+
+//    qDebug() << m_songList.size();
+    //return files;
+}
+
+void LocalMusic::setDirList(QList<QString> dirList)
+{
+    try{
+    if (dirList.count() != 0)
+        for (int i = 0; i < dirList.count(); i++){
+            m_dirList.push_back(dirList[i]);
+        }
+        dealDirList();
+    } catch(...){
+
+    }
+}
+
+void LocalMusic::dealDirList()
+{
+    if (m_dirList.count() != 0){
+        m_songList.clear();
+        for(int i = 0; i < m_dirList.count(); i++){
+            //qDebug() << m_dirList[i] +"m_dirList[i]#############";
+            QDir dir(m_dirList[i]);
+            dir.setFilter(QDir::Files | QDir::NoSymLinks);
+
+            QStringList nameFilters;
+            nameFilters << "*.mp3";
+            dir.setNameFilters(nameFilters);
+            QStringList files = dir.entryList();
+            //qDebug() << files.size() +"#############";
+            for (int j = 0; j < files.size(); ++j){
+                QString path = m_dirList[i] + "/" + files.at(j);
+                //qDebug() << path + " -================";
+
+                addSongInfo(resolveSongInfo(path));
+            }
+        }
     }
 
     qDebug() << m_songList.size();
-    //return files;
 }
 
 QString LocalMusic::formatTime(int ms)
@@ -66,7 +105,7 @@ QObject *LocalMusic::resolveSongInfo(const QString filePath)
         if(avformat_find_stream_info(pFormatCtx,NULL)>=0){
             auto duration = pFormatCtx->duration;
             time = formatTime(duration);
-            qDebug() << time ;
+           //qDebug() << time ;
         }
     }
 
@@ -74,8 +113,9 @@ QObject *LocalMusic::resolveSongInfo(const QString filePath)
     file.open(QIODevice::ReadOnly);
     double size_tmp = (file.size()/1024.0)/1024;
     QString size = QString::number(size_tmp, 'f', 1);
+    QString path = "file://" + filePath;
 
-    QObject *info = new SongInfo(title, artist, album, time, size);
+    QObject *info = new SongInfo(title, artist, album, time, size,path);
     return info;
 }
 

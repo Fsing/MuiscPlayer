@@ -93,5 +93,8 @@
         <file>dialog/CreateSongListDialogItem.qml</file>
         <file>dialog/SelectLocalMusicDialogItem.qml</file>
         <file>dialog/SelectLocalMusicDialog.qml</file>
+        <file>element/LocalMusic/LocalMusicTop.qml</file>
+        <file>element/LocalMusic/LocalSongList.qml</file>
+        <file>element/LocalMusic/LocalMusicInit.qml</file>
     </qresource>
 </RCC>

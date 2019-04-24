@@ -11,9 +11,10 @@ class SongInfo : public QObject
     Q_PROPERTY(QString album READ album)
     Q_PROPERTY(QString time READ time)
     Q_PROPERTY(QString size READ size)
+    Q_PROPERTY(QString path READ path)
 
 public:
-    SongInfo(QString title, QString artist, QString album, QString time,QString size);
+    SongInfo(QString title, QString artist, QString album, QString time,QString size,QString path);
 
     QString title() const;
 
@@ -35,12 +36,15 @@ public:
 
     void setSize(const QString &size);
 
+    QString path() const;
+
 private:
     QString m_title;
     QString m_artist;
     QString m_album;
     QString m_time;
     QString m_size;
+    QString m_path;
 
 };
 

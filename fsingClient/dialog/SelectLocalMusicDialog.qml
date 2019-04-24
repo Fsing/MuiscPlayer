@@ -6,15 +6,15 @@ import "../middleArea/RightAreaJS.js" as Js
 CommonDialog {
     id: selectLocalMusicDialog
 
-    signal inputAccepted
-    property string inputText: ""
+    signal okClicked()
+    property var pathList: []
 
     width: 300
     height: 300
     contentItem: SelectLocalMusicDialogItem {
         onQuitClicked: selectLocalMusicDialog.close()
         onOkButtonClicked: {
-
+            okClicked()
         }
     }
 }

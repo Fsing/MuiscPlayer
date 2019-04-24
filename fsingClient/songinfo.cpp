@@ -1,7 +1,7 @@
 #include "songinfo.h"
 
-SongInfo::SongInfo(QString title, QString artist, QString album, QString time, QString size)
-    : m_title{title}, m_artist{artist}, m_album{album}, m_time{time}, m_size{size}
+SongInfo::SongInfo(QString title, QString artist, QString album, QString time, QString size, QString path)
+    : m_title{title}, m_artist{artist}, m_album{album}, m_time{time}, m_size{size}, m_path{path}
 {
 
 }
@@ -54,4 +54,9 @@ void SongInfo::setTime(const QString &time)
 void SongInfo::setSize(const QString &size)
 {
     m_size = size;
+}
+
+QString SongInfo::path() const
+{
+    return m_path;
 }

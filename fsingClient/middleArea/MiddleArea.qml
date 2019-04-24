@@ -11,13 +11,14 @@ Rectangle {
         width: parent.width
         height: parent.height
         orientation: Qt.Horizontal
-    LeftArea {
-        id: leftArea
-        width: 200
-    }
-    RightArea {
-        id: rightArea
+        LeftArea {
+            id: leftArea
+            width: 200
+        }
+        RightArea {
+            id: rightArea
+            width: parent.width - 200
 
+        }
     }
-   }
 }

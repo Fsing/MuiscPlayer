@@ -33,6 +33,8 @@ public:
      */
     void receiveMessage(std::string &&string);
     bool checkLogin();      //检测是否已经登录
+
+    Q_INVOKABLE QList<QObject *> getLocalSongInfo(QList<QString> dirList);
 };
 
 #endif // FSINGCLINET_H

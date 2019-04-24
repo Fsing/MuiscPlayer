@@ -3,11 +3,13 @@
 //#include "head.h"
 #include "json/json.h"
 #include <string>
+#include <QObject>
 
 //typedef boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
 
-class FSingController
+class FSingController : public QObject
 {
+    Q_OBJECT
 public:
     FSingController();
     virtual ~FSingController();

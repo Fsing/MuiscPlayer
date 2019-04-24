@@ -1,147 +1,116 @@
 import QtQuick 2.11
 import QtQuick.Layouts 1.11
-import QtQuick.Controls 2.4
+import QtQuick.Controls 1.4
+import QtQuick.Controls.Styles 1.4
+import "../../element/LocalMusic"
 import "../../element"
 import "../../dialog"
 
 Rectangle {
+    anchors.fill: parent
     property int index: 4
     color:"#fafafa"
-    anchors.fill: parent
+    //anchors.fill: parent
 
     property int numbers
+    property var songInfoList: []
 
-    Rectangle{
-        id: topRect
+    ScrollView{
+        id: scroll
         width: parent.width
-        height: 60
-        color: "transparent"
+        height: parent.height
+        clip: true
 
-        RowLayout{
-            x: 30
+        style: ScrollViewStyle {
+            id: ss
+            transientScrollBars: true
+        }
+        horizontalScrollBarPolicy: Qt.ScrollBarAlwaysOff
+        ColumnLayout{
+            id:column
+            width: parent.width
 
-            Rectangle{
-                id:labelRect
-                width: 100
-                height: topRect.height
-//                border.width: 2
-//                border.color: "plum"
-                color: "transparent"
-                Text{
-                    id:label
-                    text: "本地音乐"
-                    font.pixelSize: 20
-                    anchors.horizontalCenter: labelRect.horizontalCenter
-                    anchors.bottom: labelRect.bottom
-                    anchors.bottomMargin: 10
-                }
+            LocalMusicTop{
+                id:top
+                width: parent.width
             }
-            Rectangle{
-                id:musicCountRect
-                width: 60
+
+            LocalMusicInit{
+                id:initView
+                width: parent.width
                 height: parent.height
-                Text {
-                    id: musicCount
-                    color: "#7e7e7e"
-                    text: numbers + "首音乐, "
-                }
             }
 
             Rectangle{
-                id:catelogRec
-                width: 60
-                height: parent.height
+                id:songInfoView
+                visible: false
+                width: scroll.width
+                height: scroll.height - top.height
                 color: "transparent"
-                Text{
-                    id:catelogText
-                    text: "选择目录"
-                    color: "#4996d0"
-                    MouseArea{
-                        id:catelogMouse
-                        anchors.fill:catelogText
-                        hoverEnabled: true
-                        cursorShape:(pressed||catelogMouse.containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
-                        onClicked: {
-                            console.log("catelog")
+
+                onHeightChanged: {
+                    console.log("*************songInfoView Height:   " + songInfoView.height)
+                }
+
+                Column{
+                    //anchors.fill: songInfoView
+                    Rectangle{
+                        width: parent.width
+                        height: top.height
+                        color: "transparent"
+                        PlayAllButton{
+                            x: 30
+                            anchors.verticalCenter: parent.verticalCenter
                         }
+                    }
+
+                    LocalSongList{
+                        id: songInfo
+                        width: scroll.width
+                        //height: 690
                     }
                 }
             }
         }
     }
 
-    Rectangle{
-        id:line
-        width: parent.width
-        height: 1
-        color: "#e1e1e2"
-        anchors.top: topRect.bottom
-    }
-
-    Rectangle{
-        width: parent.width
-        height: topRect.height
-        visible: false
-//        border.width: 2
-//        border.color: "plum"
-        anchors.top: topRect.bottom
-        anchors.topMargin: line.height
-
-        PlayAllButton{
-            x: 30
-            anchors.verticalCenter: parent.verticalCenter
-        }
-    }
-
-
-    Rectangle{
-        id: selectCatelogRec
-        width: parent.width
-        height: parent.height - topRect.height - line.height
-        anchors.top:line.bottom
-        color: "transparent"
-
-        Text{
-            id:label_
-            text: "请添加本地音乐"
-            y:parent.height/2 -100
-            font.pixelSize: 15
-            anchors.horizontalCenter: selectCatelogRec.horizontalCenter
-        }
-
-        Rectangle{
-            color: blueSelectMouse.containsMouse? "#1167a8" : "#0c73c2"
-            width: 250
-            height: 60
-            anchors.top: label_.bottom
-            radius: 5
-            anchors.topMargin: 50
-            anchors.horizontalCenter: selectCatelogRec.horizontalCenter
-
-            Text{
-                text: "选择本地音乐文件夹"
-                anchors.centerIn: parent
-                font.pixelSize: 17
-                color: "white"
-                anchors.horizontalCenter: parent.horizontalCenter
-            }
-
-            MouseArea{
-                id: blueSelectMouse
-                anchors.fill: parent
-                hoverEnabled: true
-                cursorShape: (pressed||blueSelectMouse.containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
-                onClicked: selectLocalMusicDialog.open()
-            }
-        }
-    }
-
     SelectLocalMusicDialog {
         id: selectLocalMusicDialog
-        x: mainWindow.width / 2 - 150
+        x: mainWindow.width / 2 -selectLocalMusicDialog.width
         y: 100
-        onInputAccepted: {
+        onOkClicked: {
+            console.log("selectlocal")
+            songInfoList = client.getLocalSongInfo(selectLocalMusicDialog.pathList)
+            songInfo.model.clear()
+            //songInfoView.visible = false
 
+            console.log("songInfoList: " + songInfoList.length)
+            var j = 1;
+            var k = '0'
+            var m = ''
+            for (var i in songInfoList){
+                var num
+                if (i < 9){
+                    num = k+j
+                    j++
+                }else{
+                    num = m+j
+                    j++
+
+                }
+
+                songInfo.model.append({"number": num, "title":songInfoList[i].title, "artist": songInfoList[i].artist, "album":songInfoList[i].album, "time": songInfoList[i].time, "size":songInfoList[i].size+'MB', "path": songInfoList[i].path})
+            }
+            songInfoView.height = songInfoList.length * 28 +30+100
+            column.height = top.height + songInfoView.height
+            console.log("column.width " +   column.width)
+            console.log("column.height " +   column.height)
+            console.log("scroll.width " +   scroll.width)
+            console.log("scroll.height " +   scroll.height)
+            console.log("songInfo.height " +   songInfo.height)
+            songInfoView.update()
+            initView.visible = false
+            songInfoView.visible = true
         }
     }
 }

@@ -10,6 +10,9 @@ class LocalMusic : public QObject
 public:
     LocalMusic();
 
+    Q_INVOKABLE void setDirList(QList<QString> dirList);
+    Q_INVOKABLE void dealDirList();
+
     QString formatTime(int ms);
     QObject *resolveSongInfo(const QString filePath);
 
@@ -18,6 +21,7 @@ public:
 
 private:
     QList<QObject *> m_songList;
+    QList<QString> m_dirList;
 
 };
 

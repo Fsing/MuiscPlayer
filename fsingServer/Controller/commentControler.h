@@ -12,14 +12,14 @@ class CommentController
 
 public:
     CommentController();
-    string getComment(string songId, string left = "0", string right = "10");
+    string getComment(string songId, string left, string right);
     string commentLike(string songId, string accountId, string method);
     string addComment(string songId,string accountId,string comment);
     vector<string> getAccount(string accountId);
     void setAccount(string accountId);
 
 private:
-        MYSQL m_database;
+        MYSQL m_database;        
 };
 
 #endif // COMMENT_H

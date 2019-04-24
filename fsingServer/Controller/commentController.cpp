@@ -2,27 +2,77 @@
 //#include <boost/lexical_cast.hpp>
 #include "json/json.h"
 #include "string.h"
+#include "mysql/mysql.h"
 
 CommentController::CommentController()
 {
 
 }
 
-string CommentController::getComment(string songId,string left,string right ){
+string CommentController::getComment(string songId,string left = "1", string right = "10"){
     auto redisControl = RedisControl::getInstance();
     string command;
     command += "zrevrange ";
     command += "point_";
     command += songId;
     command += " ";
-    command += left;
+    command += to_string(stoi(left)-1);
     command += " ";
     command += right;
     command += " withscores";
 
     try {
-        vector<string> vec = redisControl->excuteCommand(command);
+        vector<string> vec;
+        try {
+            vec = redisControl->excuteCommand(command);
+        }catch (const char * e) {
+            try {
+                MYSQL mysql;
+                mysql_init(&mysql);
+                if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,nullptr,0)){
+                    throw "getComment conect MYSQL failed!";
+                }
+                char sql[512];
+                memset(sql,0,sizeof(char)*512);
+                std::sprintf(sql,"select * from Comment WHERE songId = '%s' order by points desc limit %d,%d",songId.data(),stoi(left)-1,stoi(right));
+                size_t length =strlen(sql);
+                int res = mysql_real_query(&mysql,sql,length);
+                if(res != 0){
+                    cout << sql << endl;
+                    throw "excute error";
+                }else{
+                    MYSQL_RES *result;
+                    MYSQL_ROW row;
+                    result = mysql_store_result(&mysql);
+                    if(result){
+                          while((row = mysql_fetch_row(result))){
+                        string command3;
+                        command3 += "zadd point_";
+                        command3 += row[1];
+                        command3 += " ";
+                        command3 += row[4];
+                        command3 += " ";
+                        command3 += row[2];
 
+                        redisControl->excuteCommand(command3);
+
+                        string command4 ;
+                        command4 += "set ";
+                        command4 += row[1];
+                        command4 += "_";
+                        command4 += row[2];
+                        command4 += " ";
+                        command4 += replace_all(string(row[3])," ","&nbsp");
+                        redisControl->excuteCommand(command4);
+                          }
+                    }
+                }
+            } catch (...) {
+                throw ;
+            }
+        }
+
+        vec = redisControl->excuteCommand(command);
         Json::Value root;
         Json::Value arryObj;
         root["type"] = "COMMENT";
@@ -45,6 +95,7 @@ string CommentController::getComment(string songId,string left,string right ){
                 setAccount(vec[i]);
                 accountMeta = getAccount(vec[i]);
             } catch (int & e){
+
                 cout << "getComment receive exception " << e << endl;
                 throw e;
             }
@@ -72,6 +123,30 @@ string CommentController::commentLike(string songId, string accountId, string me
     Json::Value root;
     root["type"] = "COMMENTLIKE";
     try {
+        MYSQL mysql;
+        mysql_init(&mysql);
+        if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,nullptr,0)){
+            throw "commentLike conect MYSQL failed!";
+        }
+        char sql[1024];
+        if("like"==method){
+            sprintf(sql,"update Comment set points = points + 1 "
+                         " where songid = '%s' and accountId = '%s' ",
+                     songId.data(),accountId.data());
+        }else if("unlike"==method){
+            sprintf(sql,"update Comment set points = points - 1 "
+                             " where songid = '%s' and accountId = '%s' ",
+                         songId.data(),accountId.data());
+        }else
+            throw "method error";
+
+        auto length = strlen(sql);
+        if(mysql_real_query(&mysql,sql,length)){
+            throw  "commentLike  comment fail";
+        }
+
+
+
         string command;
         command += "zincrby ";
         command += "point_";
@@ -107,6 +182,41 @@ string CommentController::addComment(string songId,string accountId,string comme
     Json::Value root;
     root["type"] = "ADDCOMMENT";
     try {
+        MYSQL mysql;
+        mysql_init(&mysql);
+        if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,nullptr,0)){
+            throw "addComment conect MYSQL failed!";
+        }
+
+        char sql1[1024];
+        string num;
+        std::sprintf(sql1,"select 1 from Comment where songId = %s and accountId = %s",
+                     songId.data(),accountId.data());
+        auto length1 = strlen(sql1);
+        if(mysql_real_query(&mysql,sql1,length1)){
+            throw  "inset into comment fail";
+        }else {
+            MYSQL_RES *result;
+            MYSQL_ROW row;
+            result = mysql_store_result(&mysql);
+            if(result){
+                  while((row = mysql_fetch_row(result))){
+                    num = row[0];
+                  }
+            }
+        }
+        if("0"!=num)
+            throw "there is already has a comment";
+
+        char sql[1024];
+        std::sprintf(sql,"insert into Comment(songId,accountId,comment,points)"
+                         " values('%s','%s','%s',0)",
+                     songId.data(),accountId.data(),comment.data());
+        auto length = strlen(sql);
+        if(mysql_real_query(&mysql,sql,length)){
+            throw  "inset into comment fail";
+        }
+
         string command;
         command += "zscore ";
         command += "point_";

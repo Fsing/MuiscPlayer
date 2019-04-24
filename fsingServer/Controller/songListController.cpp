@@ -1,9 +1,9 @@
-#include "songlistproxy.h"
+#include "songlistController.h"
 #include "songlistbroker.h"
 #include "songbroker.h"
-#include "songproxy.h"
+#include "listenMusicController.h"
 #include "json/json.h"
-#include "fanproxy.h"
+#include "loginController.h"
 #include "fanbroker.h"
 
 #include <iostream>
@@ -11,7 +11,7 @@
 using std::cout;
 using std::endl;
 
-std::string SongListProxy::songListInformation(std::string songListId){
+std::string SongListController::songListInformation(std::string songListId){
     auto songListBroker = SongListBroker::getInstance();
     auto res =songListBroker->findSongList(songListId);
 
@@ -50,7 +50,7 @@ std::string SongListProxy::songListInformation(std::string songListId){
         return root.toStyledString();
     }
 }
-std::string SongListProxy::addSongList(std::string username, std::string songListName, std::string time)
+std::string SongListController::addSongList(std::string username, std::string songListName, std::string time)
 {
     Json::Value root;
     root["type"] = "CREATESONGLIST";
@@ -101,8 +101,8 @@ std::string SongListProxy::addSongList(std::string username, std::string songLis
         auto uname = username.data();
         auto lname = songListName.data();
         auto ctime = time.data();
-        std::shared_ptr<FanProxy> fanProxy;
-        auto maxid = fanProxy->getMaxid("SongList");
+        std::shared_ptr<LoginController> loginController;
+        auto maxid = loginController->getMaxid("SongList");
         std::sprintf(sql,"insert into SongList(id,name,author,createTime,label,info,icon,collectionQuantity,clickQuantity,shareQuantity) values('%d','%s','%s','%s','0','0','0',0,0,0)",maxid,lname,uname,ctime);
         auto length = strlen(sql);
         if(!mysql_real_query(&mysql1,sql,length)){
@@ -132,7 +132,7 @@ std::string SongListProxy::addSongList(std::string username, std::string songLis
     }
 }
 
-std::string SongListProxy::addSongToSongList(std::string songlistID, std::string songID)
+std::string SongListController::addSongToSongList(std::string songlistID, std::string songID)
 {
     Json::Value root;
     root["type"] = "ADDSONGTOSONGLIST";

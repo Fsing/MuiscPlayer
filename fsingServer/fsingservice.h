@@ -8,11 +8,11 @@
 #include <songlistbroker.h>
 #include <songbroker.h>
 #include "database.h"
-#include "fanproxy.h"
-#include "songlistproxy.h"
-#include "songproxy.h"
-#include "comment.h"
-#include "rediscontrol.h"
+#include "Controller/commentControler.h"
+#include "Controller/listenMusicController.h"
+#include "Controller/loginController.h"
+#include "Controller/searchController.h"
+#include "Controller/songlistController.h"
 
 using std::vector;
 typedef boost::shared_ptr<boost::asio::ip::tcp::socket> socket_ptr;
@@ -47,10 +47,11 @@ public:
     void pushHostList(std::string ip);
     void popHostList(std::string ip);
 private:
-    std::shared_ptr<FanProxy > _fanProxy;
-    std::shared_ptr<SongListProxy> _songListProxy;
-    std::shared_ptr<SongProxy> _songProxy;
-    std::shared_ptr<Comment> _commentProxy;
+    std::shared_ptr<LoginController> _loginController;
+    std::shared_ptr<ListenMusicController> _listenMusicController;
+    std::shared_ptr<SongListController> _songListController;
+    std::shared_ptr<SearchController> _searchController;
+    std::shared_ptr<CommentController> _commentController;
     DatabaseController database;
     vector<string> m_hostList;
 };

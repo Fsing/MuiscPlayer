@@ -93,37 +93,37 @@ void Server::dealMessage(string sig,vector<string> str,socket_ptr sock)
 
     try {
         if(sig == "SONGINFO"){
-            res = _songProxy->songInformation(str[1]);
+            res = _listenMusicController->songInformation(str[1]);
         }else if(sig == "REGISTER"){
-            res = _fanProxy->myRegister(str[1],str[2]);
+            res = _loginController->myRegister(str[1],str[2]);
         }else if(sig == "LOGIN"){
             cout << "enter dealMessage" << endl;
-            res = _fanProxy->myLogin(str[1],str[2]);
+            res = _loginController->myLogin(str[1],str[2]);
         }else if(sig == "SEARCH"){
-            res = database.search(str[1]);
+            res = _searchController->search(str[1]);
         }else if(sig == "FILETRANSFER"){
             fileSender(str[1],sock);
             res = "fileTransfer";
         }else if(sig == "CREATESONGLIST"){
-            res = _songListProxy->addSongList(str[1],str[2],str[3]);
+            res = _songListController->addSongList(str[1],str[2],str[3]);
         }else if(sig == "ADDSONGTOSONGLIST"){
-            res = _songListProxy->addSongToSongList(str[1], str[2]);
+            res = _songListController->addSongToSongList(str[1], str[2]);
         }else if(sig == "GETSONGSFROMSONGLIST"){
-            res = _songListProxy->songListInformation(str[1]);
+            res = _songListController->songListInformation(str[1]);
         }else if(sig == "SONGLIST"){
-            res = _songListProxy->songListInformation(str[1]) ;
+            res = _songListController->songListInformation(str[1]) ;
         }else if(sig == "INTERFACE"){
             res = database.interface(str[1]);
         }else if(sig == "FETCHSONG"){
-            res = _songProxy->fetchSong(str[1]);
+            res = _listenMusicController->fetchSong(str[1]);
         }else if(sig == "SONGALBUM"){
             res = database.songAlbumInformation(str[1]);
         }else if(sig == "COMMENT"){
-            res = _commentProxy->getComment(str[1],str[2],str[3]);
+            res = _commentController->getComment(str[1],str[2],str[3]);
         }else if(sig == "COMMENTLIKE"){
-            res = _commentProxy->commentLike(str[1],str[2],str[3]);
+            res = _commentController->commentLike(str[1],str[2],str[3]);
         }else if(sig == "ADDCOMMENT"){
-            res = _commentProxy->addComment(str[1],str[2],str[3]);
+            res = _commentController->addComment(str[1],str[2],str[3]);
         }else
             res = "wrongParameter";
 

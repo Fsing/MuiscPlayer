@@ -11,11 +11,12 @@ SOURCES += main.cpp \
     fanbroker.cpp \
     songlistbroker.cpp \
     songbroker.cpp \
-    fanproxy.cpp \
-    songproxy.cpp \
-    songlistproxy.cpp \
-    comment.cpp \
-    rediscontrol.cpp
+    rediscontrol.cpp \
+    Controller/commentController.cpp \
+    Controller/listenMusicController.cpp \
+    Controller/loginController.cpp \
+    Controller/searchController.cpp \
+    Controller/songListController.cpp
 LIBS += -lmysqlclient  -lhiredis
 
 HEADERS += \
@@ -30,11 +31,12 @@ HEADERS += \
     fanbroker.h \
     songbroker.h \
     songlistbroker.h \
-    fanproxy.h \
-    songlistproxy.h \
-    songproxy.h \
-    comment.h \
-    rediscontrol.h
+    rediscontrol.h \
+    Controller/commentControler.h \
+    Controller/listenMusicController.h \
+    Controller/loginController.h \
+    Controller/searchController.h \
+    Controller/songlistController.h
 LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp
 
 DISTFILES += \

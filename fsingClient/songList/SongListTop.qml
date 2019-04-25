@@ -100,16 +100,18 @@ Rectangle {
 
                 IconButton {
                     id: collectButton
-                    iconScale: 0.8
+                    iconScale: 0.9
                     buttonText: "收藏"
-                    onClicked: collectClick()
+                    iconSource: "qrc:/images/common/collect.png"
+                    onIconButtonClicked: collectClick()
                 }
 
                 IconButton {
                     id: shareButton
                     buttonText: "分享"
-                    iconScale: 0.8
-                    onClicked: shareClick()
+                    iconScale: 0.6
+                    iconSource:"qrc:/images/common/share.png"
+                    onIconButtonClicked: shareClick()
                 }
 
                 IconButton {
@@ -117,7 +119,7 @@ Rectangle {
                     iconScale: 0.8
                     buttonText: "下载全部"
                     iconSource: "qrc:/images/leftArea/btndownload.png"
-                    //onClicked: downloadClick()
+                    //onIconButtonClicked: downloadClick()
                 }
             }
 

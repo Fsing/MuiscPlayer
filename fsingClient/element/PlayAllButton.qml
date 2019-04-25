@@ -22,8 +22,9 @@ Item{
         iconSource: "qrc:/images/common/playAll.png"
         iconScale: 0.8
         buttonText: "播放全部"
-        onClicked: {
+        onIconButtonClicked: {
             console.log("Play All Button clicked!")
+            playAllClick()
         }
     }
 

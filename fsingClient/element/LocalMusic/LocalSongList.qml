@@ -51,7 +51,7 @@ Item {
                     MouseArea{
                         id:itemMouse
                         anchors.fill: rowRectangle
-                        enabled: rowRectangle.focus
+                        //enabled: rowRectangle.focus
                         hoverEnabled: true
                         onClicked: {
 
@@ -108,6 +108,11 @@ Item {
             width: length
             movable: false
             resizable: false
+        }
+
+        onClicked: {
+            console.log("row clicked")
+            console.log("info:    " + libraryModel.get(view.currentRow).time)
         }
     }
 }

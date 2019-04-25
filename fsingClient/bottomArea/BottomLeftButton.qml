@@ -24,7 +24,13 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onClicked: {
-
+                var previousIndex = mediaPlayer.playlist.previousIndex()
+                if (previousIndex === -1) {
+                    mediaPlayer.playlist.currentIndex = mediaPlayer.playlist.itemCount - 1
+                } else {
+                    mediaPlayer.playlist.previous()
+                }
+                mediaPlayer.play()
             }
         }
         background:Rectangle{
@@ -53,7 +59,11 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onClicked: {
-
+                console.log("mediaPlayer.playbackState:   " + mediaPlayer.playbackState)
+                if(mediaPlayer.playbackState === 1)
+                            mediaPlayer.pause()
+                else
+                    mediaPlayer.play()
             }
         }
         background:Rectangle{
@@ -86,7 +96,13 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onClicked: {
-
+                var nextIndex = mediaPlayer.playlist.nextIndex()
+                if (nextIndex === -1) {
+                    mediaPlayer.playlist.currentIndex = 0
+                } else {
+                    mediaPlayer.playlist.next()
+                }
+                mediaPlayer.play()
             }
         }
         background:Rectangle{

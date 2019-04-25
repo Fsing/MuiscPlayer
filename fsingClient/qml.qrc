@@ -96,5 +96,8 @@
         <file>element/LocalMusic/LocalMusicTop.qml</file>
         <file>element/LocalMusic/LocalSongList.qml</file>
         <file>element/LocalMusic/LocalMusicInit.qml</file>
+        <file>images/common/delete.png</file>
+        <file>images/common/share.png</file>
+        <file>images/common/collect.png</file>
     </qresource>
 </RCC>

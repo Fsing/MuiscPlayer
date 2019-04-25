@@ -61,6 +61,22 @@ Rectangle {
                         PlayAllButton{
                             x: 30
                             anchors.verticalCenter: parent.verticalCenter
+                            //添加本地音乐到播放列表
+                            onPlayAllClick: {
+                                currentListRectangle.playListModel.clear()
+                                var i = 0
+                                for (; i < songInfo.model.count; i++){
+                                    currentListRectangle.playListModel.append({"title":songInfo.model.get(i).title,"artist":songInfo.model.get(i).artist, "time":songInfo.model.get(i).time})
+                                    currentPlaylist.addItem(songInfo.model.get(i).path)
+                                }
+                                console.log("currentListRectangle.playListModel." + currentListRectangle.playListModel.count)
+                                console.log("currentPlaylist:  " + currentPlaylist.itemCount)
+                                currentPlaylist.currentIndex = 1
+                                console.log("currentPlaylist:  " + currentPlaylist.currentItemSource)
+                                currentListRectangle.listView.height = currentListRectangle.playListModel.count * 30
+                                currentListRectangle.noSongsView.visible = false
+                                currentListRectangle.listView.visible = true
+                            }
                         }
                     }
 

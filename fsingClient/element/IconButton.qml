@@ -13,7 +13,9 @@ Rectangle {
     property string iconSource
     property double iconScale : 1
     property string buttonText
-    signal clicked()
+    property alias mouseArea : playMouseArea
+
+    signal iconButtonClicked()
 
     Rectangle{
         id:playImage
@@ -42,7 +44,8 @@ Rectangle {
         hoverEnabled: true
         cursorShape:(pressed||playMouseArea.containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
         onClicked: {
-            clicked()
+            console.log("IconButtonClick")
+            iconButtonClicked()
         }
     }
 }

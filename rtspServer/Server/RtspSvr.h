@@ -4,6 +4,7 @@
 #include "ListenSock.h"
 #include <map>
 #include "RtspSession.h"
+//#include "RtpSession.h"
 
 //RTSP服务器。创建并管理RTSP会话
 class CRtspSvr : public CListenSock
@@ -26,6 +27,7 @@ private:
 	static void notify_fun( long id, long msg, long user_info );
 private:
 	map<long, CRtspSession*> m_session_map;
+//    map<long,CRtpSession *> m_rtpsession_map;
 	CMutex m_mutex;
 };
 

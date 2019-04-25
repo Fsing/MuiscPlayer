@@ -16,7 +16,9 @@ SOURCES += \
     Mutex.cpp \
     NTime.cpp \
     Def.cpp \
-    ListenSock.cpp
+    ListenSock.cpp \
+    DecodeSrc.cpp \
+    MyRtpSession.cpp
 
 HEADERS += \
     TsHeader.h \
@@ -32,5 +34,6 @@ HEADERS += \
     Mutex.h \
     Def.h \
     ListenSock.h \
-    RtpSession.h
-LIBS += -lpthread
+    DecodeSrc.h \
+    MyRtpSession.h
+LIBS += -lpthread -lavformat  -lavcodec -lavutil -lm -lz -lswscale  -lswresample -ljrtp

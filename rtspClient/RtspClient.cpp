@@ -2,10 +2,15 @@
 #include "PrintLog.h"
 #include <string.h>
 #include "NTime.h"
+#include <iostream>
+#include <sstream>
+
+using std::cout;            using std::endl;
+
 
 CRtspClient::CRtspClient()
 {
-    m_fun = NULL;
+    m_fun = nullptr;
     m_user_info = 0;
     memset( m_recv_buf, 0, sizeof(m_recv_buf) );
     m_recv_len = 0;
@@ -26,12 +31,19 @@ CRtspClient::~CRtspClient()
     WaitExit();
 }
 
-int CRtspClient::Start( const char* url, DataCBFun fun, long user_info )
+int CRtspClient::Start(const char* url, DataCBFun fun, long user_info , char *baseport)
 {
     m_fun = fun;
     m_user_info = user_info;
     memset( m_base_url, 0, sizeof(m_base_url) );
     strncpy( m_base_url, url, sizeof(m_base_url) );
+
+    std::string port(baseport);
+    stringstream ss(port);
+    ss >> m_client_port;
+    m_rtpSession.setClientPort(m_client_port);
+
+    //    m_rtpSession.Start(url);
     if( open_sock( url ) < 0 )
         return -1;
     if( Create( "RtspClientThread", 0 ) < 0 ){
@@ -48,11 +60,13 @@ int CRtspClient::GetRange()
 
 int CRtspClient::Play( int s_sec, int e_sec )
 {
+//        m_rtpSession.Start(m_base_url);
     return send_play_cmd( s_sec, e_sec );
 }
 
 int CRtspClient::Pause()
 {
+    m_rtpSession.Pause();
     return send_simple_cmd( RTSP_PAUSE );
 }
 
@@ -103,6 +117,7 @@ int CRtspClient::open_sock( const char* url )
     }
     //end:端口前面的“：”
     const char* end = strstr( url+strlen("rtsp://"), ":" );
+    //提取端口
     if( end != nullptr )
         port = atoi( end+1 );               //端口
     else{
@@ -210,8 +225,10 @@ int CRtspClient::handle_cmd( const char* data, int len )
     int ret = 0;
     switch( m_method ){
     case RTSP_OPTIONS:
+        //        cout << data << endl;
         ret = send_describe_cmd();
         m_method = RTSP_DESCRIBE;
+        //        Sleep(3000);
         break;
     case RTSP_DESCRIBE:
         parser_describe( data, len );
@@ -271,7 +288,11 @@ int CRtspClient::parse_rsp_code( const char* data, int len )
 int CRtspClient::send_simple_cmd( RtspMethodT method )
 {
     char cmd[512] = "";
-    snprintf( cmd, sizeof(cmd), "%s %s RTSP/1.0\r\nCSeq: %d\r\n%s\r\n", g_method[method].method_str, m_base_url, m_cseq++, m_session );
+//    if(method == RTSP_OPTIONS)
+//        snprintf( cmd, sizeof(cmd), "%s %s RTSP/1.0\r\nCSeq: %d\r\nport:%d\r\n", g_method[method].method_str, m_base_url, m_cseq++,m_client_port);
+//    else
+        snprintf( cmd, sizeof(cmd), "%s %s RTSP/1.0\r\nCSeq: %d\r\n%s\r\n", g_method[method].method_str, m_base_url, m_cseq++, m_session );
+    //    cout << cmd << endl;
     return send_cmd( cmd, strlen(cmd) );
 }
 
@@ -286,7 +307,7 @@ int CRtspClient::send_setup_cmd()
 {
     char cmd[512] = "";
     snprintf( cmd, sizeof(cmd), "SETUP %s%s%s RTSP/1.0\r\nCSeq: %d\r\n%sTransport: RTP/AVP/TCP;unicast;interleaved=%d-%d\r\n\r\n",
-        m_base_url, m_base_url[strlen(m_base_url)-1]=='/'?"":"/", m_media_info[m_media_index++].track_id, m_cseq++, m_session, m_rtp_ch, m_rtp_ch+1 );
+              m_base_url, m_base_url[strlen(m_base_url)-1]=='/'?"":"/", m_media_info[m_media_index++].track_id, m_cseq++, m_session, m_rtp_ch, m_rtp_ch+1 );
     return send_cmd( cmd, strlen(cmd) );
 }
 
@@ -301,11 +322,14 @@ int CRtspClient::send_play_cmd( int s_sec, int e_sec )
     }
     char cmd[512] = "";
     snprintf( cmd, sizeof(cmd), "PLAY %s RTSP/1.0\r\nCSeq: %d\r\n%s %s\r\n", m_base_url, m_cseq++, m_session, range );
+    m_rtpSession.Start(m_base_url);
+
     return send_cmd( cmd, strlen(cmd) );
 }
 
 int  CRtspClient::parser_describe( const char* data, int len )
 {
+    //    cout << "DESCRIBE: " <<data << endl;
     //提取出url
     get_str( data, "Content-Base: ", false, "\r\n", false, m_base_url );
     const char* ptr = data;
@@ -330,7 +354,7 @@ int  CRtspClient::parser_describe( const char* data, int len )
 
 int  CRtspClient::parser_setup( const char* data, int len )
 {
-
+    //    cout << "SETUP: " <<data << endl;
     get_str( data, "Session:", true , "\r\n", true, m_session );
     const char* pos = strstr( m_session, ";" );
     if( pos != nullptr ){
@@ -347,3 +371,19 @@ int CRtspClient::send_cmd( const char* data, int len )
     PRINT_CMD( data );
     return m_sock.Send( data, len );
 }
+
+//int CRtspClient::get_port(const char *data, int len, const char *s_mark, const char *e_mark)
+//{
+//    //找到s_mark的位置
+//    char port[128];
+//    const char* satrt = strstr( data, s_mark );
+//    if( satrt != nullptr ){
+//        //找到e_mark的位置
+//        const char* end = strstr( satrt, e_mark);
+//        if( end != nullptr )
+//            strncpy( port, satrt+1, 4);
+//        m_port = atoi(port);
+//        return 0;
+//    }
+//    return -1;
+//}

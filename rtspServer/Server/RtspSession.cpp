@@ -2,6 +2,8 @@
 #include "PrintLog.h"
 #include <string.h>
 #include "NTime.h"
+#include <iostream>
+
 
 CRtspSession::CRtspSession()
 {
@@ -29,11 +31,21 @@ int CRtspSession::Start( int fd, NotifyFun fun, long user_info )
     m_fun = fun;
     m_user_info = user_info;
     m_sock.AttachFd( fd );
+    m_rtpSession.setClientPort(m_client_port);
+    m_rtpSession.setClientIP(m_client_ip);
     if( Create( "RtspSessionThread", 0 ) < 0 ){
         LogError( "create thread  RtspSessionThread failed\n" );
         return -1;
     }
     return 0;
+}
+
+void CRtspSession::setClientIP(char *ip){
+    strcpy(m_client_ip,ip);
+}
+
+void CRtspSession::setClientPort(uint16_t port){
+    m_client_port = port;
 }
 
 //重载CThread::thread_proc(),线程执行处理函数(线程函数为thread_fun())
@@ -49,14 +61,11 @@ void CRtspSession::thread_proc( long user_info )
         FD_ZERO( &except_fd_set );	//EXCEPT_EVENT
         FD_SET( m_sock.GetFd(), &read_fd_set );             //将套接字加入集合，在文件描述符集合中添加一个新的文件名描述符
         FD_SET( m_sock.GetFd(), &except_fd_set );
-#ifdef _WIN32
-        struct timeval tmv_timeout={ 0L, 1000000L };//单位微秒，默认1秒超时
-#else
         //用于描述一段时间长度，如果在这个时间内，需要监视的描述符没有事件发生则函数返回，返回值为0
         struct timeval tmv_timeout={ 0L, 1000L };//单位毫秒，默认1秒超时
-#endif
+
         //这里要+1
-        if( select( m_sock.GetFd()+1, &read_fd_set, NULL, &except_fd_set, &tmv_timeout ) > 0  ){    //检查套接字是否可读，是否有数据，
+        if( select( m_sock.GetFd()+1, &read_fd_set, nullptr, &except_fd_set, &tmv_timeout ) > 0  ){    //检查套接字是否可读，是否有数据，
             if( FD_ISSET( m_sock.GetFd(), &read_fd_set ) != 0 ){        //检查套接字是否在集合中，因为select将更新这个集合,把其中不可读的套节字去掉，只保留符合条件的套节字在这个集合里面
 
                 //表示有数据，接收数据
@@ -72,8 +81,10 @@ void CRtspSession::thread_proc( long user_info )
             }
         }
     }
+    std::cout <<"RTSPSession 结束" <<endl;
+    //会话结束，销毁服务器对象中的df对应的那个会话
     if( m_fun != nullptr )
-        m_fun( m_sock.GetFd(), RTSP_SESSION_CLOSE, m_user_info );
+        m_fun( m_sock.GetFd(), RTSP_SESSION_CLOSE, m_user_info);
 }
 
 int CRtspSession::recv_data()
@@ -130,15 +141,15 @@ int CRtspSession::parse_data( const char* data, int len )
 {
     const char *start = data;
     const char *end_mark = "\r\n\r\n";      //结束标志
-    const char *end = NULL;
+    const char *end = nullptr;
     //strstr判断end_mark是否是start的子串，返回在start中首次出现的位置
-    if( NULL == (end = strstr(start, end_mark)) )
+    if( nullptr == (end = strstr(start, end_mark)) )
         return -1;
     int header_len = end - start + strlen(end_mark);
     int content_len = 0;
     const char* conten_len_mark = "Content-Length ";
     const char* content_len_pos = strstr(end, conten_len_mark);
-    if( content_len_pos != NULL && strstr(content_len_pos, "\r\n") != NULL )
+    if( content_len_pos != nullptr && strstr(content_len_pos, "\r\n") != nullptr )
         content_len = atoi( content_len_pos+strlen(conten_len_mark) );
     if( len < (header_len + content_len) )
         return -1;
@@ -218,10 +229,10 @@ int CRtspSession::get_str( const char* data, int len, const char* s_mark, const 
 {
     //找到s_mark的位置
     const char* satrt = strstr( data, s_mark );
-    if( satrt != NULL ){
+    if( satrt != nullptr ){
         //找到e_mark的位置
         const char* end = strstr( satrt, e_mark );
-        if( end != NULL )
+        if( end != nullptr )
             strncpy( dest, satrt, end-satrt>dest_len?dest_len:end-satrt );
         return 0;
     }
@@ -245,7 +256,7 @@ int CRtspSession::handle_describe( const char* data, int len )
         "Content-Length: %d\r\n\r\n"
         "%s",
         m_cseq, m_session, m_url, (int)strlen(sdp), sdp );
-    return send_cmd( cmd, strlen(cmd) );
+    return send_cmd( cmd, strlen(cmd));
 }
 
 int CRtspSession::handle_setup( const char* data, int len )
@@ -266,6 +277,14 @@ int CRtspSession::handle_setup( const char* data, int len )
         "%s%s"
         "Transport: RTP/AVP/TCP;unicast;interleaved=%d-%d\r\n\r\n",
         m_cseq, m_session, m_rtp_ch, m_rtp_ch+1 );
+    //开启解码线程,准备数据
+
+    if( m_rtpSession.init(m_url) < 0 )
+        return send_simple_cmd( 404 );
+    //开启音频流传输线程
+    if(m_rtpSession.Start(m_sock.GetFd(),notify_fun,m_user_info) < 0)
+        return send_simple_cmd( 404 );
+
     return send_cmd( cmd, strlen(cmd) );
 }
 
@@ -299,19 +318,22 @@ int CRtspSession::handle_play( const char* data, int len )
         m_cseq, m_session, s_sec, e_sec, m_url, media_info.track_id, media_info.seq, media_info.rtp_time );
     if( send_cmd( cmd, strlen(cmd) ) < 0 )
         return -1;
-    return m_data_src.Play( &m_sock, m_rtp_ch );
+    //发送数据
+    return m_rtpSession.Play();
+//    return m_data_src.Play( &m_sock, m_rtp_ch );
 }
 
 int CRtspSession::handle_pause()
 {
-    m_data_src.Pause();
+    m_rtpSession.Pause();
     return send_simple_cmd( 200 );
 }
 
 int CRtspSession::handle_teardowm()
 {
+    m_rtpSession.close();               //关闭RTP会话
     send_simple_cmd( 200 );
-    return -1;
+    return -1;          //返回-1,直接结束RTSPSession 会话线程
 }
 
 int CRtspSession::handle_other_method()

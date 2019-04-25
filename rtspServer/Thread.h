@@ -2,11 +2,8 @@
 #define __INCLUDE_THREAD_H__
 
 #include "Def.h"
-#ifdef _WIN32
-#include <WinSock2.h>
-#else //_WIN32
+
 #include <pthread.h>
-#endif	//_WIN32
 
 //线程类，只要是用来创建线程
 //-------------------------线程类，用户可继承CThread实现thread_proc并在thread_proc中处理事件-------------------
@@ -41,6 +38,9 @@ public:
     //获取当前线程ID
     //返回值：当前线程ID
     static int GetCurThreadId();
+    void setDestroyed(bool l){
+        m_is_destroyed = l;
+    }
 private:
     //新线程执行处理函数，由用户继承实现
     //参数：user_info：用户信息

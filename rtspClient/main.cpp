@@ -3,6 +3,7 @@
 
 
 #define URL "rtsp://192.168.43.32:8554/testStream.mp3"
+#define BASEPORT "8000"
 
 //int init_environment()
 //{
@@ -20,15 +21,19 @@ static void data_cb_fun( const char* data, int len )
 
 int main( void )
 {
-//    init_environment();
+    //    init_environment();
     CRtspClient rtsp_client;
-    rtsp_client.Start( URL, data_cb_fun, 0 );       //向服务器请求，发送一系列命令，建立会话
-    Sleep(3000);
-    rtsp_client.Pause();
-    Sleep(3000);
-    rtsp_client.Play();
-    Sleep(3000);
-    rtsp_client.Close();
+    rtsp_client.Start( URL, data_cb_fun, 0 ,BASEPORT);       //向服务器请求，发送一系列命令，建立会话
+//    Sleep(6000);
+//    rtsp_client.Pause();
+//    Sleep(6000);
+//    rtsp_client.Play();
+    //    Sleep(3000);
+    //    rtsp_client.Pause();
+    //    Sleep(3000);
+    //    rtsp_client.Play();
+    //    Sleep(3000);
+    //    rtsp_client.Close();
     getchar();
     return 0;
 }

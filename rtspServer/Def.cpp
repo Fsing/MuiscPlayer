@@ -26,5 +26,5 @@ const RspCodeStr g_rsp_code_str[15] = {
 	{ 503, "Service Unavailable" },
 	{ 505, "RTSP Version not supported" },
 	{ 551, "Option not supported" },
-	{ 0, NULL }	
+    { 0, nullptr }
 };

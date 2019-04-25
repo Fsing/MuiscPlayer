@@ -37,6 +37,9 @@ public:
     //获取当前线程ID
     //返回值：当前线程ID
     static int GetCurThreadId();
+    void setDestroyed(bool l){
+        m_is_destroyed = l;
+    }
 private:
     //新线程执行处理函数，由用户继承实现
     //参数：user_info：用户信息

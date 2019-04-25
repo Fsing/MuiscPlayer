@@ -5,6 +5,8 @@
 #include "Thread.h"
 #include "TcpSock.h"
 #include "Mutex.h"
+#include "MyRtpSession.h"
+
 #include <time.h>
 #include <string>
 
@@ -20,13 +22,13 @@ public:
 	typedef void (*DataCBFun)( const char* data, int len );
     //记录URl:m_base_url,连接服务器，发送OPTIONS命令
     //创建RTSP客户端线程
-	int Start( const char* url, DataCBFun fun, long user_info );
+    int Start( const char* url, DataCBFun fun, long user_info,char *baseport );
 	int GetRange();
     //send_play_cmd()
 	int Play( int s_sec = -1, int e_sec = -1 );
     //send_simple_cmd()
 	int Pause();
-    //关闭会话， send_simple_cmd( RTSP_TEARDOWN )
+    //关闭会话， send_simple_cmd( RTSP_TEARDOWN ).服务端关闭对客户端的连接
 	void Close();
 private:
     //线程执行函数，循环检测是否有数据传入，并调用recev_data()处理
@@ -51,6 +53,10 @@ private:
     char m_recv_buf[MAX_RECV_BUF_LEN];          //接收缓存
     uint32_t m_recv_len;                        //缓存中数据的长度。下次接收，将放在已有数据的后面。buffer+len
     CMutex m_mutex;                             //访问数据的线程锁
+
+    CRtpSession m_rtpSession;                   //RTP会话，接收数据
+
+    uint16_t m_client_port;                     //客户端端口
 private:
     //提取字符串字段
 	int get_str( const char* data, const char* s_mark, bool with_s_make, const char* e_mark, bool with_e_make, char* dest );
@@ -71,11 +77,12 @@ private:
 
     //发送调用命令的函数
 	int send_cmd( const char* data, int len );
+
 private:
     int m_cseq;                             //序列号
 	int m_rtp_ch; 
     char m_session[128];                    //会话ID
-    char m_base_url[256];                   //客户端URL
+    char m_base_url[256];                   //服务器URL
     RtspMethodT m_method;                   //rtsp请求命令的类型
 	enum{
         MAX_MEDIA_NUM = 2,                  //最大媒体数：RTP、RTCP

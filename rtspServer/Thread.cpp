@@ -1,8 +1,6 @@
 #include "Thread.h"
 #include <string.h>
-#ifndef _WIN32
 #include <unistd.h>
-#endif	//_WIN32
 #include "PrintLog.h"
 
 CThread::CThread()
@@ -25,7 +23,7 @@ CThread::~CThread()
 }
 
 //创建线程
-//fun：线程函数,NULL则在新线程中调用thread_proc，否则调用fun
+//fun：线程函数,nullptr则在新线程中调用thread_proc，否则调用fun
 int CThread::Create( const char* thread_name, long user_info, ThreadFun fun )
 {
     strncpy( m_thread_name, thread_name, sizeof(m_thread_name)-1 );

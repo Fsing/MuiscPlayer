@@ -133,6 +133,7 @@ enum{
 
 typedef void (*NotifyFun)( long id, long msg,  long user_info );
 
+typedef void (*DecodeFun)();
 enum{
     RTSP_SESSION_CLOSE = 0,
     DATA_SRC_CLOSE,

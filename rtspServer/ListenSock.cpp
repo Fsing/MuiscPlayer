@@ -1,12 +1,9 @@
 #include "ListenSock.h"
 #include "PrintLog.h"
 #include <string.h>
-#ifdef _WIN32
-#include <WinSock2.h>
-#else	//_WIN32
 #include <errno.h>
 #include <sys/socket.h>
-#endif	//_WIN32
+#include <arpa/inet.h>
 
 CListenSock::CListenSock()
 {
@@ -50,7 +47,7 @@ void CListenSock::thread_proc( long user_info )
         FD_SET( m_fd, &except_fd_set );
         struct timeval tmv_timeout={ 0L, 1000L };//单位毫秒，默认1秒超时
 
-        int ret = select( m_fd+1, &read_fd_set, NULL, &except_fd_set, &tmv_timeout );
+        int ret = select( m_fd+1, &read_fd_set, nullptr, &except_fd_set, &tmv_timeout );
         if( ret > 0 ){
             if( FD_ISSET( m_fd, &read_fd_set ) != 0 ){
                 struct sockaddr_in remote_addr;
@@ -60,6 +57,9 @@ void CListenSock::thread_proc( long user_info )
                 int new_fd = ::accept( m_fd, (sockaddr *)&remote_addr, &sock_size );
                 if( new_fd < 0 )
                     LogError( "acceptt failed, err info:%d %s\n", ERROR_NO, ERROR_STR );
+//                m_client_ip = inet_ntoa(remote_addr.sin_addr);
+                strcpy(m_client_ip,inet_ntoa(remote_addr.sin_addr));
+                m_client_port = ntohs(remote_addr.sin_port);
                 accept_sock( new_fd );
             }
             if( FD_ISSET( m_fd, &except_fd_set ) != 0 ){

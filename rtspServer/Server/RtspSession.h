@@ -8,9 +8,10 @@
 #include <time.h>
 #include <string>
 #include "DataSrc.h"
+#include "MyRtpSession.h"
 
 //RTSP会话类，处理RTSP请求、响应
-class CRtspSession : CThread
+class CRtspSession :  public CThread
 {
 public:
     //初始化成员变量
@@ -18,7 +19,17 @@ public:
 	~CRtspSession();
 public:
     //m_fun赋值、m_user_info赋值、绑定m__sock的m_fd、Cthread::Create(thread_fun):创建线程"RtspSessionThread"
+    //start在RtspSvr::accetp_sock()函数中被调用，user_info参数其实就是RtspSession
 	int Start( int fd, NotifyFun fun, long user_info );
+
+    //setting
+    void setClientIP(char *ip);
+    void setClientPort(uint16_t port);
+
+    //getting
+    char *getClientIP(){return m_client_ip;}
+    uint16_t getClientPort(){return m_client_port;}
+
 private:
     //重载CThread::thread_proc(),线程执行处理函数(线程函数为thread_fun())
     //循环检测指定socket是否有数据传入（select())，recv_data()接收数据
@@ -34,9 +45,11 @@ private:
 	int parse_data( const char* data, int len );
     //提取请求中的命令，并调用对应的处理函数处理数据
 	int handle_cmd( const char* data, int len );
+
+
 private:
     NotifyFun m_fun;        //函数指针
-	long m_user_info;
+    long m_user_info;       //m_fun参数：RtspSvr类型
 	CTcpSock m_sock;
 	enum{
 		MAX_RECV_BUF_LEN = 1024*4,
@@ -45,6 +58,12 @@ private:
     uint32_t m_recv_len;                        //接收到的数据长度
     CMutex m_mutex;                             //访问数据的线程锁
     CDataSrc m_data_src;                        //文件打开，提取SDP等
+    CRtpSession m_rtpSession;                   //数据发送RTP会话
+
+    //客户端地址、ip
+    char m_client_ip[128];
+    uint16_t m_client_port;
+
 private:
     //判断请求的命令是什么，并返回（describe、option、play、、、）
 	RtspMethodT parse_method( const char* data, int len );

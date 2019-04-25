@@ -21,6 +21,10 @@ private:
 
     //accept():获得新的连接的socket fd
 	virtual void thread_proc( long user_info );
+
+public:
+    char m_client_ip[128];
+    uint16_t m_client_port;
 };
 
 #endif

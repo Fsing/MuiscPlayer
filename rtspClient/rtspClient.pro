@@ -12,7 +12,9 @@ SOURCES += \
     NTime.cpp \
     PrintLog.cpp \
     TcpSock.cpp \
-    Sock.cpp
+    Sock.cpp \
+    EncodeSrc.cpp \
+    MyRtpSession.cpp
 
 HEADERS += \
     RtspClient.h \
@@ -22,5 +24,8 @@ HEADERS += \
     NTime.h \
     PrintLog.h \
     TcpSock.h \
-    Sock.h
+    Sock.h \
+    EncodeSrc.h \
+    MyRtpSession.h
 LIBS += -lpthread
+LIBS += -lSDL2main -lSDL2 -lavformat  -lavcodec -lavutil -lm -lz -lswscale  -lswresample -ljrtp

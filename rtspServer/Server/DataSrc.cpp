@@ -46,10 +46,10 @@ int CDataSrc::Init( const char* content, int id, NotifyFun fun, long user_info )
 		"a=control:%s\r\n",
 		content, m_range, m_media_info[0].track_id );
     //
-	if( Create( "Data Source Thread", 0 ) < 0 ){
-		LogError( "data source thread failed\n" );
-		return -1;
-	}
+//	if( Create( "Data Source Thread", 0 ) < 0 ){
+//		LogError( "data source thread failed\n" );
+//		return -1;
+//	}
 	return 0;
 }
 
@@ -108,10 +108,10 @@ void CDataSrc::thread_proc( long user_info )
 	while( IsDestroyed() == false ){
 		int sleep_ms = 5;
 		m_mutex.Enter();
-		if( m_sock != NULL ){
+        if( m_sock != nullptr ){
 			char buf[7*TS_PKT_LEN+sizeof(RtpTcpHdr)+sizeof(RtpHdr)] = "";
 			int len = 0;
-			RtpTcpHdr* hdr = NULL;
+            RtpTcpHdr* hdr = nullptr;
 			if( m_rtp_ch >= 0 ){
 				hdr = (RtpTcpHdr*)(buf+len);
 				hdr->dollar = 0x24;
@@ -137,7 +137,7 @@ void CDataSrc::thread_proc( long user_info )
 			}
 			len += read_ret;
 			if( read_ret > 0 ){
-				if( hdr != NULL )
+                if( hdr != nullptr )
 					hdr->len = htons(sizeof(RtpHdr)+read_ret);
 				if( m_last_pcr != (uint64_t)-1 && pcr > m_last_pcr )
 					m_media_info[0].rtp_time += (uint32_t)(pcr - m_last_pcr);
@@ -169,6 +169,6 @@ void CDataSrc::thread_proc( long user_info )
 		m_mutex.Leave();
 		Sleep( sleep_ms );
 	}
-	if( ret < 0 && m_fun != NULL )
+    if( ret < 0 && m_fun != nullptr )
 		m_fun( 0, DATA_SRC_CLOSE, m_user_info );
 }

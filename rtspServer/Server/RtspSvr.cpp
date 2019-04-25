@@ -1,6 +1,7 @@
 #include "./Server/RtspSvr.h"
 #include "PrintLog.h"
 #include <string.h>
+#include "../MyRtpSession.h"
 
 CRtspSvr::CRtspSvr()
 {
@@ -34,6 +35,9 @@ void CRtspSvr::accept_sock( int fd )
 {
 	LogInfo( "Accept a new connect, the fd: %d\n", fd );
 	CRtspSession* session = new CRtspSession;
+    session->setClientIP(m_client_ip);
+    session->setClientPort(m_client_port);
+
 	if( session->Start( fd, notify_fun, (long)this ) >= 0 ){
 		m_mutex.Enter();
 		m_session_map[fd] = session;

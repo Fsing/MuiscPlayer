@@ -49,6 +49,7 @@ Rectangle {
                 focus: true
                 hoverEnabled: true
                 acceptedButtons: Qt.LeftButton
+                cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
                 onClicked: {
                     loginDialog.close()
                     middleLoginItemVisible = false
@@ -160,7 +161,7 @@ Rectangle {
         id:middleLoginItem
         width: parent.width
         height: parent.height * 0.7
-        visible: false//middleItemVisibe ? false :(middleRegisterItemVisible ? false : true)
+        visible: false
         anchors{
             top:header.bottom
             left: parent.left
@@ -266,4 +267,41 @@ Rectangle {
             }
         }
     }  
+
+    //判断输入是否为空
+    function isInputAccept(username,userpassword)
+    {
+        if(username !== "" && userpassword !== "")
+            return true;
+        else
+            return false;
+    }
+
+    function setRemindMessage(result)
+    {
+        if(middleRegisterItemVisible){
+            remindMessageVisible = result
+            if(result === "SUCCESS")
+                remindMessageText = "注册成功，请返回登录"
+            else
+                remindMessageText = "注册失败，用户名或者密码错误"
+        }
+        console.log("middleLoginItemVisible:   "+middleLoginItem.visible)
+       //var middleLoginItemVisible_ = middleLoginItemVisible
+        if(middleLoginItem.visible){
+            remindMessageVisible = result;
+            if(result === "PW_INVALID")
+                remindMessageText = "密码错误，请重新输入"
+            else if(result === "NAME_INVALID")
+                remindMessageText = "用户不存在"
+            else if(result === "SUCCESS"){
+                middleLoginItemVisible = false
+                middleRegisterItemVisible = false
+                middleItemVisibe = true
+                remindMessageVisible = ""
+                remindMessageText = ""
+                topArea.loginDialog.close();
+            }
+        }
+    }
 }

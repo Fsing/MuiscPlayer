@@ -60,7 +60,9 @@ Rectangle {
                 MouseArea {
                     anchors.fill: re1
                     focus: true
+                    hoverEnabled: true
                     acceptedButtons: Qt.LeftButton
+                    cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
                     onClicked: {
                         quitClicked()
                         titlerec.text = ""

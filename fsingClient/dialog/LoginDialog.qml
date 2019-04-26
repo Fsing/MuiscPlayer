@@ -26,7 +26,18 @@ CommonDialog {
             middleItemVisibe = true
         }
         onLoginClicked: {
+            console.log("点击登录按钮")
+            mainWindow.client.login(loginUserNameText, loginUserPasswordText)
+            console.log("result: " + mainWindow.client.getLoginConcrollerResult())
+            setRemindMessage(mainWindow.client.getLoginConcrollerResult())
 
+            console.log("client.checkLogin(): " + client.checkLogin())
+            console.log("client.getUserName(): " + client.getUserName())
+            console.log("applicationDirPath" + applicationDirPath)
+            if(client.checkLogin()){
+                console.log("client.getUserName(): " + client.getUserName())
+                topRightButton.fanName = client.getUserName()
+            }
         }
         onRegisterClicked: {
 

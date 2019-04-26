@@ -17,6 +17,8 @@ Window {
 
     flags: Qt.Window | Qt.FramelessWindowHint
 
+    property alias client: client
+
     TopArea {
         id: topArea
     }

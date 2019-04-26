@@ -32,7 +32,11 @@ SOURCES += \
     lyric.cpp \
     searchcontroller.cpp \
     songinfo.cpp \
-    localmusic.cpp
+    localmusic.cpp \
+    fan.cpp \
+    songlist.cpp \
+    song.cpp \
+    filetransfer.cpp
 
 RESOURCES += qml.qrc
 
@@ -59,6 +63,10 @@ HEADERS += \
     lyric.h \
     searchcontroller.h \
     songinfo.h \
-    localmusic.h
+    localmusic.h \
+    fan.h \
+    songlist.h \
+    song.h \
+    filetransfer.h
 
 LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp

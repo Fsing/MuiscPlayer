@@ -17,6 +17,8 @@ Rectangle {
     property int titleFontSize: 20
     property string titleColor: "#e0abab"
 
+    property alias loginDialog: loginDialog
+
     Text {
         id: titleName
         x:14

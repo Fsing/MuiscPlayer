@@ -188,6 +188,7 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             hoverEnabled: true
+            cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
             onEntered: {
                 loginButton.opacity = hoverOpacity
             }

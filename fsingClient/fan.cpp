@@ -27,6 +27,13 @@ int Fan::collectedSongListCount() const
 
 void Fan::clear()
 {
+    m_name = "";
+    m_password = "";
+    m_label = "";
+    m_sex = "";
+    m_birthday = "";
+    m_address = "";
+    m_icon = "";
     _collectedSongList.clear();
     _createdSongList.clear();
     _attentedUsers.clear();

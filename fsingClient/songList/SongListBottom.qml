@@ -5,6 +5,7 @@ import "../element"
 
 Rectangle {
     id:songListBottom
+    height: bar.height + line.height + layout.height
 
     MyTabBar{
         id: bar
@@ -29,13 +30,27 @@ Rectangle {
         anchors.top: line.bottom
 
         width: songListBottom.width
-        height: songListBottom.height - bar.height
+        height: if (currentIndex ===0 ) {
+                    songListInit.visible ? (songlist.height - songListTop.height - bar.height - line.height): listSongs.height
+                }else{
+                    songlist.height - songListTop.height - bar.height - line.height
+                }
+
         currentIndex: bar.currentIndex
         Rectangle{
             color: "green"
+            width: layout.width
+            height: listSongs.height
             Text{
+                id:songListInit
+                visible:listSongs.model.count === 0 ? true : false
                 text: "赶快去收藏你喜欢的音乐"
                 anchors.centerIn: parent
+            }
+            ListSongs{
+                id:listSongs
+                //anchors.fill:parent
+                visible: model.count ===0 ? false: true
             }
         }
 

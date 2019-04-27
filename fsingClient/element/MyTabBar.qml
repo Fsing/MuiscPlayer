@@ -9,14 +9,21 @@ TabBar
     height: 30
     y:20
     spacing: 10
+    background: Rectangle{
+        color: "transparent"
+    }
 
+    property string lineColor:"transparent"
+    property int buttonWidth: 100
     property alias myModel:repeater.model
     property int lastIndex: 0
     property string hoverColor: "#f5f5f7"
     property string normalColor: "white"
-    property string clickColor: "#a82828"
+    //property string clickColor: "#a82828"
+    property string clickColor: topArea.color
     property string textNormalColor: "black"
     property string textClickColor: "white"
+    property string textHoverColor: "black"
 
     Repeater {
         id: repeater
@@ -26,13 +33,20 @@ TabBar
             id:barButton
             height: bar.height
 
-            width: 100
+            width: buttonWidth
             property alias groundColor: gColor.color
             property alias textColor: texts.color
 
             background:Rectangle{
                 id: gColor
                 color: bar.currentIndex === model.index ? clickColor : normalColor
+                Rectangle{
+                    visible: bar.currentIndex === model.index ? true : false
+                    anchors.bottom: gColor.bottom
+                    width: gColor.width
+                    height: 2
+                    color: lineColor
+                }
             }
 
             contentItem:
@@ -49,14 +63,16 @@ TabBar
             //}
             onHoveredChanged: {
                 if (model.index !== bar.currentIndex){
-                    console.log("hover" + model.index)
-                    console.log(hovered)
+//                    console.log("hover" + model.index)
+//                    console.log(hovered)
                    if(hovered){
 
                        repeater.itemAt(model.index).groundColor = hoverColor
+                       repeater.itemAt(model.index).textColor = textHoverColor
                    }else {
 
                        repeater.itemAt(model.index).groundColor = normalColor
+                       repeater.itemAt(model.index).textColor = textNormalColor
                    }
                 }
             }

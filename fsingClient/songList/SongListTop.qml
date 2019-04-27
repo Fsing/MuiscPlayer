@@ -42,7 +42,7 @@ Rectangle {
                     width: label.width+10
                     height: label.height
                     radius: 2
-                    color: "#C62F2F"
+                    color: topArea.color
                     Label {
                         id:label
                         text: "歌单"

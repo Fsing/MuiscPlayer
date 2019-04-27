@@ -28,8 +28,9 @@ CommonDialog {
         onLoginClicked: {
             console.log("点击登录按钮")
             mainWindow.client.login(loginUserNameText, loginUserPasswordText)
-            console.log("result: " + mainWindow.client.getLoginConcrollerResult())
-            setRemindMessage(mainWindow.client.getLoginConcrollerResult())
+            console.log("result: " + mainWindow.client.getLoginControllerResult())
+            client.fileTransfer(client.getUserIcon())
+            setRemindMessage(mainWindow.client.getLoginControllerResult())
 
             console.log("client.checkLogin(): " + client.checkLogin())
             console.log("client.getUserName(): " + client.getUserName())
@@ -37,6 +38,8 @@ CommonDialog {
             if(client.checkLogin()){
                 console.log("client.getUserName(): " + client.getUserName())
                 topRightButton.fanName = client.getUserName()
+                console.log("client.getUserIcon():      "+client.getUserIcon())
+                topRightButton.loginButtonSource = "file://" + applicationDirPath + "/" + client.getUserIcon()
             }
         }
         onRegisterClicked: {

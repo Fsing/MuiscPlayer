@@ -36,7 +36,6 @@ SOURCES += \
     fan.cpp \
     songlist.cpp \
     song.cpp \
-    filetransfer.cpp
 
 RESOURCES += qml.qrc
 
@@ -67,6 +66,5 @@ HEADERS += \
     fan.h \
     songlist.h \
     song.h \
-    filetransfer.h
 
 LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp

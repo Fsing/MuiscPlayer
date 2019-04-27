@@ -26,6 +26,7 @@ Rectangle {
     property string loginButtonSource: "qrc:/images/common/ac0.png"
 
     signal loginButtonClicked()
+    signal skinButtonClicked()
 
     Button {
         id: closebutton
@@ -166,6 +167,9 @@ Rectangle {
             id: skinbuttonMouseArea
             anchors.fill: parent
             hoverEnabled: true
+            onClicked: {
+                skinButtonClicked()
+            }
         }
 
         background: Image {
@@ -193,7 +197,7 @@ Rectangle {
                 loginButton.opacity = hoverOpacity
             }
             onExited: {
-                loginButton.opacity = hoverOpacity
+                loginButton.opacity = noHoverOpacity
             }
             onClicked: {
                 loginButtonClicked()

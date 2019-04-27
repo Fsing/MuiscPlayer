@@ -8,6 +8,7 @@ CommonDialog {
     height: 300
     contentItem: LogoutDialogItem {
         onLogoutClick: {
+            client.logout()
             topRightButton.fanName = "未登录"
             topRightButton.loginButtonSource = "qrc:/images/common/ac0.png"
             logoutDialog.close()

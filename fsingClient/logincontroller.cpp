@@ -34,6 +34,11 @@ QList<QString> LoginController::getCreateSongNameLists()
     return createSongNames;
 }
 
+void LoginController::userLogout()
+{
+    m_fan.clear();
+}
+
 void LoginController::dealMessage(std::string type, Json::Value resultRoot)
 {
     if (type == "LOGIN"){
@@ -151,5 +156,16 @@ QString LoginController::getResult()
 {
     return m_result;
 }
+
+void LoginController::setResult(const QString &result)
+{
+    m_result = result;
+}
+
+void LoginController::setLogining(bool logining)
+{
+    m_logining = logining;
+}
+
 
 

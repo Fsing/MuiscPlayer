@@ -72,6 +72,7 @@ Rectangle {
                                 console.log("currentListRectangle.playListModel." + currentListRectangle.playListModel.count)
                                 console.log("currentPlaylist:  " + currentPlaylist.itemCount)
                                 currentPlaylist.currentIndex = 1
+                                currentListRectangle.songNumber = currentListRectangle.playListModel.count
                                 console.log("currentPlaylist:  " + currentPlaylist.currentItemSource)
                                 currentListRectangle.listView.height = currentListRectangle.playListModel.count * 30
                                 currentListRectangle.noSongsView.visible = false
@@ -117,6 +118,7 @@ Rectangle {
 
                 songInfo.model.append({"number": num, "title":songInfoList[i].title, "artist": songInfoList[i].artist, "album":songInfoList[i].album, "time": songInfoList[i].time, "size":songInfoList[i].size+'MB', "path": songInfoList[i].path})
             }
+            numbers = songInfo.model.count
             songInfoView.height = songInfoList.length * 28 +30+100
             column.height = top.height + songInfoView.height
             console.log("column.width " +   column.width)

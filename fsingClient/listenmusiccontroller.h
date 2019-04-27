@@ -6,6 +6,8 @@
 //#include "json/json.h"
 //#include <string>
 #include "localmusic.h"
+#include "songlist.h"
+#include "song.h"
 
 class ListenMusicController : public FSingController
 {
@@ -17,7 +19,20 @@ public:
     //判断服务端返回的消息的类型,并调用相应的处理函数,纯虚函数，各个用况的controller继承实现，动态绑定
     virtual void dealMessage(std::string type,Json::Value resultRoot) override;
 
+    QList<QString> getRecSongListNames();
+
+    //获取本地歌曲信息
     QList<QObject *> getLocalSongInfo(QList<QString> dirList);
+
+    //广告的source
+    QList<QString> m_adverts;
+    //推荐歌单
+    std::vector<SongList> m_songList;
+    QList<QString> m_songInformation;
+
+    //歌单歌曲缓存
+    std::map<int,std::shared_ptr<SongList>> m_songListsMap;
+    std::map<int,std::shared_ptr<Song>> m_songsMap;
 };
 
 #endif // LISTENMUSICCONTROLLER_H

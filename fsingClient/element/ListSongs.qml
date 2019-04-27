@@ -1,21 +1,23 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
+import "../element"
 
 Item {
     width: parent.width
     height: model.count * 28 +30
-    property alias model:libraryModel
-    property double length: (width-50)/5
+    property alias model:songsModel
+    property double length: (width-120)/4
 
     ListModel {
-        id: libraryModel
+        id: songsModel
+
     }
 
     TableView {
         id:view
         anchors.fill: parent
         enabled: true
-        model: libraryModel
+        model: songsModel
         //model: localMusic.songList()
 
         horizontalScrollBarPolicy:Qt.ScrollBarAlwaysOff
@@ -71,6 +73,31 @@ Item {
 
         }
         TableViewColumn {
+            id:operatorColumn
+            role: "operator"
+            title: "操作"
+            movable: false
+            resizable: false
+            horizontalAlignment: Text.AlignRight
+            width: 70
+            visible: true
+            delegate: Rectangle{
+                id:rec
+                //anchors.fill: operatorColumn
+                color: "#00000000"
+                ActionButton{
+                    x:15
+                    y:3
+
+                    onButtonClick: {
+                        console.log(rec.height)
+                        console.log(rec.width)
+                    }
+                }
+            }
+
+        }
+        TableViewColumn {
             id:titleColumn
             role: "title"
             title: "音乐标题"
@@ -101,18 +128,10 @@ Item {
             width: length
             movable: false
         }
-        TableViewColumn {
-            id:sizeColumn
-            role: "size"
-            title: "大小"
-            width: length
-            movable: false
-            resizable: false
-        }
 
         onClicked: {
             console.log("row clicked")
-            console.log("info:    " + libraryModel.get(view.currentRow).time)
+            console.log("info:    " + songsModel.get(view.currentRow).time)
         }
     }
 }

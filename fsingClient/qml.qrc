@@ -99,5 +99,7 @@
         <file>images/common/delete.png</file>
         <file>images/common/share.png</file>
         <file>images/common/collect.png</file>
+        <file>element/ListSongs.qml</file>
+        <file>element/FindMusic/RecommendedSongListsPreview.qml</file>
     </qresource>
 </RCC>

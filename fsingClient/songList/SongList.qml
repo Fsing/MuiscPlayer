@@ -46,7 +46,7 @@ Rectangle {
             SongListBottom {
                 id: songListBottom
                 width: songlist.width
-                height: 500
+                //height: songlist.height - songListTop.height
                //y:songListTop.y+songListTop.height
             }
         }

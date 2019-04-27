@@ -22,6 +22,7 @@ Rectangle {
     StackView {
         id: stackView
         anchors.fill: parent
+        initialItem:findMusicComponent
 
         popEnter: Transition {
             NumberAnimation {
@@ -68,7 +69,6 @@ Rectangle {
         onLeftAreaClicked: {
             console.log("Js.popView(n)" + n)
             Js.popView(n)
-
             console.log("deepth" + stackView.depth)
         }
     }

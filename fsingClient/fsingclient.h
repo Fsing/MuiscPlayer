@@ -56,6 +56,15 @@ public:
 
     //登录账户,服务器数据库查找用户信息
     Q_INVOKABLE void login(QString userName, QString userPassword);
+    //退出账户
+    Q_INVOKABLE void logout();
+    //获取推荐歌单
+    void getRecommendSongLists();
+    Q_INVOKABLE QList<QString> getRecommendSongListNames();
+    //获取歌单信息
+    Q_INVOKABLE QString getSongInformation(QString songId);
+
+
     //直接将通过参数传入的封装好的json字符串传送给服务器。参数string由用况controller里的各个函数封装
     void sendStreamMediaRequest(std::string string);
     //直接将通过参数传入的封装好的json字符串传送给服务器。参数string由用况controller里的各个函数封装
@@ -75,9 +84,11 @@ public:
      *      //处理消息，调用相应LoginController的dealMessage()处理消息
      *      dealMessage(resultRoot["type"].asString(),resultRoot);//将查询到的相应的用户信息存储起来
      */
-    void receiveMessage(boost::system::error_code ec,std::string &&string);
+    //void receiveMessage(boost::system::error_code ec,std::string &&string);
+    void receiveMessage(boost::system::error_code ec);
 
-     Q_INVOKABLE QString getLoginConcrollerResult();
+     Q_INVOKABLE QString getLoginControllerResult();
+     Q_INVOKABLE void setLoginingStatus(bool res);
 
 signals:
     void loginConcrollerResultChanged();
@@ -85,6 +96,7 @@ signals:
 private:
     std::shared_ptr<LoginController> _loginController;
     std::shared_ptr<ListenMusicController> _listenMusicController;
+    std::shared_ptr<DownloadMusicController> _downloadMusicController;
     //结果信息
     QString m_loginConcrollerResult;
 

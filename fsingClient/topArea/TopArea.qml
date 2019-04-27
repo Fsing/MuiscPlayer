@@ -51,7 +51,20 @@ Rectangle {
         //loginButtonSource:
 
         onLoginButtonClicked: {
-                loginDialog.open()
+            console.log("client.checkLogin():  "+ client.checkLogin())
+                if (!client.checkLogin()){
+                    loginDialog.open()
+                } else {
+                    logoutDialog.y = topRightButton.height
+                    logoutDialog.x = (mainWindow.width - topRightButton.width - logoutDialog.width / 2)
+                    if (logoutDialog.opened)
+                        logoutDialog.close()
+                    else
+                        logoutDialog.open()
+                }
+        }
+        onSkinButtonClicked: {
+            var nameLists = client.getRecommendSongListNames()
         }
     }
 

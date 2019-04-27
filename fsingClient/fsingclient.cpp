@@ -25,6 +25,8 @@ FSingClient::FSingClient()
     connect_server();
     try{
     _loginController = std::make_shared<LoginController>();
+    _listenMusicController = std::make_shared<ListenMusicController>();
+    getRecommendSongLists();
     }catch(...){
         std::cout << "_loginController error!" <<std::endl;
     }
@@ -40,6 +42,12 @@ void FSingClient::connect_server()
         }
     });
 
+    sock_fileTransfer.async_connect(ep,[](const error_code &e){
+        if(e){
+            cout << e.message() << endl;
+            return;
+        }
+    });
     service.run();
 }
 
@@ -68,6 +76,7 @@ void FSingClient::fileTransfer(QString fileName)
         return;
     }
 
+    std::cout << "complete?????" << std::endl;
     fileReceiver();
     std::cout << "complete" << std::endl;
 }
@@ -171,15 +180,7 @@ QString FSingClient::getUserName()
 QString FSingClient::getUserIcon()
 {
     QString icon;
-    try{
     icon = _loginController->getFanIcon();
-    //socket_fileTransfer请求传送用户头像
-    cout << "请求头像： " << icon.toStdString() << endl;
-    if(icon.toStdString() != "")
-        fileTransfer(icon);
-    }catch(...){
-        throw ("用户头像传输失败！");
-    }
 
     return icon;
 }
@@ -201,10 +202,53 @@ void FSingClient::login(QString userName, QString userPassword)
     boost::system::error_code ec;
     sendServerMessage(ec,out);
 
-    receiveMessage(ec,std::move(out));
+    receiveMessage(ec);
     } catch(...){
         std::cout << "login error" << std::endl;
     }
+}
+
+void FSingClient::logout()
+{
+    _loginController->setResult("");
+    _loginController->setLogining(false);
+    _loginController->userLogout();
+    file_info_.filename_size = 0;
+    file_info_.filesize = 0;
+}
+
+void FSingClient::getRecommendSongLists()
+{
+    Json::Value root;
+    root["type"] = "INTERFACE";
+
+    root.toStyledString();
+    std::string out = root.toStyledString();
+
+    boost::system::error_code ec;
+
+    sendServerMessage(ec,out);
+    receiveMessage(ec);
+}
+
+QList<QString> FSingClient::getRecommendSongListNames()
+{
+    return _listenMusicController->getRecSongListNames();
+}
+
+QString FSingClient::getSongInformation(QString songId)
+{
+    Json::Value root;
+    root["type"] = "SONGINFO";
+    root["songInfo"] = songId.toStdString();
+
+    root.toStyledString();
+    std::string out = root.toStyledString();
+
+    boost::system::error_code ec;
+
+    sendServerMessage(ec,out);
+    receiveMessage(ec);
 }
 
 void FSingClient::sendServerMessage(boost::system::error_code ec,std::string string)
@@ -220,7 +264,7 @@ void FSingClient::sendServerMessage(boost::system::error_code ec,std::string str
     }
 }
 
-void FSingClient::receiveMessage(boost::system::error_code ec, std::string &&string)
+void FSingClient::receiveMessage(boost::system::error_code ec)
 {
     //接受服务器返回的用户信息：基本信息、用户粉丝、关注、收藏歌单、创建歌单
     char dataSize[10];
@@ -254,19 +298,30 @@ void FSingClient::receiveMessage(boost::system::error_code ec, std::string &&str
     } else {
         std::string type = resultRoot["type"].asString();
         if (type == "LOGIN"){
-            std::shared_ptr<FSingController> fsingController = _loginController;
+            //std::shared_ptr<FSingController> fsingController = _loginController;
             //boost::thread(boost::bind(&FSingController::dealMessage,&fsingController,type, resultRoot));
-            fsingController->dealMessage(type, resultRoot);
+            //fsingController->dealMessage(type, resultRoot);
 
 
-            //_loginController->dealMessage(type, resultRoot);
+            _loginController->dealMessage(type, resultRoot);
+        } else if (type == "INTERFACE"){
+            _listenMusicController->dealMessage(type, resultRoot);
+        }else if(type == "SONGINFO"){
+            _listenMusicController->dealMessage(type, resultRoot);
+        }else if(type == "CREATESONGLIST"){
+            _listenMusicController->dealMessage(type, resultRoot);
         }
     }
 }
 
-QString FSingClient::getLoginConcrollerResult()
+QString FSingClient::getLoginControllerResult()
 {
     m_loginConcrollerResult = _loginController->getResult();
     return m_loginConcrollerResult;
+}
+
+void FSingClient::setLoginingStatus(bool res)
+{
+    _loginController->setLogining(res);
 }
 

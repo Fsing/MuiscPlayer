@@ -3,7 +3,8 @@ import QtQuick.Layouts 1.1
 import QtQuick.Controls 2.2
 
 Item {
-    anchors.verticalCenter: parent.verticalCenter
+    //anchors.verticalCenter: parent.verticalCenter
+    //anchors.centerIn: parent
     property string firstSource: firstButtonImage.source
     property string secondSource: secondButtonImage.source
     signal buttonClick
@@ -23,6 +24,7 @@ Item {
         background: Image {
             id: firstButtonImage
             anchors.fill: parent
+            scale: 0.9
             opacity: 1
             source: "qrc:/images/leftArea/btnfavorite.png"
         }

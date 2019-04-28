@@ -4,20 +4,20 @@ import QtQuick.Controls 2.2
 import "../element"
 
 Rectangle {
-    //歌单名
-    property string listName
-    //歌单图片
-    property string listImage
-    //用户图片
-    property string userImg
-    //创建者
-    property string username
-    //创建时间
-    property string createTime
-    //标签
-    property string labels
-    //歌单简介
-    property string briefInfos
+//    //歌单名
+//    property string listName
+//    //歌单图片
+//    property string listImage
+//    //用户图片
+//    property string userImg
+//    //创建者
+//    property string username
+//    //创建时间
+//    property string createTime
+//    //标签
+//    property string labels
+//    //歌单简介
+//    property string briefInfos
 
     signal userClick
     signal collectClick
@@ -34,6 +34,7 @@ Rectangle {
         spacing: 30
         RecIcon {
             id: icon
+            iconSource: songListImage_
         }
         ColumnLayout {
             spacing: 15
@@ -51,7 +52,7 @@ Rectangle {
                     }
                 }
                 Text {
-                    text: listName
+                    text: songListName_
                     font.pixelSize: 20
                 }
                 Button {
@@ -75,12 +76,12 @@ Rectangle {
             RowLayout {
                 spacing: 10
                 CircleIcon {
-                    userImage: "qrc:/images/logo.jpg"
+                    userImage: userImage_
 
                 }
 
                 Text {
-                    text: username
+                    text: userName_
                     MouseArea {
                         anchors.fill: parent
                         onClicked: userClick()
@@ -88,7 +89,7 @@ Rectangle {
                 }
 
                 Text {
-                    text: createTime
+                    text: songListCreateTime_
                 }
             }
 
@@ -128,7 +129,7 @@ Rectangle {
                     text: "标签: "
                 }
                 Text {
-                    text:labels
+                    text:label_
                 }
             }
 

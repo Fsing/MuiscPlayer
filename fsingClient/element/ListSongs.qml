@@ -1,11 +1,11 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
 import "../element"
-
 Item {
     width: parent.width
-    height: model.count * 28 +30
-    property alias model:songsModel
+//    height: model.count * 28 +30
+    height: songListModel.count * 28 +30
+    //property alias model:songsModel
     property double length: (width-120)/4
 
     ListModel {
@@ -153,7 +153,8 @@ Item {
         id:view
         anchors.fill: parent
         enabled: true
-        model: songsModel
+        //model: songsModel
+        model: songListModel
         //model: localMusic.songList()
 
         horizontalScrollBarPolicy:Qt.ScrollBarAlwaysOff

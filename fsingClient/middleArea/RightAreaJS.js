@@ -112,12 +112,12 @@ function popView(n) {
         ;
         break
     case 9:
-        var songlist = stackView.find(function (item) {
+        var favorite = stackView.find(function (item) {
 
             return item.index === n ? true : false
         })
-        console.log("songlist:*************** " + songlist)
-        if (songlist === null) {
+        console.log("songlist:*************** " + favorite)
+        if (favorite === null) {
             stackView.push(favoriteComponent)
         } else {
             stackView.pop(favoriteComponent)
@@ -126,6 +126,16 @@ function popView(n) {
 
         break
     default:
-        break
+        var songList = stackView.find(function (item) {
+
+            return item.index === n ? true : false
+        })
+        console.log("songlist:*************** " + songList)
+        if (songList === null) {
+            stackView.push(songListComponent)
+        } else {
+            stackView.pop(songListComponent)
+        }
+        ;
     }
 }

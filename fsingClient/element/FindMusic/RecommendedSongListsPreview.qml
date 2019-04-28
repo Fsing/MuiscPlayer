@@ -1,4 +1,6 @@
 import QtQuick 2.0
+import "../../middleArea/RightAreaJS.js" as Js
+import "../../songList"
 
 Item {
     id:recSongLists
@@ -83,35 +85,62 @@ Item {
 
             model: recommendSongListsModel
             delegate:Column {
-                    Rectangle{
-                        id:rectangle
-                        border.color: "pink"
-                        border.width: 2
-                        width: gridView.cellWidth - 15
-                        height: gridView.cellWidth -15
-                        Image { source: icon; anchors.fill: rectangle; fillMode: Image.Stretch }
-                        MouseArea{
-                            anchors.fill: rectangle
-                            hoverEnabled: true
-                            cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
-                        }
-                    }
-                    Text {
-                        id:recText
-                        text: name;
-                        width:  gridView.cellWidth - 15
-                        elide: Text.ElideRight
-                        wrapMode: Text.WordWrap
-                        anchors.horizontalCenter: parent.horizontalCenter
-                        color: recTextMouse.containsMouse ? "#222222" : "#505050"
-                        MouseArea{
-                            id:recTextMouse
-                            anchors.fill: recText
-                            hoverEnabled: true
-                            cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
+                Rectangle{
+                    id:rectangle
+                    border.color: "pink"
+                    border.width: 2
+                    width: gridView.cellWidth - 15
+                    height: gridView.cellWidth -15
+                    Image { source: icon; anchors.fill: rectangle; fillMode: Image.Stretch }
+                    MouseArea{
+                        anchors.fill: rectangle
+                        hoverEnabled: true
+                        cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
+                        onClicked: {
+                            var songListId = recSongListIds[index]
+                            client.songList(songListId)
+                            rightArea.songListInfo = client.getRecSongListBasicInfo(songListId)
+                            var songsList = client.getSongListSongs(songListId)
+                            appendSong(songsList)
+                            Js.popView(11)
                         }
                     }
                 }
+                Text {
+                    id:recText
+                    text: name;
+                    width:  gridView.cellWidth - 15
+                    elide: Text.ElideRight
+                    wrapMode: Text.WordWrap
+                    anchors.horizontalCenter: parent.horizontalCenter
+                    color: recTextMouse.containsMouse ? "#222222" : "#505050"
+                    MouseArea{
+                        id:recTextMouse
+                        anchors.fill: recText
+                        hoverEnabled: true
+                        cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
+                    }
+                }
+            }
         }
     }
+    function appendSong(lists){
+        rightArea.model_.clear()
+        var count = lists.length/8
+        for (var i = 0; i < count; i++){
+            var j = 1;
+            var k = '0'
+            var m = ''
+
+                rightArea.model_.append({"number": i,
+                                        "operator":"",
+                                        "title":lists[i * 8 + 1],
+                                        "artist":lists[i * 8 + 2],
+                                        "album":lists[i * 8 + 3],
+                                        "time":"03:41"})
+
+
+        }
+    }
+
 }

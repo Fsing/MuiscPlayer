@@ -43,14 +43,17 @@ Rectangle {
             height: listSongs.height
             Text{
                 id:songListInit
-                visible:listSongs.model.count === 0 ? true : false
+                //visible:listSongs.model.count === 0 ? true : false
+                visible:songListModel.count === 0 ? true : false
                 text: "赶快去收藏你喜欢的音乐"
                 anchors.centerIn: parent
             }
             ListSongs{
                 id:listSongs
                 //anchors.fill:parent
-                visible: model.count ===0 ? false: true
+                //visible:listSongs.model.count === 0 ? true : false
+
+                visible:songListModel.count === 0 ? false : true
             }
         }
 

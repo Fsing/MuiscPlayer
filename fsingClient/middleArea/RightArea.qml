@@ -17,6 +17,7 @@ Rectangle {
 //    }
 
     property var songListInfo
+    property var model_: songsModel_
     property alias stackView: stackView
     //property alias searchComponent: searchComponent
 
@@ -144,15 +145,20 @@ Rectangle {
         id:songListComponent
         SongList{
             id:mySongList
-            songListId: songListInfo[0]
-            userName:songListInfo[1]
-            userImage:songListInfo[2]
-            songListName:songListInfo[3]
-            songListCreateTime:songListInfo[4]
-            label:songListInfo[5]
-            briefInfo:songListInfo[6]
+            songListId_: songListInfo[0]
+            userName_:songListInfo[2]
+            //userImage_:songListInfo[2]
+            songListName_:songListInfo[1]
+            songListImage_: "file://"+ applicationDirPath + "/" + songListInfo[6]
+            songListCreateTime_:songListInfo[3]
+            label_:songListInfo[4]
+            briefInfo_:songListInfo[5]
 
-
+            songListModel: model_
         }
+    }
+
+    ListModel{
+        id:songsModel_
     }
 }

@@ -11,6 +11,10 @@ Rectangle {
     property int index: 0
     property var recSongListNames: client.getRecommendSongListNames()
     property var recSongListIcons: client.getRecommendSongListIcons()
+    property var recSongListIds: client.getRecommendSongListIds()
+
+    //数据格式：[id,listName,userName,createTime,label,info,icon,collectionQuantity,clickQuantity,shareQuantity,]
+    //property var recSongListsInfo: client.getRecSongListBasicInfo()
 
     ListModel{
         id: menuModel
@@ -43,9 +47,7 @@ Rectangle {
             spacing: 20
             id:column
             width:findMusicView - 45
-            //height: parent.implicitHeight
-            //height: recTopView.height + stackLayout.height
-            //height: bar.height+1+recommendedSongListsPreview.height
+
             Rectangle{
                 id:recTopView
                 width: findMusicView.width - 45
@@ -78,34 +80,6 @@ Rectangle {
                     anchors.bottom: bar.bottom
                 }
             }
-//            StackLayout{
-//                id:stackLayout
-//                width: recTopView.width
-//                height: if (currentIndex === 0){
-//                            return recommendedSongListsPreview.height
-//                        } else if (currentIndex === 1){
-//                            console.log(songList.height)
-//                            return songList.height
-//                        }
-//                currentIndex: bar.currentIndex
-//                RecommendedSongListsPreview{
-//                    id:recommendedSongListsPreview
-//                }
-//                Rectangle{
-//                    id:songList
-
-//                    //width: findMusicView.width-60
-//                    width: parent.width
-//                    height: 600
-//                    color: "pink"
-//                }
-
-//                onHeightChanged: {
-//                    console.log("stackLayout height changed!   "+ height)
-//                }
-
-//            }
-
 
                 RecommendedSongListsPreview{
                     //property int number: 0
@@ -145,6 +119,7 @@ Rectangle {
             }
         }
     }
+
 
 
     //        RecommendedSongListsPreview{

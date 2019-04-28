@@ -24,10 +24,15 @@ FSingClient::FSingClient()
 {
     connect_server();
     try{
-    _loginController = std::make_shared<LoginController>();
-    _listenMusicController = std::make_shared<ListenMusicController>();
-    getRecommendSongLists();
-    getRecommendSongListIcons();
+        _loginController = std::make_shared<LoginController>();
+        _listenMusicController = std::make_shared<ListenMusicController>();
+        getRecommendSongLists();
+        auto list = getRecommendSongListIcons();
+        for (int i = 0; i < list.count(); i++){
+            fileTransfer(list[i]);
+        }
+
+        //auto res = getRecSongListBasicInfo();
     }catch(...){
         std::cout << "_loginController error!" <<std::endl;
     }
@@ -191,19 +196,49 @@ QList<QString> FSingClient::createSongNameLists()
     return _loginController->getCreateSongNameLists();
 }
 
+QList<QString> FSingClient::getRecSongListBasicInfo(QString recSongListId)
+{
+    return _listenMusicController->getRecSongListBasicInfo(recSongListId);
+}
+
+QList<QString> FSingClient::getSongListSongs(QString songListId)
+{
+    return _listenMusicController->getSongListSongs(songListId);
+}
+
+void FSingClient::songList(QString songListId)
+{
+    if (!_listenMusicController->findSongList(songListId)){
+        Json::Value root;
+        root["type"] = "SONGLIST";
+        root["songListId"] = songListId.toStdString();
+        root.toStyledString();
+        std::string out = root.toStyledString();
+        boost::system::error_code ec;
+        sendServerMessage(ec,out);
+
+        receiveMessage(ec);
+    }
+}
+
+//QList<QString> FSingClient::getSongListInfo(QString songListId)
+//{
+//    return ;
+//}
+
 void FSingClient::login(QString userName, QString userPassword)
 {
     try{
-    Json::Value root;
-    root["type"] = "LOGIN";
-    root["userName"] = userName.toStdString();
-    root["userPassword"] = userPassword.toStdString();
-    root.toStyledString();
-    std::string out = root.toStyledString();
-    boost::system::error_code ec;
-    sendServerMessage(ec,out);
+        Json::Value root;
+        root["type"] = "LOGIN";
+        root["userName"] = userName.toStdString();
+        root["userPassword"] = userPassword.toStdString();
+        root.toStyledString();
+        std::string out = root.toStyledString();
+        boost::system::error_code ec;
+        sendServerMessage(ec,out);
 
-    receiveMessage(ec);
+        receiveMessage(ec);
     } catch(...){
         std::cout << "login error" << std::endl;
     }
@@ -242,6 +277,11 @@ QList<QString> FSingClient::getRecommendSongListIcons()
     return _listenMusicController->getRecSongListIcons();
 }
 
+QList<QString> FSingClient::getRecommendSongListIds()
+{
+    return _listenMusicController->getRecSongListIds();
+}
+
 QString FSingClient::getSongInformation(QString songId)
 {
     Json::Value root;
@@ -272,17 +312,20 @@ void FSingClient::sendServerMessage(boost::system::error_code ec,std::string str
 
 void FSingClient::receiveMessage(boost::system::error_code ec)
 {
+    sleep(10);
+    std::string receiveData;
+    //    while(1){
     //接受服务器返回的用户信息：基本信息、用户粉丝、关注、收藏歌单、创建歌单
     char dataSize[10];
     memset(dataSize,0,sizeof(char)*10);//reset 0 to data[]
     while(strlen(dataSize) == 0)
         sock.read_some(buffer(dataSize,sizeof(char)*10),ec);
-    //cout << dataSize <<endl;
+    cout << dataSize <<endl;
 
     char data[2048];
     memset(data,0,sizeof(char)*2048);//reset 0 to data[]
 
-    std::string receiveData;
+    //        std::string receiveData;
     while(receiveData.length() < atoi(dataSize)){
         sock.read_some(buffer(data),ec);
         receiveData.append(data,0,sizeof(data));
@@ -296,25 +339,31 @@ void FSingClient::receiveMessage(boost::system::error_code ec)
         return;
     }
 
+    //        if(receiveData.data() == nullptr || receiveData.length() < atoi(dataSize))
+    //            continue;
+    //        else{
+    //            break;
+    //        }
+    //    }
+
+
     Json::Reader reader;
     Json::Value resultRoot;
     if (!reader.parse(receiveData.data(), resultRoot)){
         std::cout << "json received faild" << std::endl;
-        return;
+
     } else {
+        std::cout <<"receive frome server : "<< receiveData.data() <<std::endl;
         std::string type = resultRoot["type"].asString();
         if (type == "LOGIN"){
-            //std::shared_ptr<FSingController> fsingController = _loginController;
-            //boost::thread(boost::bind(&FSingController::dealMessage,&fsingController,type, resultRoot));
-            //fsingController->dealMessage(type, resultRoot);
-
-
             _loginController->dealMessage(type, resultRoot);
         } else if (type == "INTERFACE"){
             _listenMusicController->dealMessage(type, resultRoot);
         }else if(type == "SONGINFO"){
             _listenMusicController->dealMessage(type, resultRoot);
         }else if(type == "CREATESONGLIST"){
+            _listenMusicController->dealMessage(type, resultRoot);
+        }else if (type == "SONGLIST"){
             _listenMusicController->dealMessage(type, resultRoot);
         }
     }

@@ -19,8 +19,8 @@ Rectangle {
     property int userImageWidth: 25
     property int userImageHeight: 25
 
-    property double noHoverOpacity: 1.0
-    property double hoverOpacity:0.5
+    property double noHoverOpacity: 0.5
+    property double hoverOpacity:1.0
 
     property string fanName: "未登录"
     property string loginButtonSource: "qrc:/images/common/ac0.png"
@@ -45,7 +45,7 @@ Rectangle {
         background: Image {
             id: leftButtonImage
             anchors.fill: parent
-            opacity: closeButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
+            opacity: closeButtonMouseArea.containsMouse ? hoverOpacity :noHoverOpacity
             source: "qrc:/images/topArea/close.png"
         }
     }
@@ -103,7 +103,7 @@ Rectangle {
         background: Image {
             id: minButtonImage
             anchors.fill: parent
-            opacity: minButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
+            opacity: minButtonMouseArea.containsMouse ? hoverOpacity :noHoverOpacity
             source: "qrc:/images/topArea/mini.png"
         }
     }
@@ -132,7 +132,7 @@ Rectangle {
         background: Image {
             id: settingbuttonImage
             anchors.fill: parent
-            opacity: settingbuttonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
+            opacity: settingbuttonMouseArea.containsMouse ? hoverOpacity : noHoverOpacity
             source: "qrc:/images/topArea/setting1.png"
         }
     }
@@ -152,7 +152,7 @@ Rectangle {
         background: Image {
             id: emailbuttonImage
             anchors.fill: parent
-            opacity: emailbuttonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
+            opacity: emailbuttonMouseArea.containsMouse ? hoverOpacity :noHoverOpacity
             source: "qrc:/images/topArea/message.png"
         }
     }
@@ -175,7 +175,7 @@ Rectangle {
         background: Image {
             id: skinbuttonImage
             anchors.fill: parent
-            opacity: skinbuttonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
+            opacity: skinbuttonMouseArea.containsMouse ? hoverOpacity :noHoverOpacity
             source: "qrc:/images/topArea/skin.png"
         }
     }
@@ -232,6 +232,7 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         width: 25
         height: 25
+        opacity: 1.0
 
         onClicked: {
             console.log("userImageClick")
@@ -240,7 +241,7 @@ Rectangle {
         background: CircleIcon {
             id: loginbuttonImage
             anchors.fill: parent
-            opacity: noHoverOpacity
+            opacity: hoverOpacity
             userImage: loginButtonSource
         }
     }

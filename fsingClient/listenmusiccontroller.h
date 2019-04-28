@@ -19,7 +19,10 @@ public:
     //判断服务端返回的消息的类型,并调用相应的处理函数,纯虚函数，各个用况的controller继承实现，动态绑定
     virtual void dealMessage(std::string type,Json::Value resultRoot) override;
 
+    //获取推荐歌单名字集合
     QList<QString> getRecSongListNames();
+    //获取推荐歌单图片
+    QList<QString> getRecSongListIcons();
 
     //获取本地歌曲信息
     QList<QObject *> getLocalSongInfo(QList<QString> dirList);

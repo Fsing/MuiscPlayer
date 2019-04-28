@@ -37,7 +37,12 @@ public:
     Q_INVOKABLE QString getUserIcon();
     //获取用户创建歌单的名字集合
     Q_INVOKABLE QList<QString> createSongNameLists();
-
+    //获取推荐歌单名字集合
+    Q_INVOKABLE QList<QString> getRecommendSongListNames();
+    //获取推荐歌单图片集合
+    Q_INVOKABLE QList<QString> getRecommendSongListIcons();
+    //获取歌单信息
+    Q_INVOKABLE QString getSongInformation(QString songId);
 
 
 public:
@@ -60,9 +65,6 @@ public:
     Q_INVOKABLE void logout();
     //获取推荐歌单
     void getRecommendSongLists();
-    Q_INVOKABLE QList<QString> getRecommendSongListNames();
-    //获取歌单信息
-    Q_INVOKABLE QString getSongInformation(QString songId);
 
 
     //直接将通过参数传入的封装好的json字符串传送给服务器。参数string由用况controller里的各个函数封装

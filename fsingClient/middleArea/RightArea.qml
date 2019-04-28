@@ -1,6 +1,7 @@
 import QtQuick 2.5
 import QtQuick.Controls 2.1
 import "rightAreaComponents"
+import "../songList"
 import "RightAreaJS.js" as Js
 
 Rectangle {
@@ -15,7 +16,7 @@ Rectangle {
 //        id:downloadModel1
 //    }
 
-    //property var songListInfo
+    property var songListInfo
     property alias stackView: stackView
     //property alias searchComponent: searchComponent
 
@@ -136,6 +137,22 @@ Rectangle {
         id: favoriteComponent
         MyFavorite {
             id: favorite
+        }
+    }
+
+    Component{
+        id:songListComponent
+        SongList{
+            id:mySongList
+            songListId: songListInfo[0]
+            userName:songListInfo[1]
+            userImage:songListInfo[2]
+            songListName:songListInfo[3]
+            songListCreateTime:songListInfo[4]
+            label:songListInfo[5]
+            briefInfo:songListInfo[6]
+
+
         }
     }
 }

@@ -18,7 +18,7 @@ TabBar
     property alias myModel:repeater.model
     property int lastIndex: 0
     property string hoverColor: "#f5f5f7"
-    property string normalColor: "white"
+    property string normalColor: "#ffffff"
     //property string clickColor: "#a82828"
     property string clickColor: topArea.color
     property string textNormalColor: "black"

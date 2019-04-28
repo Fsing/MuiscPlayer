@@ -10,6 +10,142 @@ Item {
 
     ListModel {
         id: songsModel
+        ListElement{
+            number: "01"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "02"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "03"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "04"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "05"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "06"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "07"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "08"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "09"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "10"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "11"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "12"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "13"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "14"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "15"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "16"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
+        ListElement{
+            number: "17"
+            operator:""
+            title:"慢慢喜欢你"
+            artist:"莫文蔚"
+            album:"我们在中场等你"
+            time:"03:41"
+        }
 
     }
 

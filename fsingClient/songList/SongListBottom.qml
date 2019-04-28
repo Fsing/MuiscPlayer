@@ -31,7 +31,7 @@ Rectangle {
 
         width: songListBottom.width
         height: if (currentIndex ===0 ) {
-                    songListInit.visible ? (songlist.height - songListTop.height - bar.height - line.height): listSongs.height
+                    songListInit.visible ? (songlist.height - songListTop.height - bar.height - line.height): listSongs.height +28
                 }else{
                     songlist.height - songListTop.height - bar.height - line.height
                 }

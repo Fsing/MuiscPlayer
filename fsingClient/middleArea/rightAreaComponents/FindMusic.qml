@@ -7,8 +7,11 @@ import "../../element"
 
 Rectangle {
     id:findMusic_
-    property int index: 0
     color: "#fafafa"
+    property int index: 0
+    property var recSongListNames: client.getRecommendSongListNames()
+    property var recSongListIcons: client.getRecommendSongListIcons()
+
     ListModel{
         id: menuModel
         ListElement{
@@ -37,69 +40,118 @@ Rectangle {
         }
         Column{
             x:30
+            spacing: 20
             id:column
-            width:findMusicView - 60
-            height: bar.height+1+stackLayout.height
-            MyTabBar{
-                id: bar
-                y:0
-                x: (findMusicView.width - 400)/2-30
-                width: findMusicView.width-300
-                buttonWidth: 60
-
-                height: 30
-                spacing: 20
-                textNormalColor:"#606060"
-                textClickColor: topArea.color
-                textHoverColor: topArea.color
-                hoverColor: findMusic_.color
-                clickColor: findMusic_.color
-                normalColor: findMusic_.color
-                lineColor: topArea.color
-
-                myModel: ["个性推荐", "歌单", "主播电台","排行榜","歌手","最新音乐"]
-            }
+            width:findMusicView - 45
+            //height: parent.implicitHeight
+            //height: recTopView.height + stackLayout.height
+            //height: bar.height+1+recommendedSongListsPreview.height
             Rectangle{
-                width: findMusicView.width - 60
-                height: 1
-                color: "#e1e1e2"
+                id:recTopView
+                width: findMusicView.width - 45
+                height: 31
+                color: "transparent"
+                MyTabBar{
+                    id: bar
+                    x:(findMusicView.width - 400)/2
+                    y:0
+                    width: findMusicView.width-300
+                    buttonWidth: 60
+                    currentIndex: 0
+
+                    height: 30
+                    spacing: 20
+                    textNormalColor:"#606060"
+                    textClickColor: topArea.color
+                    textHoverColor: topArea.color
+                    hoverColor: findMusic_.color
+                    clickColor: findMusic_.color
+                    normalColor: findMusic_.color
+                    lineColor: topArea.color
+
+                    myModel: ["个性推荐", "歌单", "排行榜","歌手","最新音乐"]
+                }
+                Rectangle{
+                    width: findMusicView.width - 60
+                    height: 1
+                    color: "#e1e1e2"
+                    anchors.bottom: bar.bottom
+                }
             }
-            StackLayout{
-                id:stackLayout
-                width: column.width
-                //height: initialItem.height
-                //height: recommendedSongListsPreview.height
-                currentIndex: bar.currentIndex
+//            StackLayout{
+//                id:stackLayout
+//                width: recTopView.width
+//                height: if (currentIndex === 0){
+//                            return recommendedSongListsPreview.height
+//                        } else if (currentIndex === 1){
+//                            console.log(songList.height)
+//                            return songList.height
+//                        }
+//                currentIndex: bar.currentIndex
+//                RecommendedSongListsPreview{
+//                    id:recommendedSongListsPreview
+//                }
+//                Rectangle{
+//                    id:songList
+
+//                    //width: findMusicView.width-60
+//                    width: parent.width
+//                    height: 600
+//                    color: "pink"
+//                }
+
+//                onHeightChanged: {
+//                    console.log("stackLayout height changed!   "+ height)
+//                }
+
+//            }
+
+
                 RecommendedSongListsPreview{
+                    //property int number: 0
                     id:recommendedSongListsPreview
-                    y:20
-                    width: findMusicView.width
+                    width: recTopView.width
+                    visible: bar.currentIndex === 0 ? true : false
+
                 }
                 Rectangle{
                     id:songList
-                    width: findMusicView.width-60
-                    height: 700
-                    color: "pink"
-                }
-                onCurrentIndexChanged: {
-                    if (currentIndex === 0)
-                        height = recommendedSongListsPreview.height
-                    else if (currentIndex === 1){
-                        height = songList.height
-                    }
-                }
+                    //property int number: 0
 
-            }
+                    //width: findMusicView.width-60
+                    width: recTopView.width
+                    height: 600
+                    color: "pink"
+                    visible: bar.currentIndex === 1 ? true : false
+                }
 
         }
     }
 
+    onRecSongListNamesChanged: {
+        recSongListsModel()
+    }
+
+    //TODO
+    function recSongListsModel(){
+        if (recSongListNames.length !== 0){
+            var i = 0
+            for (; i < recSongListNames.length; i++){
+//                recommendedSongListsPreview.recModel.append({"icon": "file:///root/gridView/zhenhy.jpg","name":recSongListNames[i]})
+                recommendedSongListsPreview.recModel.setProperty(i, "name", recSongListNames[i])
+                //client.fileTransfer(recSongListIcons[i])
+                var path = "file://" + applicationDirPath + "/" + recSongListIcons[i]
+                recommendedSongListsPreview.recModel.setProperty(i, "icon", path)
+            }
+        }
+    }
 
 
-//            RecommendedSongListsPreview{
-//                id:recommendedSongListsPreview
-//                y:20
-//                width: findMusicView.width - 60
-//            }
+    //        RecommendedSongListsPreview{
+    //            id:recommendedSongListsPreview
+    //            //y:50
+    //            width: findMusicView.width - 60
+    //        }
+
 
 }

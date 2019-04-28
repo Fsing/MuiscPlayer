@@ -24,6 +24,7 @@ void ListenMusicController::dealMessage(std::string type, Json::Value resultRoot
                     ,std::stoi(arrayObj[i]["collectionQuantity"].asString()),std::stoi(arrayObj[i]["clickQuantity"].asString())
                     ,std::stoi(arrayObj[i]["shareQuantity"].asString()));
             m_songList.push_back(songList);
+
         }
         const Json::Value advertArrayObj = resultRoot["advertArray"];
         for (unsigned int i = 0; i < advertArrayObj.size(); i++)
@@ -69,6 +70,20 @@ QList<QString> ListenMusicController::getRecSongListNames()
 
     qDebug() << "Get RecListNames Complete!";
     return names;
+}
+
+QList<QString> ListenMusicController::getRecSongListIcons()
+{
+    QList<QString> icons;
+    qDebug() << "QString::fromStdString((*it).getIcon())";
+    if (m_songList.size() != 0)
+        for (auto it = m_songList.begin(); it != m_songList.end(); it++){
+            qDebug() << QString::fromStdString((*it).getIcon());
+            icons.append(QString::fromStdString((*it).getIcon()));
+        }
+
+    qDebug() << "Get RecListIcons Complete!";
+    return icons;
 }
 
 QList<QObject *> ListenMusicController::getLocalSongInfo(QList<QString> dirList)

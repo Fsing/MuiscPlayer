@@ -27,6 +27,7 @@ FSingClient::FSingClient()
     _loginController = std::make_shared<LoginController>();
     _listenMusicController = std::make_shared<ListenMusicController>();
     getRecommendSongLists();
+    getRecommendSongListIcons();
     }catch(...){
         std::cout << "_loginController error!" <<std::endl;
     }
@@ -234,6 +235,11 @@ void FSingClient::getRecommendSongLists()
 QList<QString> FSingClient::getRecommendSongListNames()
 {
     return _listenMusicController->getRecSongListNames();
+}
+
+QList<QString> FSingClient::getRecommendSongListIcons()
+{
+    return _listenMusicController->getRecSongListIcons();
 }
 
 QString FSingClient::getSongInformation(QString songId)

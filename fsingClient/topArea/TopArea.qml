@@ -65,6 +65,7 @@ Rectangle {
         }
         onSkinButtonClicked: {
             var nameLists = client.getRecommendSongListNames()
+            var icons = client.getRecommendSongListIcons()
         }
     }
 

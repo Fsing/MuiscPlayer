@@ -112,8 +112,12 @@ Item {
 
         onClicked: {
             console.log("row clicked")
-            console.log("info:    " + libraryModel.get(view.currentRow).time)
+            console.log("info:    " + libraryModel.get(view.currentRow).title)
+            console.log("path: " + songInfoList[row].path)
+            console.log(index);
         }
-//        onDoubleClicked:
+        onDoubleClicked:{
+            localPlay.play(songInfoList[row].path)
+        }
     }
 }

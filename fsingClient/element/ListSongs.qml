@@ -267,8 +267,14 @@ Item {
         }
 
         onClicked: {
-            console.log("online Music row clicked")
-            console.log("info:    " + songsModel.get(view.currentRow).time)
+            console.log("online Music row clicked:"+row)
+            console.log("length: "+ songsListTable.length)
+            console.log("info:    " + songsListTable[row*8])
+        }
+        onDoubleClicked: {
+            rtspClient.play(songsListTable[row*8]+".mp3")
+//            mediaPlayer.playbackState  = 1;
+//            mediaPlayer.play()
         }
     }
 }

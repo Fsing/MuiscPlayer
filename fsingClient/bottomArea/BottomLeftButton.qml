@@ -64,7 +64,6 @@ Rectangle {
                             mediaPlayer.pause()
                 else
                     mediaPlayer.play()
-                rtspClient.play("testStream.mp3")
             }
         }
         background:Rectangle{

@@ -65,25 +65,34 @@ void CDecodeSrc::thread_proc(long user_info)
             FILE *pFile=nullptr;
             //    string fileurl = "../rtspServer/music" + fileName;
             //char *url = fileurl.c_str();
-            char *urll = m_fileName;
+//            char *urll = m_fileName;
+            cout << m_fileName <<endl;
+            char urll[128];
+            memset(urll,0,sizeof(urll));
+            strncpy(urll,"./music/",8);
+            strncpy(urll+8,m_fileName,strlen(m_fileName));
+//            string file(m_fileName);
+//            file = "./music/" + file;
+//            strncpy(urll,file.c_str(),file.size());
 //            url[strlen(m_fileName)] = '\0';
-            auto it = strstr(urll,"3");
+//            auto it = strstr(urll,"3");
 
-            char url[64];
-            memset(url,0,sizeof (url));
-            strncpy(url,urll,it-urll+1);
+//            char url[64];
+//            memset(url,0,sizeof (url));
+//            strncpy(url,urll,it-urll+1);
 
-            cout << url << endl;
+            cout << urll << endl;
+            cout <<m_fileName << endl;
 
             av_register_all();
             avformat_network_init();
             pFormatCtx = avformat_alloc_context();
             //Open
-            if(avformat_open_input(&pFormatCtx,url,nullptr,nullptr)!=0){
+            if(avformat_open_input(&pFormatCtx,urll,nullptr,nullptr)!=0){
                 printf("Couldn't open input stream.\n");
                 return;
             }
-            av_dump_format(pFormatCtx, 0, url, false);
+            av_dump_format(pFormatCtx, 0, urll, false);
             audioStream=-1;
             for(i=0; i < pFormatCtx->nb_streams; i++)
                 if(pFormatCtx->streams[i]->codec->codec_type==AVMEDIA_TYPE_AUDIO){

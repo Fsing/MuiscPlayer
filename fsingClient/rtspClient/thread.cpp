@@ -55,6 +55,7 @@ void CThread::WaitExit()
 
 bool CThread::IsDestroyed()
 {
+    CGuard lock(m_mutex);
     return m_is_destroyed;
 }
 
@@ -84,8 +85,6 @@ void* CThread::thread_fun( void* arg )
     LogInfo( "leave thread %s, id:%d\n", thread->m_thread_name, GetCurThreadId() );
     thread->m_is_runing = false;
     thread->m_is_exited = true;
-#ifndef _WIN32
     pthread_detach( pthread_self() );
-#endif
     return 0;
 }

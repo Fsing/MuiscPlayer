@@ -86,17 +86,18 @@ int CRtspClient::Play(string songName)
     //开启rtp会话，接收数据，并开启解码线程，播放
     //开启接收数据
 
+    //停止解码
+    m_rtpSession.clear();
+    if(m_rtpSession.m_encodeSrc.IsDestroyed() == false)
+        m_rtpSession.m_encodeSrc.setDestroyed(true);
     //如果正在接收数据，停止接收
     if(m_rtpSession.IsDestroyed() == false){
         m_rtpSession.setDestroyed(true);
     }
-    //停止解码
-    if(m_rtpSession.m_encodeSrc.IsDestroyed() == false)
-        m_rtpSession.m_encodeSrc.setDestroyed(true);
 
     m_rtpSession.m_encodeSrc.play();
 
-    m_rtpSession.clear();
+//    m_rtpSession.clear();
     m_rtpSession.setDestroyed(false);       //开始接收
     m_rtpSession.m_encodeSrc.setDestroyed(false);   //开始解码播放
 

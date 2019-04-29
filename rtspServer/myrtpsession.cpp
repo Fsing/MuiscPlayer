@@ -138,7 +138,7 @@ void CRtpSession::thread_proc(long user_info)
             if(m_is_Play == true){
                 if((bufLength = m_decodeSrc.getNextPacket(buffer,SEND_BUFFE_SIZE,pts)) > 0 ){
                     session.SendPacket(buffer,bufLength);
-                    cout <<"Send paccket  " << bufLength << "bytes" << endl;
+//                    cout <<"Send paccket  " << bufLength << "bytes" << endl;
                     //                                    has_send_length += bufLength;
                     write << pts << endl;
                     bufLength = 0;
@@ -146,7 +146,7 @@ void CRtpSession::thread_proc(long user_info)
                 break;*/
             }
             currentTime = time(nullptr);
-            if((currentTime - startTime) >= 1){
+            if((currentTime - startTime) >= 0.7){
                 RTPTime::Wait(RTPTime(1,0));
                 startTime = time(nullptr);
             }

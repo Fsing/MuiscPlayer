@@ -131,6 +131,7 @@ void CEncodeSrc::thread_proc(long user_info)
 {
     while(1){
         if(IsDestroyed() == false){
+            clear();
             AVFormatContext *pFormatCtx = nullptr;
             int             i, audioStream;                 //用于查找音频流位置
             AVPacket        packet;                         //存放解码得到的avPacket数据

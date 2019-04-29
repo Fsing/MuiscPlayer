@@ -8,6 +8,7 @@ import "element"
 
 import FSingClient 1.0
 import RtspClient 1.0
+import LocalPlay 1.0
 
 Window {
     id:mainWindow
@@ -56,5 +57,9 @@ Window {
 
     RtspClient{
         id:rtspClient
+    }
+
+    LocalPlay{
+        id:localPlay
     }
 }

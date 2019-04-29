@@ -100,8 +100,9 @@ Item {
                             var songListId = recSongListIds[index]
                             client.songList(songListId)
                             rightArea.songListInfo = client.getRecSongListBasicInfo(songListId)
-                            var songsList = client.getSongListSongs(songListId)
-                            appendSong(songsList)
+
+                            rightArea.songsListTable = client.getSongListSongs(songListId)
+                            appendSong(rightArea.songsListTable)
                             Js.popView(11)
                         }
                     }

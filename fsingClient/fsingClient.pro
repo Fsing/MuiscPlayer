@@ -46,7 +46,10 @@ SOURCES += \
     rtspClient/rtspclient.cpp \
     rtspClient/sock.cpp \
     rtspClient/tcpsock.cpp \
-    rtspClient/thread.cpp
+    rtspClient/thread.cpp \
+    localPlayThread.cpp \
+    localPlayThreadContain.cpp \
+    localplay.cpp
 
 RESOURCES += qml.qrc
 
@@ -87,6 +90,9 @@ HEADERS += \
     rtspClient/rtspclient.h \
     rtspClient/sock.h \
     rtspClient/tcpsock.h \
-    rtspClient/thread.h
+    rtspClient/thread.h \
+    localPlayThread.h \
+    localPlayThreadContain.h \
+    localplay.h
 
 LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp

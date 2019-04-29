@@ -16,6 +16,7 @@ Rectangle {
 //        id:downloadModel1
 //    }
 
+    property var songsListTable         //歌曲列表对象
     property var songListInfo
     property var model_: songsModel_
     property alias stackView: stackView

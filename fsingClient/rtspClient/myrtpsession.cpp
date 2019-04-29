@@ -118,7 +118,7 @@ void CRtpSession::thread_proc(long user_info)
 
                     while ((pack = session.GetNextPacket()) != nullptr)
                     {
-                        cout <<"get Pack" << endl;
+//                        cout <<"get Pack" << endl;
                         //                    fwrite(pack->SetExtendedSequenceNumber(),1,sizeof(pack->SetExtendedSequenceNumber()),pFile)
                         //                    int nPayType = pack->GetPayloadType();
                         int nLen = pack->GetPayloadLength();

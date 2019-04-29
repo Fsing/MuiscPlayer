@@ -128,7 +128,11 @@ std::string DatabaseController::interface(std::string interfaceName){
     }
     char sql[512];
     memset(sql,0,sizeof(char)*512);
+    if("FINDMUSIC"==interfaceName){
     std::sprintf(sql,"select * from SongList limit 0,10");
+    }else{
+        std::sprintf(sql,"select * from SongList");
+    }
     size_t length =strlen(sql);
     int res = mysql_real_query(&mysql,sql,length);
     if(res != 0){
@@ -146,7 +150,7 @@ std::string DatabaseController::interface(std::string interfaceName){
             root["type"] = "INTERFACE";
 
             int i = 0;
-           while((row = mysql_fetch_row(result)) && (i < 8)){
+           while((row = mysql_fetch_row(result))){
 
                 Json::Value item;
                 item["type"] = "SONGLIST";

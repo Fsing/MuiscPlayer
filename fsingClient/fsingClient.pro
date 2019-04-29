@@ -4,7 +4,7 @@ CONFIG += c++11
 INCLUDEPATH += -I /usr/local/ffmpeg/include\
 -I /usr/local/include
 
-LIBS += -L/usr/local/ffmpeg/lib -lavcodec -lavdevice -lavfilter -lavformat -lavutil -lswresample -lswscale\
+LIBS += -L/usr/local/ffmpeg/lib -lSDL2main -lSDL2 -lavformat  -lavcodec -lavutil -lm -lz -lswscale  -lswresample -ljrtp\
  -L/usr/local/lib -ltag -ltag_c\
 -L/usr/local/lib -lz
 
@@ -36,6 +36,17 @@ SOURCES += \
     fan.cpp \
     songlist.cpp \
     song.cpp \
+    rtspClient/def.cpp \
+    rtspClient/encodesrc.cpp \
+    rtspClient/mutex.cpp \
+    rtspClient/myrtpsession.cpp \
+    rtspClient/ntime.cpp \
+    rtspClient/printlog.cpp \
+    rtspClient/qmlrtspclient.cpp \
+    rtspClient/rtspclient.cpp \
+    rtspClient/sock.cpp \
+    rtspClient/tcpsock.cpp \
+    rtspClient/thread.cpp
 
 RESOURCES += qml.qrc
 
@@ -66,5 +77,16 @@ HEADERS += \
     fan.h \
     songlist.h \
     song.h \
+    rtspClient/def.h \
+    rtspClient/encodesrc.h \
+    rtspClient/mutex.h \
+    rtspClient/myrtpsession.h \
+    rtspClient/ntime.h \
+    rtspClient/printlog.h \
+    rtspClient/qmlrtspclient.h \
+    rtspClient/rtspclient.h \
+    rtspClient/sock.h \
+    rtspClient/tcpsock.h \
+    rtspClient/thread.h
 
 LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp

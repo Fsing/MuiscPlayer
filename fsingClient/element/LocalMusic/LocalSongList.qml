@@ -114,5 +114,6 @@ Item {
             console.log("row clicked")
             console.log("info:    " + libraryModel.get(view.currentRow).time)
         }
+//        onDoubleClicked:
     }
 }

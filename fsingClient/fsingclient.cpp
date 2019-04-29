@@ -15,7 +15,7 @@ using boost::asio::ip::address;
 using boost::asio::io_service;
 
 io_service service;
-ip::tcp::endpoint ep(address::from_string("127.0.0.1"),2001);
+ip::tcp::endpoint ep(address::from_string("192.168.43.164"),2001);
 //客户端异步连接，有多个套接字，每次发送信息、接受信息都重新分配一个套接字，并且分配一个线程独立进行
 ip::tcp::socket sock(service);
 ip::tcp::socket sock_fileTransfer(service);
@@ -312,7 +312,6 @@ void FSingClient::sendServerMessage(boost::system::error_code ec,std::string str
 
 void FSingClient::receiveMessage(boost::system::error_code ec)
 {
-    sleep(10);
     std::string receiveData;
     //    while(1){
     //接受服务器返回的用户信息：基本信息、用户粉丝、关注、收藏歌单、创建歌单

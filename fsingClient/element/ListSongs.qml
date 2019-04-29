@@ -267,7 +267,7 @@ Item {
         }
 
         onClicked: {
-            console.log("row clicked")
+            console.log("online Music row clicked")
             console.log("info:    " + songsModel.get(view.currentRow).time)
         }
     }

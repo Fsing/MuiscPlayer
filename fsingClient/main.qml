@@ -7,6 +7,7 @@ import "bottomArea"
 import "element"
 
 import FSingClient 1.0
+import RtspClient 1.0
 
 Window {
     id:mainWindow
@@ -51,5 +52,9 @@ Window {
 
     FSingClient{
         id: client
+    }
+
+    RtspClient{
+        id:rtspClient
     }
 }

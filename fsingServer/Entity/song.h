@@ -7,9 +7,10 @@ class Song
 {
 public:
     Song(int id,std::string name,std::string source,std::string singer,std::string album
-         ,int playQuantity,int downloadQuantity,int shareQuantity):
+         ,int playQuantity,int downloadQuantity,int shareQuantity,std::string time):
         m_id(id),m_name(name),m_singer(singer),m_album(album),m_source(source),
-        m_playQuantity(playQuantity),m_downloadQuantity(downloadQuantity),m_shareQuantity(shareQuantity){}
+        m_playQuantity(playQuantity),m_downloadQuantity(downloadQuantity),
+        m_shareQuantity(shareQuantity),m_time(time){}
     //get functhion
     int getId(){return m_id;}
     std::string getName(){return m_name;}
@@ -34,9 +35,6 @@ private:
     int m_playQuantity;         //歌曲播放量
     int m_downloadQuantity;     //下载量
     int m_shareQuantity;        //分享量
-
-
-
-
+    std::string m_time;
 };
 #endif // SONG_H

@@ -30,11 +30,11 @@ std::string DatabaseController::songInformation(std::string songSource)
     char sql[100];
     auto source = songSource.data();
     //    auto pw = password.data();
-    std::sprintf(sql,"select * from songinfo WHERE source= '%s'",source);
+    std::sprintf(sql,"select name from Song WHERE source= '%s'",source);
     size_t length =strlen(sql);
     int res = mysql_real_query(&mysql,sql,length);
     if(res != 0){
-        cout <<"fondUser select * from Account failed" << endl;
+        cout <<"fondUser select name from songinfo failed" << endl;
     }else{
         MYSQL_RES *result;
         MYSQL_ROW row;
@@ -73,7 +73,9 @@ std::string DatabaseController::search(std::string songKey)
     memset(sql,0,sizeof(char)*512);
     auto key = songKey.data();
     //    auto pw = password.data();
-    std::sprintf(sql,"select * from Song WHERE name like '%%%s%%' or singer like '%%%s%%'",key,key);
+    std::sprintf(sql,"select id,name,source,singer,album,playQuantity,shareQuantity"
+                     ",downloadQuantity,time"
+                     " from Song WHERE name like '%%%s%%' or singer like '%%%s%%'",key,key);
     size_t length =strlen(sql);
     int res = mysql_real_query(&mysql,sql,length);
     if(res != 0){
@@ -102,6 +104,7 @@ std::string DatabaseController::search(std::string songKey)
                 item["playQuantity"] = row[5];
                 item["shareQuantity"] = row[6];
                 item["downloadQuantity"] = row[7];
+                item["time"] = row[8];
                 arrayObj.append(item);
             }
             root["array"] = arrayObj;
@@ -125,7 +128,7 @@ std::string DatabaseController::interface(std::string interfaceName){
     }
     char sql[512];
     memset(sql,0,sizeof(char)*512);
-    std::sprintf(sql,"select * from SongList");
+    std::sprintf(sql,"select * from SongList limit 0,10");
     size_t length =strlen(sql);
     int res = mysql_real_query(&mysql,sql,length);
     if(res != 0){

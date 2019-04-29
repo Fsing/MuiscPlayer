@@ -45,7 +45,7 @@ std::shared_ptr<Song> SongBroker::retrievalSong(std::string id)
             while((row = mysql_fetch_row(result))){
                 //往缓存中添加歌曲
                 ret = std::make_shared<Song>(Song(atoi(row[0]),row[1],row[2],
-                        row[3],row[4],atoi(row[5]),atoi(row[6]),atoi(row[7])));
+                        row[3],row[4],atoi(row[5]),atoi(row[6]),atoi(row[7]),row[8]));
                 _songs.insert(std::make_pair(row[0],ret));
             }
         }
@@ -97,7 +97,8 @@ std::map<std::string,std::shared_ptr<Song>> SongBroker::findSongsBySongListRelat
                         while((rowSong = mysql_fetch_row(resultSong))){
                             ret.insert(std::make_pair(rowSong[0],
                                        std::make_shared<Song>(Song(atoi(rowSong[0]),rowSong[1],
-                                       rowSong[2],rowSong[3],rowSong[4],atoi(rowSong[5]),atoi(rowSong[6]),atoi(rowSong[7])))));
+                                       rowSong[2],rowSong[3],rowSong[4],atoi(rowSong[5]),
+                                    atoi(rowSong[6]),atoi(rowSong[7]),rowSong[8]))));
                         }
                     }
                 }

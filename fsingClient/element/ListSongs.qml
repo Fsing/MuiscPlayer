@@ -129,13 +129,14 @@ Item {
             console.log("row clicked")
             console.log("info:    " + songListModel.get(view.currentRow).time)
             console.log("leftArea.lyricSource : " +leftArea.lyricSource )
+            console.log("info:    " + songsListTable[row*9])
         }
         onDoubleClicked: {
-            rtspClient.play(songsListTable[row*8]+".mp3")
+            rtspClient.play(songsListTable[row*9]+".mp3")
 //            mediaPlayer.playbackState  = 1;
 //            mediaPlayer.play()
             //界面左下角的歌曲界面
-            leftArea.lyricSource = rightArea.songsListTable[row*8+1] + ".lrc"
+            leftArea.lyricSource = rightArea.songsListTable[row*9+1] + ".lrc"
             var albumImg = songListModel.get(view.currentRow).album +".jpg"
             client.fileTransfer(albumImg)
             leftArea.albumImage = "file://" + applicationDirPath +"/" + albumImg

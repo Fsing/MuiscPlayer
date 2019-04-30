@@ -2,9 +2,9 @@
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
 
-#include "fsingclient.h"
+#include "./fsingClient/fsingclient.h"
 #include "./rtspClient/qmlrtspclient.h"
-#include "localplay.h"
+#include "./localMusicPlay/localplay.h"
 
 int main(int argc, char *argv[])
 {

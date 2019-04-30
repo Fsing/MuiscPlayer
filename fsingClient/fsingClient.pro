@@ -22,21 +22,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 
 SOURCES += \
         main.cpp \
-    attentionorfansquerycontroller.cpp \
-    attenusercontroller.cpp \
-    collectcontroller.cpp \
-    downloadmusiccontroller.cpp \
-    fsingclient.cpp \
-    fsingcontroller.cpp \
-    listenmusiccontroller.cpp \
-    logincontroller.cpp \
-    lyric.cpp \
-    searchcontroller.cpp \
-    songinfo.cpp \
-    localmusic.cpp \
-    fan.cpp \
-    songlist.cpp \
-    song.cpp \
     rtspClient/def.cpp \
     rtspClient/encodesrc.cpp \
     rtspClient/mutex.cpp \
@@ -48,9 +33,24 @@ SOURCES += \
     rtspClient/sock.cpp \
     rtspClient/tcpsock.cpp \
     rtspClient/thread.cpp \
-    localPlayThread.cpp \
-    localPlayThreadContain.cpp \
-    localplay.cpp
+    localMusicPlay/localplay.cpp \
+    localMusicPlay/localPlayThread.cpp \
+    localMusicPlay/localPlayThreadContain.cpp \
+    fsingClient/attentionorfansquerycontroller.cpp \
+    fsingClient/attenusercontroller.cpp \
+    fsingClient/collectcontroller.cpp \
+    fsingClient/downloadmusiccontroller.cpp \
+    fsingClient/fan.cpp \
+    fsingClient/fsingclient.cpp \
+    fsingClient/fsingcontroller.cpp \
+    fsingClient/listenmusiccontroller.cpp \
+    fsingClient/logincontroller.cpp \
+    fsingClient/lyric.cpp \
+    fsingClient/searchcontroller.cpp \
+    fsingClient/song.cpp \
+    fsingClient/songinfo.cpp \
+    fsingClient/songlist.cpp \
+    fsingClient/localmusic.cpp
 
 RESOURCES += qml.qrc
 
@@ -66,21 +66,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 !isEmpty(target.path): INSTALLS += target
 
 HEADERS += \
-    attentionorfansquerycontroller.h \
-    attenusercontroller.h \
-    collectcontroller.h \
-    downloadmusiccontroller.h \
-    fsingclient.h \
-    fsingcontroller.h \
-    listenmusiccontroller.h \
-    logincontroller.h \
-    lyric.h \
-    searchcontroller.h \
-    songinfo.h \
-    localmusic.h \
-    fan.h \
-    songlist.h \
-    song.h \
     rtspClient/def.h \
     rtspClient/encodesrc.h \
     rtspClient/mutex.h \
@@ -92,8 +77,24 @@ HEADERS += \
     rtspClient/sock.h \
     rtspClient/tcpsock.h \
     rtspClient/thread.h \
-    localPlayThread.h \
-    localPlayThreadContain.h \
-    localplay.h
+    localMusicPlay/localPlay.h \
+    localMusicPlay/localPlayThread.h \
+    localMusicPlay/localPlayThreadContain.h \
+    fsingClient/attentionorfansquerycontroller.h \
+    fsingClient/attenusercontroller.h \
+    fsingClient/collectcontroller.h \
+    fsingClient/downloadmusiccontroller.h \
+    fsingClient/fan.h \
+    fsingClient/fsingclient.h \
+    fsingClient/fsingcontroller.h \
+    fsingClient/listenmusiccontroller.h \
+    fsingClient/logincontroller.h \
+    fsingClient/lyric.h \
+    fsingClient/searchcontroller.h \
+    fsingClient/song.h \
+    fsingClient/songinfo.h \
+    fsingClient/songlist.h \
+    fsingClient/localmusic.h \
+    localMusicPlay/localplay.h
 
 LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp

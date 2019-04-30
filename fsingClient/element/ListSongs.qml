@@ -129,16 +129,19 @@ Item {
             console.log("row clicked")
             console.log("info:    " + songListModel.get(view.currentRow).time)
             console.log("leftArea.lyricSource : " +leftArea.lyricSource )
-            leftArea.lyricSource = rightArea.songsListTable[row*8+1] + ".lrc"
-            leftArea.currentSongName = songListModel.get(view.currentRow).title
-            leftArea.currentSinger = songListModel.get(view.currentRow).artist
-            leftArea.currentAlbum = songListModel.get(view.currentRow).album
-
         }
         onDoubleClicked: {
             rtspClient.play(songsListTable[row*8]+".mp3")
 //            mediaPlayer.playbackState  = 1;
 //            mediaPlayer.play()
+            //界面左下角的歌曲界面
+            leftArea.lyricSource = rightArea.songsListTable[row*8+1] + ".lrc"
+            var albumImg = songListModel.get(view.currentRow).album +".jpg"
+            client.fileTransfer(albumImg)
+            leftArea.albumImage = "file://" + applicationDirPath +"/" + albumImg
+            leftArea.currentSongName = songListModel.get(view.currentRow).title
+            leftArea.currentSinger = songListModel.get(view.currentRow).artist
+            leftArea.currentAlbum = songListModel.get(view.currentRow).album
         }
     }
 }

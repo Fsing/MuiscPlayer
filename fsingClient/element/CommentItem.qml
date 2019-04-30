@@ -3,8 +3,6 @@ import QtQuick 2.0
 
 Item {
     id:commentItem
-    width: 800
-    height: 400
 
     property string userIcon
     property string userName

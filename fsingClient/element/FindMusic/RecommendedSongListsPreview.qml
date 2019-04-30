@@ -127,7 +127,7 @@ Item {
     }
     function appendSong(lists){
         rightArea.model_.clear()
-        var count = lists.length/8
+        var count = lists.length/9
         for (var i = 0; i < count; i++){
             var j = 1;
             var k = '0'
@@ -135,10 +135,10 @@ Item {
 
                 rightArea.model_.append({"number": i,
                                         "operator":"",
-                                        "title":lists[i * 8 + 1],
-                                        "artist":lists[i * 8 + 2],
-                                        "album":lists[i * 8 + 3],
-                                        "time":"03:41"})
+                                        "title":lists[i * 9 + 1],
+                                        "artist":lists[i * 9 + 2],
+                                        "album":lists[i * 9 + 3],
+                                        "time":lists[i * 9 + 5]})
 
 
         }

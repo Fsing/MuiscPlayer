@@ -11,6 +11,7 @@ Item {
         source: userImage
         sourceSize: Qt.size(parent.width, parent.height)
         anchors.fill: parent
+        fillMode: Image.PreserveAspectCrop
         smooth: true
         visible: false //是图片变成圆形
     }

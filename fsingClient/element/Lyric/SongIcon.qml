@@ -4,7 +4,7 @@ import "../../element"
 
 Item {
     height: 450
-    property alias songListIcon: songListIcon_.userImage
+    property var songListIcon:leftArea.albumImage
     ColumnLayout{
         width: parent.width
         y:50
@@ -20,6 +20,7 @@ Item {
                 width: 200
                 height: 200
                 anchors.centerIn: parent
+                userImage: songListIcon
             }
         }
         Row{

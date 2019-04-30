@@ -106,5 +106,6 @@
         <file>element/Lyric/SongIcon.qml</file>
         <file>images/common/bbz.png</file>
         <file>images/common/azl.png</file>
+        <file>images/common/ayi.9.png</file>
     </qresource>
 </RCC>

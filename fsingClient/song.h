@@ -8,8 +8,8 @@ class Song
 public:
     Song();
     Song(int id,std::string name,std::string singer,std::string album
-         ,std::string source,int playQuantity,int downloadQuantity,int shareQuantity):
-        m_id(id),m_name(name),m_singer(singer),m_album(album),m_source(source),
+         ,std::string source,std::string time,int playQuantity,int downloadQuantity,int shareQuantity):
+        m_id(id),m_name(name),m_singer(singer),m_album(album),m_source(source),m_time(time),
         m_playQuantity(playQuantity),m_downloadQuantity(downloadQuantity),m_shareQuantity(shareQuantity){}
     //get functhion
     int getId(){return m_id;}
@@ -17,6 +17,7 @@ public:
     std::string getSinger(){return m_singer;}
     std::string getAlbum(){return m_album;}
     std::string getSource(){return m_source;}
+    std::string getTime(){return m_time;}
 
     int getPlayQuantity(){return m_playQuantity;}
     int getDownloadQuantity(){return m_downloadQuantity;}
@@ -28,6 +29,7 @@ private:
     std::string m_singer;       //歌手
     std::string m_album;        //专辑
     std::string m_source;
+    std::string m_time;
     //int m_duration;             //毫秒
     //double m_size;              //文件大小
     // std::string m_comment;      //评论

@@ -41,6 +41,7 @@ std::string SongListController::songListInformation(std::string songListId){
              item["source"] = iter->second->getSource();
              item["singer"] = iter->second->getSinger();
              item["album"] = iter->second->getAlbum();
+             item["time"] = iter->second->getTime();
              item["playQuantity"] = iter->second->getPlayQuantity();
              item["downloadQuantity"] = iter->second->getDownloadQuantity();
              item["shareQuantity"] = iter->second->getShareQuantity();

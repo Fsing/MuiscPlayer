@@ -2,9 +2,8 @@ import QtQuick 2.0
 import QtQuick.Controls 1.4
 import "../element"
 
-Item {
-    width: 800
-    height: 400
+Rectangle {
+    color: "#fafafa"
     Column{
         width: parent.width
         spacing: 20
@@ -63,16 +62,4 @@ Item {
             }
         }
     }
-
-    ListModel{
-        id:commentModel_
-        ListElement{
-
-            userImage:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
-            ame:"Eva"
-            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
-
-        }
-    }
-
 }

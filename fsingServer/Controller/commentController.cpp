@@ -123,27 +123,23 @@ string CommentController::commentLike(string songId, string accountId, string me
     Json::Value root;
     root["type"] = "COMMENTLIKE";
     try {
-        MYSQL mysql;
-        mysql_init(&mysql);
-        if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,nullptr,0)){
-            throw "commentLike conect MYSQL failed!";
-        }
-        char sql[1024];
+        string sql;
         if("like"==method){
-            sprintf(sql,"update Comment set points = points + 1 "
-                         " where songid = '%s' and accountId = '%s' ",
-                     songId.data(),accountId.data());
+            sql += "update Comment set points = points + 1  where songid = '";
+            sql += songId;
+            sql += "' and accountId = '";
+            sql += accountId;
+            sql += "'";
+            redisControl->pushQueue(sql);
         }else if("unlike"==method){
-            sprintf(sql,"update Comment set points = points - 1 "
-                             " where songid = '%s' and accountId = '%s' ",
-                         songId.data(),accountId.data());
+            sql += "update Comment set points = points - 1  where songid = '";
+            sql += songId;
+            sql += "' and accountId = '";
+            sql += accountId;
+            sql += "'";
+            redisControl->pushQueue(sql);
         }else
             throw "method error";
-
-        auto length = strlen(sql);
-        if(mysql_real_query(&mysql,sql,length)){
-            throw  "commentLike  comment fail";
-        }
 
 
 
@@ -205,17 +201,18 @@ string CommentController::addComment(string songId,string accountId,string comme
                   }
             }
         }
-        if("0"!=num)
+        if(""!=num)
             throw "there is already has a comment";
 
-        char sql[1024];
-        std::sprintf(sql,"insert into Comment(songId,accountId,comment,points)"
-                         " values('%s','%s','%s',0)",
-                     songId.data(),accountId.data(),comment.data());
-        auto length = strlen(sql);
-        if(mysql_real_query(&mysql,sql,length)){
-            throw  "inset into comment fail";
-        }
+        string Ssql = "insert into Comment(songId,accountId,comment,points)";
+        Ssql += " values('";
+        Ssql += songId;
+        Ssql += "','";
+        Ssql += accountId;
+        Ssql += "','";
+        Ssql += comment;
+        Ssql += "',0)";
+        redisControl->pushQueue(Ssql);
 
         string command;
         command += "zscore ";
@@ -343,14 +340,4 @@ void CommentController::setAccount(string accountId){
             redisControl->excuteCommand(command);
         }
     }
-}
-string   replace_all(string   str,const   string&   old_value, const   string&   new_value)
-{
-    while(true)   {
-        string::size_type   pos(0);
-        if(   (pos=str.find(old_value))!=string::npos   )
-            str.replace(pos,old_value.length(),new_value);
-        else   break;
-    }
-    return   str;
 }

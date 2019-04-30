@@ -6,7 +6,6 @@
 #include "mysql/mysql.h"
 
 using namespace std;
-string replace_all(string str,const   string&   old_value, const   string&   new_value);
 class CommentController
 {
 

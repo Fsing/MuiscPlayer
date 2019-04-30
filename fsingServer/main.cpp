@@ -9,6 +9,7 @@
 #include <boost/asio.hpp>
 #include <boost/thread.hpp>
 #include "fsingservice.h"
+#include "DB/rediscontrol.h"
 
 using namespace std;
 using namespace boost::asio;
@@ -19,6 +20,10 @@ int main()
     Server server;
     //thread dis(&Server::display,&server);
     //dis.detach();
+    RedisControl redisControl;
+    thread dis(&RedisControl::popQueue,&redisControl);
+    dis.detach();
+
     server.waitingForConnect();
     return 0;
 }

@@ -11,6 +11,7 @@
 #define REDISHOSTPORT 6379
 
 using namespace std;
+string replace_all(string str,const   string&   old_value, const   string&   new_value);
 class RedisControl
 {
 public:
@@ -18,6 +19,9 @@ public:
     RedisControl();
     void connect();
     vector<string> excuteCommand(string command);
+
+    void pushQueue(string sql1);
+    void popQueue();
 private:
     static std::shared_ptr<RedisControl> _instance;
     redisContext *c;

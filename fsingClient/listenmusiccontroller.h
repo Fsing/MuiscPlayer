@@ -34,6 +34,12 @@ public:
 
     //获取歌单歌曲集合
     QList<QString> getSongListSongs(QString songListId);
+
+    //获取歌单评论信息
+    void getSongListComment();
+
+    //获取歌词信息
+    QList<QObject *> getLyric(QString filePath);
     //获取本地歌曲信息
     QList<QObject *> getLocalSongInfo(QList<QString> dirList); 
 

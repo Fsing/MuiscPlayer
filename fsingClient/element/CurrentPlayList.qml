@@ -171,6 +171,7 @@ Rectangle {
             opacity: mouseArea.containsMouse ? 1: 0.5
             onIconButtonClicked: {
                 currentPlaylist.clear()
+                songNumber = 0
                 noSongsView.visible = true
                 listView.visible = false
             }

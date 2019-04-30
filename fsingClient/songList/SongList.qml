@@ -38,13 +38,6 @@ Rectangle {
                 id: songListTop
                 width: songlist.width
                 height: 250
-
-//                username_: userName
-//                userImg: userImage
-//                listName: songListName
-//                createTime:songListCreateTime
-//                labels: label
-//                briefInfos:briefInfo
             }
 
             SongListBottom {

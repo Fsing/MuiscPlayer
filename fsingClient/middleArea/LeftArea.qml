@@ -16,6 +16,11 @@ Rectangle {
     property var listmodel: listModel
     property string leftItemColor: rec_parent.color
 
+    property string lyricSource
+    property string currentSongName
+    property string currentSinger
+    property string currentAlbum
+
     signal leftAreaClicked(int n)
 
     //-----
@@ -34,6 +39,9 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                console.log("lyric")
+                client.fileTransfer(lyricSource)
+                leftAreaClicked(-1)
             }
         }
         Image {
@@ -49,6 +57,7 @@ Rectangle {
             anchors.leftMargin: 10
             width: 50
             color: "#FF3030"
+            text:currentSongName
         }
     }
 

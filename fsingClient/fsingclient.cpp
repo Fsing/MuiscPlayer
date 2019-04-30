@@ -27,6 +27,7 @@ FSingClient::FSingClient()
         _loginController = std::make_shared<LoginController>();
         _listenMusicController = std::make_shared<ListenMusicController>();
         getRecommendSongLists();
+        getSongListComment();
         auto list = getRecommendSongListIcons();
         for (int i = 0; i < list.count(); i++){
             fileTransfer(list[i]);
@@ -206,6 +207,11 @@ QList<QString> FSingClient::getSongListSongs(QString songListId)
     return _listenMusicController->getSongListSongs(songListId);
 }
 
+QList<QObject *> FSingClient::getLyric(QString filePath)
+{
+    return _listenMusicController->getLyric(filePath);
+}
+
 void FSingClient::songList(QString songListId)
 {
     if (!_listenMusicController->findSongList(songListId)){
@@ -265,6 +271,25 @@ void FSingClient::getRecommendSongLists()
 
     sendServerMessage(ec,out);
     receiveMessage(ec);
+}
+
+void FSingClient::getSongListComment()
+{
+    Json::Value root;
+    root["type"] = "COMMENT";
+
+    root.toStyledString();
+    std::string out = root.toStyledString();
+
+    boost::system::error_code ec;
+
+    sendServerMessage(ec,out);
+    receiveMessage(ec);
+}
+
+void FSingClient::getSongComment()
+{
+
 }
 
 QList<QString> FSingClient::getRecommendSongListNames()

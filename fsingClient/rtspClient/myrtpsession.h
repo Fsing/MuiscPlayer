@@ -12,7 +12,7 @@
 #include "rtpsession.h"
 #include "rtpudpv4transmitter.h"
 
-#include <jthread/jthread.h>
+//#include <jthread/jthread.h>
 
 using jrtplib::RTPSession;
 using jrtplib::SocketType;

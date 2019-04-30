@@ -1,5 +1,6 @@
 #include "listenmusiccontroller.h"
 #include "localmusic.h"
+#include "lyric.h"
 #include <QDebug>
 #include <iostream>
 
@@ -160,6 +161,17 @@ QList<QString> ListenMusicController::getSongListSongs(QString songListId)
         }
         return ret;
     }
+}
+
+void ListenMusicController::getSongListComment()
+{
+
+}
+
+QList<QObject *> ListenMusicController::getLyric(QString filePath)
+{
+    Lyric lyric;
+    return lyric.resolveLyric(filePath);
 }
 
 //void ListenMusicController::getSongListInfo(QString songListId)

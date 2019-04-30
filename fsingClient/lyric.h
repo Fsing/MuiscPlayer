@@ -6,8 +6,8 @@
 class Lyric:public QObject
 {
     Q_OBJECT
-    Q_PROPERTY(int time READ time WRITE setTime)
-    Q_PROPERTY(QString text READ text WRITE setText)
+    Q_PROPERTY(int time READ time WRITE setTime NOTIFY timeChanged)
+    Q_PROPERTY(QString text READ text WRITE setText NOTIFY timeChanged)
 public:
     Lyric(QObject *parent = 0);
     Lyric(const int time, const QString text, QObject *parent = 0);
@@ -18,6 +18,10 @@ public:
 
     QString text() const;
     void setText(const QString &text);
+
+signals:
+    void textChanged();
+    void timeChanged();
 
 private:
     int m_time;

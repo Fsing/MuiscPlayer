@@ -2,7 +2,8 @@ QT += quick
 CONFIG += c++11
 
 INCLUDEPATH += -I /usr/local/ffmpeg/include\
--I /usr/local/include
+-I /usr/local/include \
+-I /usr/local/include/jrtplib3/
 
 LIBS += -L/usr/local/ffmpeg/lib -lSDL2main -lSDL2 -lavformat  -lavcodec -lavutil -lm -lz -lswscale  -lswresample -ljrtp\
  -L/usr/local/lib -ltag -ltag_c\

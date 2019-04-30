@@ -7,13 +7,13 @@
 #include <fstream>
 #include <time.h>
 
-//jrtplib
-#include "rtpsession.h"
-#include "rtpsessionparams.h"
-#include "rtpudpv4transmitter.h"
-#include "rtppacket.h"
-#include "rtpipv4address.h"
-#include "rtptimeutilities.h"
+////jrtplib
+//#include "rtpsession.h"
+//#include "rtpsessionparams.h"
+//#include "rtpudpv4transmitter.h"
+//#include "rtppacket.h"
+//#include "rtpipv4address.h"
+//#include "rtptimeutilities.h"
 
 #define SEND_BUFFE_SIZE 1045        //每次读1045字节,一个NAL,不超过1400就行
 
@@ -22,9 +22,6 @@ using namespace jrtplib;
 using std::string;                  using std::cout;
 using std::endl;
 
-//CMutex m_mutex;                         //m_packetList数据队列缓冲区访问锁
-//list<CRtpSession::PacketNode> m_packetList;          //数据缓冲队列
-//char *m_fileName;        //需要解码的文件名
 
 CRtpSession::CRtpSession()
 {
@@ -63,7 +60,7 @@ int CRtpSession::init(char *clienturl)
     int ret = 0;
     //    strncpy(m_fileName,filename,strlen(filename));
     //    get_ip(clienturl,strlen(clienturl),"/",":");
-    get_port(clienturl+strlen("rtsp://"),strlen(clienturl)-strlen("rtsp://"),":","/");
+//    get_port(clienturl+strlen("rtsp://"),strlen(clienturl)-strlen("rtsp://"),":","/");
     get_fileName(clienturl+strlen("rtsp://"),strlen(clienturl)-strlen("rtsp://"),"/");
     if(m_decodeSrc.Start(m_fileName) < 0)
         ret = -1;
@@ -84,7 +81,6 @@ void CRtpSession::thread_proc(long user_info)
     sessionparams.SetAcceptOwnPackets(true);
 
     RTPUDPv4TransmissionParams transparams;
-    //    transparams.SetPortbase(m_server_port); //这个端口必须未被占用
     transparams.SetPortbase(m_server_port); //这个端口必须未被占用
 
     int status = session.Create(sessionparams, &transparams);
@@ -97,6 +93,7 @@ void CRtpSession::thread_proc(long user_info)
     //        if(m_is_new_connect == false){}
 
     RTPIPv4Address addr(ntohl(inet_addr(m_client_ip)), m_client_port);
+    cout << m_client_ip << " " << m_client_port << endl;
     status = session.AddDestination(addr);
 
     if (status < 0)
@@ -142,8 +139,7 @@ void CRtpSession::thread_proc(long user_info)
                     //                                    has_send_length += bufLength;
                     write << pts << endl;
                     bufLength = 0;
-                }/*else
-                break;*/
+                }
             }
             currentTime = time(nullptr);
             if((currentTime - startTime) >= 0.7){

@@ -30,6 +30,7 @@ private:
 	map<long, CRtspSession*> m_session_map;
 //    map<long, CRtpSession *> m_rtpsession_map;
 	CMutex m_mutex;
+    int i = 0;
 };
 
 #endif

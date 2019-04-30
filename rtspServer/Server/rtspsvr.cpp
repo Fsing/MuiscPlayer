@@ -40,6 +40,10 @@ void CRtspSvr::accept_sock( int fd )
     LogInfo( "Accept a new connect, the fd: %d\n", fd );
     CRtspSession* session = new CRtspSession;
     session->setClientIP(m_client_ip);
+    session->setServerPort(8544 + i);
+    i += 2;
+
+//    session->setServerPort()
     //    session->setClientPort(m_client_port);
 
     if( session->Start( fd, notify_fun, (long)this ) >= 0 ){

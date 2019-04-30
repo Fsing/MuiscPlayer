@@ -51,6 +51,9 @@ private:
     std::list<PacketNode> m_packetList;         //数据缓冲队列
     CMutex m_mutex;
     bool m_is_play;                             //是否正在播放
+
+    double m_duration;                    //播放时长
+    double m_position;                    //播放位置
 };
 
 #endif // ENCODESRC_H

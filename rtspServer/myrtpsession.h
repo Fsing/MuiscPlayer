@@ -7,7 +7,18 @@
 #include "decodesrc.h"
 #include <string>
 
+//jrtplib
+#include "rtpsession.h"
+#include "rtpsessionparams.h"
+#include "rtpudpv4transmitter.h"
+#include "rtppacket.h"
+#include "rtpipv4address.h"
+#include "rtptimeutilities.h"
+
 using std::string;
+using jrtplib::RTPSession;              using jrtplib::RTPSessionParams;
+using jrtplib::RTPUDPv4TransmissionParams;
+
 
 //jirblib连接客户端，发送数据
 //解码音频
@@ -34,6 +45,7 @@ public:
     //setting
     void setClientIP(char *ip){strcpy(m_client_ip,ip);}
     void setClientPort(uint16_t port){m_client_port = port;}
+    void setServerPort(uint16_t port){m_server_port = port;}
 
     //data:需要拆分的字符串，len：data长度
     int get_ip(const char* data, int len, const char* s_mark, const char* e_mark);
@@ -46,13 +58,15 @@ private:
     NotifyFun m_fun;                //CRtspSession::notify_fun()
     int m_fd;                       //RTSP sock fd
     char m_fileName[128];             //需要解码的文件名
+
     char m_client_ip[128];                 // 客户端地址：192.168.43.32
     char m_server_ip[128];
     uint16_t m_server_port;                //服务器端口
     uint16_t m_client_port;
-    CDecodeSrc m_decodeSrc;         //解码变量
 
+    CDecodeSrc m_decodeSrc;         //解码变量
     bool m_is_new_connect;
+
 };
 
 #endif // RTPSESSION_H

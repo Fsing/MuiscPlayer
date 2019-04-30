@@ -52,6 +52,9 @@ private:
     bool m_is_close;                    //是否关闭流媒体连接
     bool m_is_playing;
     char m_ip[128];                     //服务器地址
+
+//    double duration;                    //播放时长
+//    double position;                    //播放位置
 };
 
 //class MyRTPSession : public RTPSession

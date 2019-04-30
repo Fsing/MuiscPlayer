@@ -25,6 +25,7 @@ public:
     //setting
     void setClientIP(char *ip);
     void setClientPort(uint16_t port);
+    void setServerPort(uint16_t port);
 
     //getting
     char *getClientIP(){return m_client_ip;}
@@ -69,6 +70,7 @@ private:
     //客户端地址、ip
     char m_client_ip[128];
     uint16_t m_client_port;
+//    uint16_t m_server_port;
 
 //    char *m_fileName[64];
 

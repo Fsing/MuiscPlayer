@@ -2,6 +2,7 @@
 #include "printlog.h"
 #include <fstream>
 #include <iostream>
+#include <sstream>
 
 //ffmpeg
 extern "C"
@@ -220,7 +221,6 @@ void CEncodeSrc::thread_proc(long user_info)
             //打开解码器
             avcodec_open2(aCodecCtx, aCodec, nullptr);
 
-
             //Out Audio Param，输出音频参数
             uint64_t out_channel_layout=AV_CH_LAYOUT_STEREO;
             //nb_samples: AAC-1024 MP3-1152
@@ -232,17 +232,6 @@ void CEncodeSrc::thread_proc(long user_info)
             //Out Buffer Size，//计算出保存一系列的样本需要的缓存大小
             int out_buffer_size = av_samples_get_buffer_size(nullptr,out_channels ,out_nb_samples,out_sample_fmt, 1);
             uint8_t			*out_buffer = (uint8_t *)av_malloc(MAX_AUDIO_FRAME_SIZE*2);
-
-            //    printf("channel_layout=%lld\n", out_channel_layout);
-            //    printf("nb_channels=%d\n", out_nb_samples);
-            //    printf("freq=%d\n", out_sample_rate);
-
-            //    if (!out_channel_layout || out_nb_channels != av_get_channel_layout_nb_channels(channel_layout)) {
-            //        channel_layout = av_get_default_channel_layout(nb_channels);
-
-            //        channel_layout &= ~AV_CH_LAYOUT_STEREO_DOWNMIX;
-            //        printf("correction\n");
-            //    }
 
             // Set audio settings from codec info
             wanted_spec.freq = out_sample_rate;
@@ -280,23 +269,16 @@ void CEncodeSrc::thread_proc(long user_info)
 
             int ret;
             int got_picture = 0;
+
             while(IsDestroyed() == false){
                 if(m_is_play == true){
                     if(av_read_frame(pFormatCtx, &packet)>=0) {
                         if(packet.stream_index==audioStream){
                             //解码播放
                             ret = avcodec_decode_audio4( aCodecCtx, aFrame,&got_picture, &packet);
-                            //                    ret = avcodec_send_packet(aCodecCtx,&packet);
-                            //                    if(ret < 0 && ret != AVERROR(EAGAIN) && ret != AVERROR_EOF){
-                            //                        printf("Error in decoding audio frame.\n");
-                            //                        setDestroyed(true);
-                            //                    }
-                            //                    ret = avcodec_receive_frame(aCodecCtx,&aFrame);
-                            //                    if (ret < 0 && ret != AVERROR_EOF){
-                            //                        printf("Error in decoding audio frame.\n");
-                            //                        setDestroyed(true);
-                            //                    }
 
+                            cout.precision(2);
+                            cout << aFrame->pkt_pts * av_q2d(pFormatCtx->streams[audioStream]->time_base)/60 << endl;
                             int dst_nb_samples = av_rescale_rnd(swr_get_delay(au_convert_ctx,aFrame->sample_rate) + aFrame->nb_samples,aFrame->sample_rate,aFrame->format,AVRounding(1));
                             if(got_picture > 0){
                                 //此函数便是将输入的音频按照定义的参数进行转换，并输出

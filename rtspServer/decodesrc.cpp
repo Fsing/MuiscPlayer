@@ -70,7 +70,11 @@ void CDecodeSrc::thread_proc(long user_info)
             char urll[128];
             memset(urll,0,sizeof(urll));
             strncpy(urll,"./music/",8);
-            strncpy(urll+8,m_fileName,strlen(m_fileName));
+            auto it = strstr(m_fileName,"mp3");
+
+            if(strncpy(urll+8,m_fileName,it+3-m_fileName) == nullptr){
+                strncpy(urll+8,m_fileName,it+3-m_fileName);
+            }
 //            string file(m_fileName);
 //            file = "./music/" + file;
 //            strncpy(urll,file.c_str(),file.size());
@@ -82,7 +86,7 @@ void CDecodeSrc::thread_proc(long user_info)
 //            strncpy(url,urll,it-urll+1);
 
             cout << urll << endl;
-            cout <<m_fileName << endl;
+            cout << m_fileName << endl;
 
             av_register_all();
             avformat_network_init();

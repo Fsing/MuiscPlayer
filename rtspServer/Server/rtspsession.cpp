@@ -49,6 +49,11 @@ void CRtspSession::setClientPort(uint16_t port){
     m_client_port = port;
 }
 
+void CRtspSession::setServerPort(uint16_t port)
+{
+    m_rtpSession.setServerPort(port);
+}
+
 //重载CThread::thread_proc(),线程执行处理函数(线程函数为thread_fun())
 //循环检测指定socket是否有数据传入（select())，recv_data()接收数据
 void CRtspSession::thread_proc( long user_info )

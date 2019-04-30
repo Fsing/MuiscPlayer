@@ -1,5 +1,6 @@
 #include "listenmusiccontroller.h"
 #include "localmusic.h"
+#include "lyric.h"
 #include <QDebug>
 #include <iostream>
 
@@ -43,6 +44,7 @@ void ListenMusicController::dealMessage(std::string type, Json::Value resultRoot
             m_songInformation.append(QString::fromStdString(resultRoot["singer"].asString()));
             m_songInformation.append(QString::fromStdString(resultRoot["album"].asString()));
             m_songInformation.append(QString::fromStdString(resultRoot["source"].asString()));
+            m_songInformation.append(QString::fromStdString(resultRoot["time"].asString()));
             m_songInformation.append(QString::number(resultRoot["playQuantity"].asInt()));
             m_songInformation.append(QString::number(resultRoot["downloadQuantity"].asInt()));
             m_songInformation.append(QString::number(resultRoot["shareQuantity"].asInt()));
@@ -54,6 +56,7 @@ void ListenMusicController::dealMessage(std::string type, Json::Value resultRoot
                     resultRoot["singer"].asString(),
                     resultRoot["album"].asString(),
                     resultRoot["source"].asString(),
+                    resultRoot["time"].asString(),
                     resultRoot["playQuantity"].asInt(),
                     resultRoot["shareQuantity"].asInt(),
                     resultRoot["downloadQuantity"].asInt()));
@@ -81,16 +84,18 @@ void ListenMusicController::dealMessage(std::string type, Json::Value resultRoot
                         arrayObj[i]["singer"].asString(),
                         arrayObj[i]["album"].asString(),
                         arrayObj[i]["source"].asString(),
+                        arrayObj[i]["time"].asString(),
                         arrayObj[i]["playQuantity"].asInt(),
                         arrayObj[i]["shareQuantity"].asInt(),
                         arrayObj[i]["downloadQuantity"].asInt()));
                 songs.insert(std::make_pair(arrayObj[i]["id"].asInt(),retSong));
-
                 //add to song cache pool
                 m_songsMap.insert(std::make_pair(arrayObj[i]["id"].asInt(),retSong));
             }
             ret->setSongs(songs);
             m_songListsMap.insert(std::make_pair(resultRoot["id"].asInt(),ret)) ;
+
+        }else if(type == "COMMENT"){
 
         }
     }catch(...){
@@ -154,12 +159,24 @@ QList<QString> ListenMusicController::getSongListSongs(QString songListId)
             ret.append(QString::fromStdString(song->getSinger()));
             ret.append(QString::fromStdString(song->getAlbum()));
             ret.append(QString::fromStdString(song->getSource()));
+            ret.append(QString::fromStdString(song->getTime()));
             ret.append(QString::number(song->getPlayQuantity()));
             ret.append(QString::number(song->getDownloadQuantity()));
             ret.append(QString::number(song->getShareQuantity()));
         }
         return ret;
     }
+}
+
+void ListenMusicController::getSongListComment()
+{
+
+}
+
+QList<QObject *> ListenMusicController::getLyric(QString filePath)
+{
+    Lyric lyric;
+    return lyric.resolveLyric(filePath);
 }
 
 //void ListenMusicController::getSongListInfo(QString songListId)

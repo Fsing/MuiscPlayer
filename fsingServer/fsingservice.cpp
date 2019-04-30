@@ -60,6 +60,7 @@ void Server::waitingForConnect()
 //异步传送消息,写回客户端
 void sendMessage(string result2,socket_ptr sock)
 {
+    std::cout << result2 << std::endl;
     boost::system::error_code ec;
     if(result2 != "fileTransfer"){
         char data2[1024*10];

@@ -76,6 +76,14 @@ Rectangle {
         }
     }
 
+    Component{
+        id:lyricComponent
+        Lyric{
+            id:lyric
+            songSource:applicationDirPath +"/" + leftArea.lyricSource
+        }
+    }
+
     Component {
         id: findMusicComponent
         FindMusic {

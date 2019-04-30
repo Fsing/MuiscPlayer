@@ -38,7 +38,6 @@ Rectangle {
 
         currentIndex: bar.currentIndex
         Rectangle{
-            color: "green"
             width: layout.width
             height: listSongs.height
             Text{

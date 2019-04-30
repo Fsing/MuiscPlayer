@@ -11,10 +11,10 @@
 #include "rtpipv4address.h"
 #include "rtptimeutilities.h"
 
-#include <jthread/jthread.h>
+//#include <jthread/jthread.h>
 
 using namespace jrtplib;
-using namespace jthread;
+//using namespace jthread;
 using std::cout;                using std::cin;
 using std::endl;
 

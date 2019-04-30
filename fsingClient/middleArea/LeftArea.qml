@@ -16,6 +16,12 @@ Rectangle {
     property var listmodel: listModel
     property string leftItemColor: rec_parent.color
 
+    property string lyricSource
+    property string currentSongName:""
+    property string currentSinger
+    property string currentAlbum
+    property string albumImage: "qrc:/images/common/ayi.9.png"
+
     signal leftAreaClicked(int n)
 
     //-----
@@ -30,10 +36,14 @@ Rectangle {
         width: parent.width
         height: 50
         color: "#E8E8E8"
+        visible:currentSongName === "" ? false :true
         //visible: false
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                console.log("lyric")
+                client.fileTransfer(lyricSource)
+                leftAreaClicked(-1)
             }
         }
         Image {
@@ -41,14 +51,20 @@ Rectangle {
             width: 50
             height: 50
             anchors.left: parent.left
-            source: "../images/leftArea/btnlove2.png"
+            fillMode: Image.PreserveAspectCrop
+            //source: "../images/leftArea/btnlove2.png"
+            source: albumImage
+            //source: "file:///root/new10/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/不靠谱的日常.jpg"
         }
         Text {
             id: songName
             anchors.left: songImage.right
             anchors.leftMargin: 10
+            anchors.top: songImage.top
+            anchors.topMargin: 10
             width: 50
-            color: "#FF3030"
+            color: "#333333"
+            text:currentSongName
         }
     }
 

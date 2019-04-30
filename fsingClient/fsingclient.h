@@ -50,6 +50,9 @@ public:
     //获取歌单歌曲列表
     Q_INVOKABLE QList<QString> getSongListSongs(QString songListId);
 
+    //获取歌词
+    Q_INVOKABLE QList<QObject*> getLyric(QString filePath);
+
     //获取歌单信息
     //Q_INVOKABLE QList<QString> getSongListInfo(QString songListId);
 
@@ -81,6 +84,12 @@ public:
 
     //获取推荐歌单Lists huang
     void getRecommendSongLists();
+
+    //获取歌单评论信息
+    void getSongListComment(QString id, int start, int end);
+
+    //获取歌曲评论信息
+    void getSongComment();
 
     //获取歌单信息
 
@@ -128,5 +137,6 @@ private:
     static const unsigned k_buffer_size = 1024 * 32;
     char buffer_[k_buffer_size];
 };
+
 
 #endif // FSINGCLINET_H

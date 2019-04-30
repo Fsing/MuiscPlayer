@@ -8,147 +8,6 @@ Item {
     //property alias model:songsModel
     property double length: (width-120)/4
 
-    ListModel {
-        id: songsModel
-        ListElement{
-            number: "01"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "02"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "03"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "04"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "05"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "06"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "07"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "08"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "09"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "10"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "11"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "12"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "13"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "14"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "15"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "16"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-        ListElement{
-            number: "17"
-            operator:""
-            title:"慢慢喜欢你"
-            artist:"莫文蔚"
-            album:"我们在中场等你"
-            time:"03:41"
-        }
-
-    }
-
     TableView {
         id:view
         anchors.fill: parent
@@ -267,14 +126,22 @@ Item {
         }
 
         onClicked: {
-            console.log("online Music row clicked:"+row)
-            console.log("length: "+ songsListTable.length)
-            console.log("info:    " + songsListTable[row*8])
+            console.log("row clicked")
+            console.log("info:    " + songListModel.get(view.currentRow).time)
+            console.log("leftArea.lyricSource : " +leftArea.lyricSource )
         }
         onDoubleClicked: {
             rtspClient.play(songsListTable[row*8]+".mp3")
 //            mediaPlayer.playbackState  = 1;
 //            mediaPlayer.play()
+            //界面左下角的歌曲界面
+            leftArea.lyricSource = rightArea.songsListTable[row*8+1] + ".lrc"
+            var albumImg = songListModel.get(view.currentRow).album +".jpg"
+            client.fileTransfer(albumImg)
+            leftArea.albumImage = "file://" + applicationDirPath +"/" + albumImg
+            leftArea.currentSongName = songListModel.get(view.currentRow).title
+            leftArea.currentSinger = songListModel.get(view.currentRow).artist
+            leftArea.currentAlbum = songListModel.get(view.currentRow).album
         }
     }
 }

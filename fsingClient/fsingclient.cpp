@@ -27,6 +27,8 @@ FSingClient::FSingClient()
         _loginController = std::make_shared<LoginController>();
         _listenMusicController = std::make_shared<ListenMusicController>();
         getRecommendSongLists();
+        QString id = "1";
+        getSongListComment(id, 1, 10);
         auto list = getRecommendSongListIcons();
         for (int i = 0; i < list.count(); i++){
             fileTransfer(list[i]);
@@ -206,6 +208,11 @@ QList<QString> FSingClient::getSongListSongs(QString songListId)
     return _listenMusicController->getSongListSongs(songListId);
 }
 
+QList<QObject *> FSingClient::getLyric(QString filePath)
+{
+    return _listenMusicController->getLyric(filePath);
+}
+
 void FSingClient::songList(QString songListId)
 {
     if (!_listenMusicController->findSongList(songListId)){
@@ -267,6 +274,28 @@ void FSingClient::getRecommendSongLists()
     receiveMessage(ec);
 }
 
+void FSingClient::getSongListComment(QString id, int start, int end)
+{
+    Json::Value root;
+    root["type"] = "COMMENT";
+    root["songId"] = id.toStdString();
+    root["left"] = start;
+    root["right"] = end;
+
+    root.toStyledString();
+    std::string out = root.toStyledString();
+
+    boost::system::error_code ec;
+
+    sendServerMessage(ec,out);
+    receiveMessage(ec);
+}
+
+void FSingClient::getSongComment()
+{
+
+}
+
 QList<QString> FSingClient::getRecommendSongListNames()
 {
     return _listenMusicController->getRecSongListNames();
@@ -312,59 +341,72 @@ void FSingClient::sendServerMessage(boost::system::error_code ec,std::string str
 
 void FSingClient::receiveMessage(boost::system::error_code ec)
 {
-    std::string receiveData;
-    //    while(1){
-    //接受服务器返回的用户信息：基本信息、用户粉丝、关注、收藏歌单、创建歌单
-    char dataSize[10];
-    memset(dataSize,0,sizeof(char)*10);//reset 0 to data[]
-    while(strlen(dataSize) == 0)
-        sock.read_some(buffer(dataSize,sizeof(char)*10),ec);
-    cout << dataSize <<endl;
+    try{
+        std::string receiveData;
+        while(1){
 
-    char data[2048];
-    memset(data,0,sizeof(char)*2048);//reset 0 to data[]
+            //接受服务器返回的用户信息：基本信息、用户粉丝、关注、收藏歌单、创建歌单
+            char dataSize[10];
+            memset(dataSize,0,sizeof(char)*10);//reset 0 to data[]
+            while(strlen(dataSize) == 0)
+                sock.read_some(buffer(dataSize,sizeof(char)*10),ec);
+            cout << dataSize <<endl;
 
-    //        std::string receiveData;
-    while(receiveData.length() < atoi(dataSize)){
-        sock.read_some(buffer(data),ec);
-        receiveData.append(data,0,sizeof(data));
-        memset(data,0,sizeof(char)*2048);
-    }
+            char data[2048];
+            memset(data,0,sizeof(char)*2048);//reset 0 to data[]
 
-    if(ec)
-    {
-        std::cout << "receiveMessage Error!" << std::endl;
-        std::cout << boost::system::system_error(ec).what() << std::endl;
-        return;
-    }
+            //        std::string receiveData;
+            while(receiveData.length() < atoi(dataSize)){
+                sock.read_some(buffer(data),ec);
+                receiveData.append(data,0,sizeof(data));
+                memset(data,0,sizeof(char)*2048);
+            }
 
-    //        if(receiveData.data() == nullptr || receiveData.length() < atoi(dataSize))
-    //            continue;
-    //        else{
-    //            break;
-    //        }
-    //    }
+            if(ec)
+            {
+                std::cout << "receiveMessage Error!" << std::endl;
+                std::cout << boost::system::system_error(ec).what() << std::endl;
+                return;
+            }
 
-
-    Json::Reader reader;
-    Json::Value resultRoot;
-    if (!reader.parse(receiveData.data(), resultRoot)){
-        std::cout << "json received faild" << std::endl;
-
-    } else {
-        std::cout <<"receive frome server : "<< receiveData.data() <<std::endl;
-        std::string type = resultRoot["type"].asString();
-        if (type == "LOGIN"){
-            _loginController->dealMessage(type, resultRoot);
-        } else if (type == "INTERFACE"){
-            _listenMusicController->dealMessage(type, resultRoot);
-        }else if(type == "SONGINFO"){
-            _listenMusicController->dealMessage(type, resultRoot);
-        }else if(type == "CREATESONGLIST"){
-            _listenMusicController->dealMessage(type, resultRoot);
-        }else if (type == "SONGLIST"){
-            _listenMusicController->dealMessage(type, resultRoot);
+            std::cout << receiveData << std::endl;
+            std::cout << "receiveData.length():  " <<receiveData.length() << std::endl;
+            std::cout << "atoi(dataSize):  " <<atoi(dataSize) << std::endl;
+            if(receiveData.data() == nullptr || receiveData.length() == 0)
+                continue;
+            else{
+                break;
+            }
         }
+
+
+        Json::Reader reader;
+        Json::Value resultRoot;
+        if (!reader.parse(receiveData.data(), resultRoot)){
+            std::cout << "json received faild" << std::endl;
+            throw "json received faild";
+
+        } else {
+            std::cout <<"receive frome server : "<< receiveData.data() <<std::endl;
+            std::string type = resultRoot["type"].asString();
+            if (type == "LOGIN"){
+                _loginController->dealMessage(type, resultRoot);
+            } else if (type == "INTERFACE"){
+                _listenMusicController->dealMessage(type, resultRoot);
+            }else if(type == "SONGINFO"){
+                _listenMusicController->dealMessage(type, resultRoot);
+            }else if(type == "CREATESONGLIST"){
+                _listenMusicController->dealMessage(type, resultRoot);
+            }else if (type == "SONGLIST"){
+                _listenMusicController->dealMessage(type, resultRoot);
+            }else if (type =="COMMENT"){
+                _listenMusicController->dealMessage(type, resultRoot);
+            }
+        }
+    }catch(char *e){
+        std::cout << e << std::endl;
+    }catch (...){
+        std::cout << "receiveMessage error" << std::endl;
     }
 }
 

@@ -17,6 +17,7 @@ public:
     std::string getSinger(){return m_singer;}
     std::string getAlbum(){return m_album;}
     std::string getSource(){return m_source;}
+    std::string getTime(){return m_time;}
 
     int getPlayQuantity(){return m_playQuantity;}
     int getDownloadQuantity(){return m_downloadQuantity;}

@@ -65,7 +65,6 @@
         <file>middleArea/RightAreaJS.js</file>
         <file>middleArea/RightArea.qml</file>
         <file>middleArea/rightAreaComponents/MyFavorite.qml</file>
-        <file>middleArea/rightAreaComponents/Liric.qml</file>
         <file>element/CircleIcon.qml</file>
         <file>element/CurrentPlayList.qml</file>
         <file>dialog/common/CommonDialog.qml</file>
@@ -101,5 +100,12 @@
         <file>images/common/collect.png</file>
         <file>element/ListSongs.qml</file>
         <file>element/FindMusic/RecommendedSongListsPreview.qml</file>
+        <file>element/Comment.qml</file>
+        <file>element/CommentItem.qml</file>
+        <file>middleArea/rightAreaComponents/Lyric.qml</file>
+        <file>element/Lyric/SongIcon.qml</file>
+        <file>images/common/bbz.png</file>
+        <file>images/common/azl.png</file>
+        <file>images/common/ayi.9.png</file>
     </qresource>
 </RCC>

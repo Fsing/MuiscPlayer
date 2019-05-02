@@ -36,7 +36,8 @@ public:
     QList<QString> getSongListSongs(QString songListId);
 
     //获取歌单评论信息
-    void getSongListComment();
+    void getSongListComment(Json::Value resultRoot);
+    QList<QString> getCommnets();
 
     //获取歌词信息
     QList<QObject *> getLyric(QString filePath);
@@ -52,6 +53,8 @@ public:
     std::map<int,std::shared_ptr<SongList>> m_songList;
 
     QList<QString> m_songInformation;
+    //评论信息
+    QList<QString> m_comments;
 
     //歌单歌曲缓存
     std::map<int,std::shared_ptr<SongList>> m_songListsMap;

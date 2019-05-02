@@ -126,21 +126,31 @@ Item {
         }
     }
     function appendSong(lists){
-        rightArea.model_.clear()
-        var count = lists.length/9
-        for (var i = 0; i < count; i++){
+        if(lists.length !== 0){
+            rightArea.model_.clear()
+            var count = lists.length/9
             var j = 1;
             var k = '0'
             var m = ''
+            for (var i = 0; i < count; i++){
+                var num
+                if (i < 9){
+                    num = k+j
+                    j++
+                }else{
+                    num = m+j
+                    j++
 
-                rightArea.model_.append({"number": i,
-                                        "operator":"",
-                                        "title":lists[i * 9 + 1],
-                                        "artist":lists[i * 9 + 2],
-                                        "album":lists[i * 9 + 3],
-                                        "time":lists[i * 9 + 5]})
+                }
 
+                rightArea.model_.append({"number": num,
+                                            "operator":"",
+                                            "title":lists[i * 9 + 1],
+                                            "artist":lists[i * 9 + 2],
+                                            "album":lists[i * 9 + 3],
+                                            "time":lists[i * 9 + 5]})
 
+            }
         }
     }
 

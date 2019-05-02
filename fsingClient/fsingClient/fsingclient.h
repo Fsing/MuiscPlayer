@@ -86,7 +86,8 @@ public:
     void getRecommendSongLists();
 
     //获取歌单评论信息
-    void getSongListComment(QString id, int start, int end);
+    Q_INVOKABLE void comment(QString id, int start, int end);
+    Q_INVOKABLE QList<QString> getComments();
 
     //获取歌曲评论信息
     void getSongComment();

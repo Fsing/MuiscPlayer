@@ -96,7 +96,7 @@ void ListenMusicController::dealMessage(std::string type, Json::Value resultRoot
             m_songListsMap.insert(std::make_pair(resultRoot["id"].asInt(),ret)) ;
 
         }else if(type == "COMMENT"){
-
+            getSongListComment(resultRoot);
         }
     }catch(...){
         std::cout<< "listenMusicController dealMessage error!" << std::endl;
@@ -168,9 +168,22 @@ QList<QString> ListenMusicController::getSongListSongs(QString songListId)
     }
 }
 
-void ListenMusicController::getSongListComment()
+void ListenMusicController::getSongListComment(Json::Value resultRoot)
 {
+    m_comments.clear();
+    const Json::Value arrayObj = resultRoot["array"];
+    for (unsigned int i = 0; i < arrayObj.size(); i++)
+    {
+        m_comments.append(QString::fromStdString( arrayObj[i]["accountName"].asString()));
+        m_comments.append(QString::fromStdString(arrayObj[i]["comment"].asString()));
+        m_comments.append(QString::fromStdString(arrayObj[i]["points"].asString()));
+    }
+    qDebug() << m_comments.count();
+}
 
+QList<QString> ListenMusicController::getCommnets()
+{
+    return m_comments;
 }
 
 QList<QObject *> ListenMusicController::getLyric(QString filePath)

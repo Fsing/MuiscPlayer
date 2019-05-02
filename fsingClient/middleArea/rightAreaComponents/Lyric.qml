@@ -20,6 +20,7 @@ Rectangle {
     property string name:leftArea.currentSongName
     property string artist:leftArea.currentSinger
     property string album:leftArea.currentAlbum
+    //property var comments_:leftArea.comments
 
     property int current: 0
     property bool increasing: true
@@ -167,21 +168,63 @@ Rectangle {
                 }
             }
             Comment{
-               width:rec0.width - 40
-               height:  commentModel_.count * 50+200
+                id:_commnets
+                x:20
+                width:rec0.width - 40
+                height:  commentModel_.count * 60+200
+                //commentView.height: commentModel_.count * 50
+//                onHeightChanged: {
+//                    console.log("parent.height:  " + parent.height)
+//                }
             }
         }
 
     }
 
+    Connections{
+        target: leftArea
+        onShowComment:{
+            if (leftArea.comments.length !== 0){
+                for (var i = 0; i < leftArea.comments.length/3; i++){
+                    commentModel_.append({image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg",
+                                             name: leftArea.comments[i*3],
+                                             comment: leftArea.comments[i*3+1]})
+                }
+            }
+            console.log("_commnets.height: " + _commnets.height)
+        }
+    }
+
     ListModel{
         id:commentModel_
-        ListElement{
+//        ListElement{
 
-            userImage:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
-            ame:"Eva"
-            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
+//            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
+//            name:"Eva: "
+//            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
 
-        }
+//        }
+//        ListElement{
+
+//            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
+//            name:"Eva: "
+//            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
+
+//        }
+//        ListElement{
+
+//            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
+//            name:"Eva: "
+//            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
+
+//        }
+//        ListElement{
+
+//            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
+//            name:"Eva: "
+//            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
+
+//        }
+
     }
 }

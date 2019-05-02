@@ -140,6 +140,7 @@ Item {
             var albumImg = songListModel.get(view.currentRow).album +".jpg"
             client.fileTransfer(albumImg)
             leftArea.albumImage = "file://" + applicationDirPath +"/" + albumImg
+            leftArea.currentSongId = songsListTable[row*9]
             leftArea.currentSongName = songListModel.get(view.currentRow).title
             leftArea.currentSinger = songListModel.get(view.currentRow).artist
             leftArea.currentAlbum = songListModel.get(view.currentRow).album

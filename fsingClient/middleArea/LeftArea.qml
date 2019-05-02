@@ -17,12 +17,15 @@ Rectangle {
     property string leftItemColor: rec_parent.color
 
     property string lyricSource
+    property string currentSongId
     property string currentSongName:""
     property string currentSinger
     property string currentAlbum
+    property var comments
     property string albumImage: "qrc:/images/common/ayi.9.png"
 
     signal leftAreaClicked(int n)
+    signal showComment()
 
     //-----
     Connections {
@@ -41,9 +44,14 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: {
+                console.log("Commetnt!!!!")
+                client.comment(leftArea.currentSongId,1,10)
                 console.log("lyric")
                 client.fileTransfer(lyricSource)
                 leftAreaClicked(-1)
+
+                comments = client.getComments()
+                showComment()
             }
         }
         Image {

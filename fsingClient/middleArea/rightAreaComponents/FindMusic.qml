@@ -108,6 +108,7 @@ Rectangle {
 
     //TODO
     function recSongListsModel(){
+//        if (recSongListNames.length !== 0){
         if (recSongListNames.length !== 0){
             var i = 0
             for (; i < recSongListNames.length; i++){

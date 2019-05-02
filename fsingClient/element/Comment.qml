@@ -1,10 +1,13 @@
 import QtQuick 2.0
 import QtQuick.Controls 1.4
+    import QtQuick.Layouts 1.11
 import "../element"
 
 Rectangle {
+    id:commentEnd
     color: "#fafafa"
-    Column{
+    property alias commentView: commentView__
+    ColumnLayout{
         width: parent.width
         spacing: 20
         Rectangle{
@@ -51,15 +54,31 @@ Rectangle {
         }
 
         ListView{
-            id:commentView
+            id:commentView__
             width: parent.width
-            anchors.top: _label_.bottom
+            //height: commentModel_.count * 120
+            //height: 300
+            //anchors.top: _label_.bottom
             model: commentModel_
-            delegate: CommentItem{
-                userIcon: userImage
-                userName: name
-                comment_: comment
+            delegate: delegates
+            onHeightChanged: {
+                console.log("in changed!!!!!!!!!!!!!!!")
             }
         }
+    }
+    Component {
+        id: delegates
+        CommentItem {
+            id: leftItemDelegates
+            width: commentView.width
+            height: 50
+        }
+    }
+
+    onHeightChanged: {
+        console.log("height:  " + height)
+        console.log("commentView__.height:  " + commentView__.height)
+        commentView__.height = height+50
+        console.log("commentView__.height:  " + commentView__.height)
     }
 }

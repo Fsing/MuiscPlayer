@@ -1,6 +1,7 @@
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
+#include <QDebug>
 
 #include "./fsingClient/fsingclient.h"
 #include "./rtspClient/qmlrtspclient.h"

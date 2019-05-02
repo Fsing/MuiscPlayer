@@ -15,28 +15,27 @@ using boost::asio::ip::address;
 using boost::asio::io_service;
 
 io_service service;
-ip::tcp::endpoint ep(address::from_string("192.168.43.164"),2001);
+ip::tcp::endpoint ep(address::from_string("127.0.0.1"),2001);
 //客户端异步连接，有多个套接字，每次发送信息、接受信息都重新分配一个套接字，并且分配一个线程独立进行
 ip::tcp::socket sock(service);
 ip::tcp::socket sock_fileTransfer(service);
 
 FSingClient::FSingClient()
 {
+    memset(buffer_,0,sizeof(char)*k_buffer_size);
     connect_server();
     try{
         _loginController = std::make_shared<LoginController>();
         _listenMusicController = std::make_shared<ListenMusicController>();
         getRecommendSongLists();
         QString id = "1";
-        getSongListComment(id, 1, 10);
+        //getSongListComment(id, 1, 10);
         auto list = getRecommendSongListIcons();
         for (int i = 0; i < list.count(); i++){
             fileTransfer(list[i]);
         }
-
-        //auto res = getRecSongListBasicInfo();
     }catch(...){
-        std::cout << "_loginController error!" <<std::endl;
+        std::cout << "FsingClient error!" <<std::endl;
     }
 }
 
@@ -274,7 +273,7 @@ void FSingClient::getRecommendSongLists()
     receiveMessage(ec);
 }
 
-void FSingClient::getSongListComment(QString id, int start, int end)
+void FSingClient::comment(QString id, int start, int end)
 {
     Json::Value root;
     root["type"] = "COMMENT";
@@ -289,6 +288,12 @@ void FSingClient::getSongListComment(QString id, int start, int end)
 
     sendServerMessage(ec,out);
     receiveMessage(ec);
+}
+
+QList<QString> FSingClient::getComments()
+{
+    std::cout <<"Client Comment!" <<std::endl;
+    return _listenMusicController->getCommnets();
 }
 
 void FSingClient::getSongComment()
@@ -332,10 +337,12 @@ void FSingClient::sendServerMessage(boost::system::error_code ec,std::string str
 
     //传输到服务器
     sock.write_some(buffer(s, strlen(s)), ec);
+    std::cout<<"send message to server: " <<string<<endl;
     if (ec){
-        std::cout << "sendServerMessage Error!" << std::endl;
+        //std::cout << "sendServerMessage Error!" << std::endl;
         std::cout << boost::system::system_error(ec).what() << std::endl;
-        return;
+        //return;
+        throw "sendServerMessage Error!";
     }
 }
 
@@ -369,7 +376,7 @@ void FSingClient::receiveMessage(boost::system::error_code ec)
                 return;
             }
 
-            std::cout << receiveData << std::endl;
+            //std::cout << receiveData << std::endl;
             std::cout << "receiveData.length():  " <<receiveData.length() << std::endl;
             std::cout << "atoi(dataSize):  " <<atoi(dataSize) << std::endl;
             if(receiveData.data() == nullptr || receiveData.length() == 0)
@@ -387,7 +394,7 @@ void FSingClient::receiveMessage(boost::system::error_code ec)
             throw "json received faild";
 
         } else {
-            std::cout <<"receive frome server : "<< receiveData.data() <<std::endl;
+            //std::cout <<"receive frome server : "<< receiveData.data() <<std::endl;
             std::string type = resultRoot["type"].asString();
             if (type == "LOGIN"){
                 _loginController->dealMessage(type, resultRoot);

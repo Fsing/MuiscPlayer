@@ -26,6 +26,7 @@ Window {
     }
 
     MiddleArea {
+        id: middleArea
         anchors.top: topArea.bottom
         width: parent.width
         height: parent.height - topArea.height - bottomArea.height

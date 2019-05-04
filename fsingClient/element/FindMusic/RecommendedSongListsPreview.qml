@@ -99,7 +99,7 @@ Item {
                         onClicked: {
                             var songListId = recSongListIds[index]
                             client.songList(songListId)
-                            rightArea.songListInfo = client.getRecSongListBasicInfo(songListId)
+                            rightArea.songListInfo = client.getSongListBasicInfo(songListId)
 
                             rightArea.songsListTable = client.getSongListSongs(songListId)
                             appendSong(rightArea.songsListTable)

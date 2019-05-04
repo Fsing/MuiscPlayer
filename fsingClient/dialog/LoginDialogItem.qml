@@ -264,6 +264,7 @@ Rectangle {
             }
             text: "注册"
             onButtonClicked: {
+                registerClicked()
             }
         }
     }  

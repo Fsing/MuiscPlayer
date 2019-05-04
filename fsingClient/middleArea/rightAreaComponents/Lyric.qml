@@ -10,8 +10,8 @@ import "../../element"
 
 Rectangle {
     id: rec0
-    border.width: 2
-    border.color: "pink"
+    //border.width: 2
+    //border.color: "pink"
     color: "#b9c5ca"
 
     property int index: -1
@@ -51,8 +51,8 @@ Rectangle {
                         id:lyricRec
                         width: 400
                         height: 400
-                        border.width: 2
-                        border.color: "green"
+                        //border.width: 2
+                        //border.color: "green"
                         color: "transparent"
 
                         Rectangle{
@@ -184,14 +184,15 @@ Rectangle {
     Connections{
         target: leftArea
         onShowComment:{
-            if (leftArea.comments.length !== 0){
-                for (var i = 0; i < leftArea.comments.length/3; i++){
-                    commentModel_.append({image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg",
-                                             name: leftArea.comments[i*3],
-                                             comment: leftArea.comments[i*3+1]})
-                }
-            }
-            console.log("_commnets.height: " + _commnets.height)
+//            if (leftArea.comments.length !== 0){
+//                console.log("show Commnet!!!!")
+//                for (var i = 0; i < leftArea.comments.length/3; i++){
+//                    commentModel_.append({image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg",
+//                                             name: leftArea.comments[i*3],
+//                                             comment: leftArea.comments[i*3+1]})
+//                }
+//            }
+//            console.log("_commnets.height: " + _commnets.height)
         }
     }
 

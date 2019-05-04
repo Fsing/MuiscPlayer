@@ -97,6 +97,21 @@ Rectangle {
                 spacing: 10
                 PlayAllButton {
                     id: addtoPlayListBtn
+                    onPlayAllClick: {
+                        console.log("songlist.songListModel.count: " + songlist.songListModel.count)
+                        if (songlist.songListModel.count !== 0){
+                            currentListRectangle.playListModel.clear()
+                            var i = 0
+                            for (; i < songlist.songListModel.count; i++){
+                                currentListRectangle.playListModel.append({"title":songlist.songListModel.get(i).title,"artist":songlist.songListModel.get(i).artist, "time":songlist.songListModel.get(i).time})
+                                //currentPlaylist.addItem(songlist.songListModel.get(i).path)
+                            }
+                            currentListRectangle.songNumber = currentListRectangle.playListModel.count
+                            currentListRectangle.listView.height = currentListRectangle.playListModel.count * 30
+                            currentListRectangle.noSongsView.visible = false
+                            currentListRectangle.listView.visible = true
+                        }
+                    }
                 }
 
                 IconButton {

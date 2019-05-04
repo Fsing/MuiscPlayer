@@ -134,13 +134,13 @@ std::string LoginController::myRegister(std::string username, std::string passwo
         if(!hasTable("Account")){
             if(!createAccountTable()){
                 root["registerSuccess"] = "FAILD";
-                throw "registerFaild";
+                throw "registerFaild1";
             }
             if(insertUser(username,password,"","","","","")){
                 root["registerSuccess"] = "SUCCESS";
             }else{
                 root["registerSuccess"] = "FAILD";
-                throw "registerFaild";
+                throw "registerFaild2";
             }
 
             //创建 CollectionRelation表
@@ -155,7 +155,7 @@ std::string LoginController::myRegister(std::string username, std::string passwo
                     root["registerSuccess"] = "SUCCESS";
                 }else{
                     root["registerSuccess"] = "FAILD";
-                    throw "registerFaild";
+                    throw "registerFaild3";
                 }
             }else{
                 //用户存在，不可注册
@@ -226,7 +226,7 @@ bool LoginController::insertUser(string username,string userpassword,string labe
                      " values('%d','%s','%s','%s','%s','%s','%s','%s')",
                  maxid,username.data(),userpassword.data(),label.data(),sex.data(),birthday.data(),address.data(),icon.data());
     auto length = strlen(sql);
-    if(!mysql_real_query(&mysql,sql,length)){
+    if(mysql_real_query(&mysql,sql,length)){
         cout <<"create user " << username << " success " << endl;
         return true;
     }

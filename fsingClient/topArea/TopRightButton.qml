@@ -19,7 +19,7 @@ Rectangle {
     property int userImageWidth: 25
     property int userImageHeight: 25
 
-    property double noHoverOpacity: 0.5
+    property double noHoverOpacity: 0.7
     property double hoverOpacity:1.0
 
     property string fanName: "未登录"
@@ -81,7 +81,9 @@ Rectangle {
             width: 13
             height: 11
             border.width: 1
-            border.color: maxButtonMouseArea.containsMouse ? "#DCDCDC" : "#E29595"
+            //border.color: maxButtonMouseArea.containsMouse ? "#DCDCDC" : "#E29595"
+            border.color: "white"
+            opacity: maxButtonMouseArea.containsMouse ? 0.8:0.5
             color: topright.color
             radius: 2
         }
@@ -114,7 +116,9 @@ Rectangle {
         anchors.right: minbutton.left
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        color:"#a82828"
+        color: "black"
+
+        opacity: 0.2
     }
     Button {
         id: settingbutton
@@ -210,7 +214,7 @@ Rectangle {
             anchors.verticalCenter: parent.verticalCenter
             width: 40
             height: 16
-            color: "#e0abab"
+            color: "#ffffff"
             text: fanName
         }
         Image {

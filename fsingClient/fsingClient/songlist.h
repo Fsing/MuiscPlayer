@@ -45,7 +45,7 @@ private:
 
     //double m_size;                  //大小
     std::string m_label;            //标签
-    std::string m_info;             //简介
+    std::string m_info;             //简介m_id
     std::string m_icon;             //歌单头像路径
     //std::string m_comment;          //评论
     int m_collectionQuantity;       //收藏量

@@ -1,13 +1,16 @@
 import QtQuick 2.0
 import QtQuick.Controls 2.0
 import QtQuick.Window 2.0
+import QtQuick.Dialogs 1.0
 import "../dialog"
 
 Rectangle {
     id: topArea
     width: parent.width
     height: 50
-    color: "#C62F2F"
+    //color: "#C62F2F"
+    //color: "#a82828"
+    color: "lightgreen"
     radius: 0
     border.width: 0
 
@@ -15,7 +18,7 @@ Rectangle {
     property double yPosition: 0.0
 
     property int titleFontSize: 20
-    property string titleColor: "#e0abab"
+    property string titleColor: "#ffffff"
 
     property alias loginDialog: loginDialog
 
@@ -64,8 +67,7 @@ Rectangle {
                 }
         }
         onSkinButtonClicked: {
-            var nameLists = client.getRecommendSongListNames()
-            var icons = client.getRecommendSongListIcons()
+            colorDialog.open()
         }
     }
 
@@ -77,6 +79,20 @@ Rectangle {
 
     LogoutDialog {
         id: logoutDialog
+    }
+
+    ColorDialog {
+        id: colorDialog
+        currentColor: topArea.color
+        onAccepted: {
+            topArea.color = currentColor
+            console.log("You chose: " + colorDialog.color)
+                      //Qt.quit()
+        }
+        onRejected: {
+                  console.log("Canceled")
+                  //Qt.quit()
+              }
     }
 
     //-----------------------------
@@ -109,7 +125,7 @@ Rectangle {
         property point clickPos: "0,0"
         onPressed: {
             clickPos = Qt.point(mouse.x, mouse.y)
-            topSearch.inputFocus = false
+            //topSearch.inputFocus = false
         }
         onPositionChanged: {
             var delta = Qt.point(mouse.x - clickPos.x, mouse.y - clickPos.y)

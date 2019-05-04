@@ -15,6 +15,7 @@ Item {
         //model: songsModel
         model: songListModel
         //model: localMusic.songList()
+        frameVisible:false
 
         horizontalScrollBarPolicy:Qt.ScrollBarAlwaysOff
         verticalScrollBarPolicy:Qt.ScrollBarAlwaysOff
@@ -136,6 +137,7 @@ Item {
 //            mediaPlayer.playbackState  = 1;
 //            mediaPlayer.play()
             //界面左下角的歌曲界面
+            console.log("applicationDirPath:   "+applicationDirPath)
             leftArea.lyricSource = rightArea.songsListTable[row*9+1] + ".lrc"
             var albumImg = songListModel.get(view.currentRow).album +".jpg"
             client.fileTransfer(albumImg)

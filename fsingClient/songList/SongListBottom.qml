@@ -22,7 +22,7 @@ Rectangle {
         anchors.top: bar.bottom
         width: songListBottom.width
         height: 2
-        color: "#C62F2F"
+        color: topArea.color
     }
 
     StackLayout{

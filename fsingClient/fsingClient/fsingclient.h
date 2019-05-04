@@ -35,18 +35,22 @@ public:
     //获取用户名字信息
     Q_INVOKABLE QString getUserName();
     Q_INVOKABLE QString getUserIcon();
+    //获取用户原创歌单
+//    Q_INVOKABLE QList<QString> createdSongLists();
 
     //获取用户创建歌单的名字集合 huang
-    Q_INVOKABLE QList<QString> createSongNameLists();
+    Q_INVOKABLE QList<QString> getCreateSongNameLists();
     //获取推荐歌单名字集合
     Q_INVOKABLE QList<QString> getRecommendSongListNames();
     //获取推荐歌单图片集合
     Q_INVOKABLE QList<QString> getRecommendSongListIcons();
+    //获取广告图片
+    Q_INVOKABLE QList<QString> getAdvertImages();
     //获取推荐歌单Id集合
     Q_INVOKABLE QList<QString> getRecommendSongListIds();
 
     //获取推荐歌单基本信息
-    Q_INVOKABLE QList<QString> getRecSongListBasicInfo(QString recSongListId);
+    Q_INVOKABLE QList<QString> getSongListBasicInfo(QString recSongListId);
     //获取歌单歌曲列表
     Q_INVOKABLE QList<QString> getSongListSongs(QString songListId);
 
@@ -77,6 +81,8 @@ public:
     void handle_file(const boost::system::error_code& error);
     void handle_header(const boost::system::error_code& error);
 
+    //注册用户
+    Q_INVOKABLE void registerUser(QString name,QString password);
     //登录账户,服务器数据库查找用户信息
     Q_INVOKABLE void login(QString userName, QString userPassword);
     //退出账户
@@ -92,29 +98,10 @@ public:
     //获取歌曲评论信息
     void getSongComment();
 
-    //获取歌单信息
-
-
     //直接将通过参数传入的封装好的json字符串传送给服务器。参数string由用况controller里的各个函数封装
     void sendStreamMediaRequest(std::string string);
     //直接将通过参数传入的封装好的json字符串传送给服务器。参数string由用况controller里的各个函数封装
     void sendServerMessage(boost::system::error_code ec,std::string string);
-
-
-    //接收消息，并将收到的字符串转换为json对象存储，作为参数传送给各个用况controller的dealMessage()函数处理
-    /*例登录请求login()--LoginController：
-     * void login(){
-     *      //封装需要传送的字符串strr
-     *      //传送消息：sendServerMessage(strr)
-     *      std::string receiveString;
-     *      //接收消息:receiveMessage(receiveString);
-     *      Json::Reader reader;
-     *      Json::Value resultRoot;
-     *      reader.parse(receiveString.data(),resultRoot);
-     *      //处理消息，调用相应LoginController的dealMessage()处理消息
-     *      dealMessage(resultRoot["type"].asString(),resultRoot);//将查询到的相应的用户信息存储起来
-     */
-    //void receiveMessage(boost::system::error_code ec,std::string &&string);
     void receiveMessage(boost::system::error_code ec);
 
      Q_INVOKABLE QString getLoginControllerResult();

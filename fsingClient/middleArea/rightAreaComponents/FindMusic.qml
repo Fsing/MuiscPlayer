@@ -81,6 +81,14 @@ Rectangle {
                 }
             }
 
+            Advert{
+                id: advert
+                modle: advertListmodle
+                width: recTopView.width
+                //Layout.fillWidth: true
+                visible: bar.currentIndex === 0 ? true : false
+            }
+
                 RecommendedSongListsPreview{
                     //property int number: 0
                     id:recommendedSongListsPreview
@@ -104,6 +112,28 @@ Rectangle {
 
     onRecSongListNamesChanged: {
         recSongListsModel()
+    }
+
+    ListModel {
+        id: advertListmodle
+    }
+
+    Timer {
+        interval: 100
+        running: true
+        onTriggered: advertAppend()
+    }
+
+
+    function advertAppend() {
+        var list = client.getAdvertImages();
+        //console.log(interfaceParamter)
+        for (var i = 0; i < list.length; ++i) {
+            advertListmodle.append({
+                                       advertImg: "file:///" + applicationDirPath
+                                                  + "/" + list[i]
+                                   })
+        }
     }
 
     //TODO

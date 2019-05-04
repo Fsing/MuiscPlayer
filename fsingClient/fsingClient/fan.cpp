@@ -43,6 +43,7 @@ void Fan::clear()
 //getting
 QMap<QString,QList<QString>> Fan::createdSongLists()
 {
+    std::cout << "Fan::createdSongLists(): " << _createdSongList.count() << std::endl;
     return _createdSongList;
 }
 QMap<QString,QList<QString>> Fan::collectedSongLists()
@@ -123,6 +124,12 @@ void Fan::setAddress(QString address){
 void Fan::setIcon(QString icon){
     m_icon = icon;
     emit iconChanged();
+}
+
+void Fan::addCreatedSongList(QString key, QList<QString> s)
+{
+    _createdSongList.insert(key,s);
+    std::cout << _createdSongList.count()<<"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<std::endl;
 }
 
 QMap<QString, QList<QString> > Fan::createdSongList() const

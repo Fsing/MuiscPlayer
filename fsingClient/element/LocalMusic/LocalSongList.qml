@@ -16,6 +16,7 @@ Item {
         anchors.fill: parent
         enabled: true
         model: libraryModel
+        frameVisible:false
         //model: localMusic.songList()
 
         horizontalScrollBarPolicy:Qt.ScrollBarAlwaysOff

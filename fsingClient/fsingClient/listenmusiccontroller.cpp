@@ -18,93 +18,46 @@ void ListenMusicController::dealMessage(std::string type, Json::Value resultRoot
 {
     try{
         if(type == "INTERFACE"){
-            const Json::Value arrayObj = resultRoot["array"];
-            for (unsigned int i = 0; i < arrayObj.size(); i++){
-                std::shared_ptr<SongList> songList = std::make_shared<SongList>(std::stoi(arrayObj[i]["id"].asString()),arrayObj[i]["name"].asString()
-                        , arrayObj[i]["author"].asString()
-                        ,arrayObj[i]["createTime"].asString(),arrayObj[i]["label"].asString()
-                        ,arrayObj[i]["info"].asString(),arrayObj[i]["icon"].asString()
-                        ,std::stoi(arrayObj[i]["collectionQuantity"].asString()),std::stoi(arrayObj[i]["clickQuantity"].asString())
-                        ,std::stoi(arrayObj[i]["shareQuantity"].asString()));
-                //m_songList.push_back(songList);
-                m_songList.insert(std::make_pair(std::stoi(arrayObj[i]["id"].asString()),songList));
-
-            }
-            std::cout << m_songList.size() << std::endl;
-
-            //std::cout << m_songList.size() << std::endl;
-            const Json::Value advertArrayObj = resultRoot["advertArray"];
-            for (unsigned int i = 0; i < advertArrayObj.size(); i++)
-            {
-                m_adverts.append(QString::fromStdString( advertArrayObj[i]["source"].asString()));
-            }
+            getRecSongList(resultRoot);
         } else if (type == "SONGINFO"){
-            m_songInformation.append(QString::number(resultRoot["id"].asInt()));
-            m_songInformation.append(QString::fromStdString(resultRoot["name"].asString()));
-            m_songInformation.append(QString::fromStdString(resultRoot["singer"].asString()));
-            m_songInformation.append(QString::fromStdString(resultRoot["album"].asString()));
-            m_songInformation.append(QString::fromStdString(resultRoot["source"].asString()));
-            m_songInformation.append(QString::fromStdString(resultRoot["time"].asString()));
-            m_songInformation.append(QString::number(resultRoot["playQuantity"].asInt()));
-            m_songInformation.append(QString::number(resultRoot["downloadQuantity"].asInt()));
-            m_songInformation.append(QString::number(resultRoot["shareQuantity"].asInt()));
-
-            //add to song cache pool
-            std::shared_ptr<Song> retSong = std::make_shared<Song>(
-                        Song(resultRoot["id"].asInt(),
-                        resultRoot["name"].asString(),
-                    resultRoot["singer"].asString(),
-                    resultRoot["album"].asString(),
-                    resultRoot["source"].asString(),
-                    resultRoot["time"].asString(),
-                    resultRoot["playQuantity"].asInt(),
-                    resultRoot["shareQuantity"].asInt(),
-                    resultRoot["downloadQuantity"].asInt()));
-            m_songsMap.insert(std::make_pair(resultRoot["id"].asInt(),retSong));
+            songInfo(resultRoot);
         }else if(type == "CREATESONGLIST"){
 
         }else if (type == "SONGLIST"){
-            const Json::Value arrayObj = resultRoot["array"];
-            std::shared_ptr<SongList> ret = std::make_shared<SongList>(SongList(resultRoot["id"].asInt(),
-                                                                       resultRoot["name"].asString(),
-                    resultRoot["author"].asString(),
-                    resultRoot["createTime"].asString(),
-                    resultRoot["label"].asString(),
-                    resultRoot["info"].asString(),
-                    resultRoot["icon"].asString(),
-                    resultRoot["collectionQuantity"].asInt(),
-                    resultRoot["clickQuantity"].asInt(),
-                    resultRoot["shareQuantity"].asInt()));
-            std::map<int,std::shared_ptr<Song>> songs;
-            for (unsigned int i = 0; i < arrayObj.size(); i++)
-            {
-                std::shared_ptr<Song> retSong = std::make_shared<Song>(
-                            Song(arrayObj[i]["id"].asInt(),
-                            arrayObj[i]["name"].asString(),
-                        arrayObj[i]["singer"].asString(),
-                        arrayObj[i]["album"].asString(),
-                        arrayObj[i]["source"].asString(),
-                        arrayObj[i]["time"].asString(),
-                        arrayObj[i]["playQuantity"].asInt(),
-                        arrayObj[i]["shareQuantity"].asInt(),
-                        arrayObj[i]["downloadQuantity"].asInt()));
-                songs.insert(std::make_pair(arrayObj[i]["id"].asInt(),retSong));
-                //add to song cache pool
-                m_songsMap.insert(std::make_pair(arrayObj[i]["id"].asInt(),retSong));
-            }
-            ret->setSongs(songs);
-            m_songListsMap.insert(std::make_pair(resultRoot["id"].asInt(),ret)) ;
-
+            songListInfo(resultRoot);
         }else if(type == "COMMENT"){
             getSongListComment(resultRoot);
         }
     }catch(...){
         std::cout<< "listenMusicController dealMessage error!" << std::endl;
     }
-
 }
 
-QList<QString > ListenMusicController::getRecSongListBasicInfo(QString recSongListId)
+void ListenMusicController::getRecSongList(Json::Value resultRoot)
+{
+    const Json::Value arrayObj = resultRoot["array"];
+    for (unsigned int i = 0; i < arrayObj.size(); i++){
+        std::shared_ptr<SongList> songList = std::make_shared<SongList>(std::stoi(arrayObj[i]["id"].asString()),arrayObj[i]["name"].asString()
+                , arrayObj[i]["author"].asString()
+                ,arrayObj[i]["createTime"].asString(),arrayObj[i]["label"].asString()
+                ,arrayObj[i]["info"].asString(),arrayObj[i]["icon"].asString()
+                ,std::stoi(arrayObj[i]["collectionQuantity"].asString()),std::stoi(arrayObj[i]["clickQuantity"].asString())
+                ,std::stoi(arrayObj[i]["shareQuantity"].asString()));
+        //m_songList.push_back(songList);
+        m_songList.insert(std::make_pair(std::stoi(arrayObj[i]["id"].asString()),songList));
+
+    }
+    std::cout << m_songList.size() << std::endl;
+
+    //std::cout << m_songList.size() << std::endl;
+    const Json::Value advertArrayObj = resultRoot["advertArray"];
+    for (unsigned int i = 0; i < advertArrayObj.size(); i++)
+    {
+        m_adverts.append(QString::fromStdString( advertArrayObj[i]["source"].asString()));
+    }
+}
+
+QList<QString > ListenMusicController::getSongListBasicInfo(QString recSongListId)
 {
     QList<QString> res;
     if (m_songList.size() != 0){
@@ -141,6 +94,57 @@ bool ListenMusicController::findSongList(QString songListId)
         return true;
     }
     return false;
+}
+
+void ListenMusicController::songInfo(Json::Value resultRoot)
+{
+    //add to song cache pool
+    std::shared_ptr<Song> retSong = std::make_shared<Song>(
+                Song(resultRoot["id"].asInt(),
+                resultRoot["name"].asString(),
+            resultRoot["singer"].asString(),
+            resultRoot["album"].asString(),
+            resultRoot["source"].asString(),
+            resultRoot["time"].asString(),
+            resultRoot["playQuantity"].asInt(),
+            resultRoot["shareQuantity"].asInt(),
+            resultRoot["downloadQuantity"].asInt()));
+    m_songsMap.insert(std::make_pair(resultRoot["id"].asInt(),retSong));
+}
+
+void ListenMusicController::songListInfo(Json::Value resultRoot)
+{
+    const Json::Value arrayObj = resultRoot["array"];
+    std::shared_ptr<SongList> ret = std::make_shared<SongList>(SongList(resultRoot["id"].asInt(),
+                                                               resultRoot["name"].asString(),
+            resultRoot["author"].asString(),
+            resultRoot["createTime"].asString(),
+            resultRoot["label"].asString(),
+            resultRoot["info"].asString(),
+            resultRoot["icon"].asString(),
+            resultRoot["collectionQuantity"].asInt(),
+            resultRoot["clickQuantity"].asInt(),
+            resultRoot["shareQuantity"].asInt()));
+    std::map<int,std::shared_ptr<Song>> songs;
+    for (unsigned int i = 0; i < arrayObj.size(); i++)
+    {
+        std::shared_ptr<Song> retSong = std::make_shared<Song>(
+                    Song(arrayObj[i]["id"].asInt(),
+                    arrayObj[i]["name"].asString(),
+                arrayObj[i]["singer"].asString(),
+                arrayObj[i]["album"].asString(),
+                arrayObj[i]["source"].asString(),
+                arrayObj[i]["time"].asString(),
+                arrayObj[i]["playQuantity"].asInt(),
+                arrayObj[i]["shareQuantity"].asInt(),
+                arrayObj[i]["downloadQuantity"].asInt()));
+        songs.insert(std::make_pair(arrayObj[i]["id"].asInt(),retSong));
+        //add to song cache pool
+        m_songsMap.insert(std::make_pair(arrayObj[i]["id"].asInt(),retSong));
+    }
+    ret->setSongs(songs);
+    m_songListsMap.insert(std::make_pair(resultRoot["id"].asInt(),ret)) ;
+
 }
 
 QList<QString> ListenMusicController::getSongListSongs(QString songListId)
@@ -223,6 +227,21 @@ QList<QString> ListenMusicController::getRecSongListIcons()
         }
     }
     return icons;
+}
+
+QList<QString> ListenMusicController::getAdvertsImages()
+{
+    qDebug() << "enter getAdvertsImages";
+    qDebug() << m_adverts.size();
+    QList<QString> res;
+    res.clear();
+    if (m_adverts.size() != 0){
+        for (int i = 0; i < m_adverts.size(); i++){
+            qDebug() << m_adverts[i];
+            res.append(m_adverts[i]);
+        }
+    }
+    return res;
 }
 
 QList<QString> ListenMusicController::getRecSongListIds()

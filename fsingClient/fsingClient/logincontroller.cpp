@@ -22,21 +22,41 @@ QString LoginController::getFanIcon()
     return m_fan.icon();
 }
 
+//QList<QString> LoginController::getUserCreateSongList()
+//{
+
+//}
+
 QList<QString> LoginController::getCreateSongNameLists()
 {
+    std::cout << "********************************************1" << std::endl;
     auto createSongLists = m_fan.createdSongLists();
     auto listNames = createSongLists.keys();
+    auto values = createSongLists.values();
     QList<QString> createSongNames;
+    std::cout << "********************************************2:" << listNames.count() << std::endl;
     for (int i = 0; i < listNames.count(); i++){
         createSongNames.append(listNames[i]);
+        createSongNames.append(values[i][0]);
+        std::cout << "********************************************" << std::endl;
+        qDebug() <<values[i][0];
         qDebug() << createSongNames[i];
     }
+    qDebug() << createSongNames.count();
+
     return createSongNames;
 }
 
 void LoginController::userLogout()
 {
     m_fan.clear();
+}
+
+void LoginController::registerUser(Json::Value resultRoot)
+{
+    string ret = resultRoot["registerSuccess"].asString();
+    m_result = QString::fromStdString(ret);
+    std::cout << "register " << ret<<std::endl;
 }
 
 void LoginController::dealMessage(std::string type, Json::Value resultRoot)
@@ -144,6 +164,8 @@ void LoginController::dealMessage(std::string type, Json::Value resultRoot)
 
             }
         }
+    } else if(type == "REGISTER") {
+        registerUser(resultRoot);
     }
 }
 

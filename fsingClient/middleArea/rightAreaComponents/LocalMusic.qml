@@ -121,11 +121,11 @@ Rectangle {
             numbers = songInfo.model.count
             songInfoView.height = songInfoList.length * 28 +30+100
             column.height = top.height + songInfoView.height
-            console.log("column.width " +   column.width)
-            console.log("column.height " +   column.height)
-            console.log("scroll.width " +   scroll.width)
-            console.log("scroll.height " +   scroll.height)
-            console.log("songInfo.height " +   songInfo.height)
+//            console.log("column.width " +   column.width)
+//            console.log("column.height " +   column.height)
+//            console.log("scroll.width " +   scroll.width)
+//            console.log("scroll.height " +   scroll.height)
+//            console.log("songInfo.height " +   songInfo.height)
             songInfoView.update()
             initView.visible = false
             songInfoView.visible = true

@@ -13,6 +13,8 @@ int main(int argc, char *argv[])
 
     QGuiApplication app(argc, argv);
 
+
+
     qmlRegisterType<FSingClient>("FSingClient", 1, 0, "FSingClient");
     qmlRegisterType<QmlRtspClient>("RtspClient", 1, 0, "RtspClient");
     qmlRegisterType<LocalPlay>("LocalPlay", 1, 0, "LocalPlay");

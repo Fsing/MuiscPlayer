@@ -7,6 +7,7 @@
 #include <QObject>
 #include "songlist.h"
 #include <QMap>
+#include <iostream>
 
 using std::string;      using std::vector;
 using std::map;
@@ -50,7 +51,7 @@ public:
     void setIcon(QString icon);
 
     //adding
-    void addCreatedSongList(QString key,QList<QString> s){_createdSongList.insert(key,s);}
+    void addCreatedSongList(QString key,QList<QString> s);
     void addCollectedSongLists(QString key,QList<QString> s){_collectedSongList.insert(key,s);}
     void addAttentedUsers(QString key,QList<QString> s){_attentedUsers.insert(key,s);}
     void addFanUsers(QString key,QList<QString> s){_fanUsers.insert(key,s);}

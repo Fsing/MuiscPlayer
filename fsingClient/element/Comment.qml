@@ -61,9 +61,6 @@ Rectangle {
             //anchors.top: _label_.bottom
             model: commentModel_
             delegate: delegates
-            onHeightChanged: {
-                console.log("in changed!!!!!!!!!!!!!!!")
-            }
         }
     }
     Component {
@@ -76,9 +73,9 @@ Rectangle {
     }
 
     onHeightChanged: {
-        console.log("height:  " + height)
-        console.log("commentView__.height:  " + commentView__.height)
+       // console.log("height:  " + height)
+        //console.log("commentView__.height:  " + commentView__.height)
         commentView__.height = height+50
-        console.log("commentView__.height:  " + commentView__.height)
+        //console.log("commentView__.height:  " + commentView__.height)
     }
 }

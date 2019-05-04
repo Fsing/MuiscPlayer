@@ -45,12 +45,12 @@ Rectangle {
             anchors.fill: parent
             onClicked: {
                 console.log("Commetnt!!!!")
-                client.comment(leftArea.currentSongId,1,10)
+                //client.comment(leftArea.currentSongId,1,10)
                 console.log("lyric")
                 client.fileTransfer(lyricSource)
                 leftAreaClicked(-1)
 
-                comments = client.getComments()
+                //comments = client.getComments()
                 showComment()
             }
         }

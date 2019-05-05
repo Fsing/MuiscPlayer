@@ -14,7 +14,21 @@ CommonDialog {
     contentItem: CreateSongListDialogItem {
         onQuitClicked: createSongListDialog.close()
         onOkButtonClicked: {
-
+            createSongListDialog.close()
+            inputAccepted()
+            console.log(client.getUserName() + createSongListDialog.inputText + getCurDate(
+                            ))
+            if (client.checkLogin()) {
+                client.addCreateSongList(client.userName,
+                                         createSongListDialog.inputText,
+                                         getCurDate())
+//                middleArea.personal.songlistModel.append({
+//                                                             playquantity: 50,
+//                                                             imageSource: "file:///" + applicationDirPath + "/" + client.userIcon,
+//                                                             songlistid: 50,
+//                                                             songlistname: createSongListDialog.inputText
+//                                                         })
+            }
         }
     }
 

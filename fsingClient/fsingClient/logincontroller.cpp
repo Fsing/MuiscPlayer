@@ -22,6 +22,33 @@ QString LoginController::getFanIcon()
     return m_fan.icon();
 }
 
+void LoginController::createSongList(Json::Value resultRoot)
+{
+    std::string ret = resultRoot["recordSuccess"].asString();
+    std::cout << "record create song list " << ret<< std::endl;
+    if(ret == "SUCCESS"){
+        QList<QString> list;
+        list.append(QString::fromStdString(resultRoot["songListID"].asString()));
+        list.append(QString::fromStdString(resultRoot["songListName"].asString()));
+        list.append(QString::fromStdString(resultRoot["username"].asString()));
+        list.append(QString::fromStdString(resultRoot["createTime"].asString()));
+        list.append("");
+        list.append("");
+        list.append("");
+        list.append("");
+        list.append("");
+        list.append("");
+
+        m_fan.addCreatedSongList(QString::fromStdString(resultRoot["songListName"].asString()),list);
+        //m_CreatedSongListCount++;
+        //_songlistIDs.append(QString::fromStdString(resultRoot["songListID"].asString()));
+        QString id = QString::fromStdString(resultRoot["songListID"].asString());
+        std::cout << "songlistID:" << id.toStdString()  << std::endl;
+        //_songlistNames.append(songlistName);
+        //emit createdSongListCountChanged();
+    }
+}
+
 //QList<QString> LoginController::getUserCreateSongList()
 //{
 
@@ -166,6 +193,8 @@ void LoginController::dealMessage(std::string type, Json::Value resultRoot)
         }
     } else if(type == "REGISTER") {
         registerUser(resultRoot);
+    } else if (type == "CREATESONGLIST"){
+        createSongList(resultRoot);
     }
 }
 

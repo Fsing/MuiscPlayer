@@ -184,15 +184,17 @@ Rectangle {
     Connections{
         target: leftArea
         onShowComment:{
-//            if (leftArea.comments.length !== 0){
-//                console.log("show Commnet!!!!")
-//                for (var i = 0; i < leftArea.comments.length/3; i++){
-//                    commentModel_.append({image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg",
-//                                             name: leftArea.comments[i*3],
-//                                             comment: leftArea.comments[i*3+1]})
-//                }
-//            }
-//            console.log("_commnets.height: " + _commnets.height)
+            if (leftArea.comments.length !== 0){
+                console.log("show Commnet!!!!")
+                for (var i = 0; i < leftArea.comments.length/3; i++){
+                    var number = parseInt(leftArea.comments[i*3+2])
+                    commentModel_.append({image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg",
+                                             name: leftArea.comments[i*3],
+                                             comment: leftArea.comments[i*3+1],
+                                         point:number})
+                }
+            }
+            console.log("_commnets.height: " + _commnets.height)
         }
     }
 

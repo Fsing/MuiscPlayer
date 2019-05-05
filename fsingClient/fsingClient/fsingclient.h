@@ -34,7 +34,13 @@ public:
     Q_INVOKABLE bool checkLogin();
     //获取用户名字信息
     Q_INVOKABLE QString getUserName();
+    //获取用户头像
     Q_INVOKABLE QString getUserIcon();
+    //获取用户Id
+    //Q_INVOKABLE QString getUserId();
+
+    //创建歌单
+    Q_INVOKABLE void addCreateSongList(QString username, QString songlistName, QString time);
     //获取用户原创歌单
 //    Q_INVOKABLE QList<QString> createdSongLists();
 
@@ -91,12 +97,11 @@ public:
     //获取推荐歌单Lists huang
     void getRecommendSongLists();
 
-    //获取歌单评论信息
+    //获取评论信息
     Q_INVOKABLE void comment(QString id, int start, int end);
     Q_INVOKABLE QList<QString> getComments();
-
-    //获取歌曲评论信息
-    void getSongComment();
+    //发布评论
+    Q_INVOKABLE void postComment(QString songOrListId, QString userId, QString commnet);
 
     //直接将通过参数传入的封装好的json字符串传送给服务器。参数string由用况controller里的各个函数封装
     void sendStreamMediaRequest(std::string string);

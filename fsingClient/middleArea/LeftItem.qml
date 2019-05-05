@@ -58,6 +58,7 @@ Item {
             }
             onClicked: {
                 createClicked()
+                showAllCreate.rotation = 90
                 rec_parent.showAllCreateClicked = true
             }
         }

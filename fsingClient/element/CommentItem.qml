@@ -3,6 +3,7 @@ import QtQuick 2.0
 
 Item {
     id:commentItem
+
     Rectangle{
 
         width: commentItem.width
@@ -35,7 +36,7 @@ Item {
                         id:name__
                         //text: qsTr("Eva:  ")
                         //text: userName
-                        text:name
+                        text:name + ": "
                         font.pixelSize: 15
                         opacity: nameMouse.containsMouse ? 1.0 :0.8
                         color: "#2984c9"
@@ -59,5 +60,47 @@ Item {
 
             }
         }
+    }
+
+    Image {
+        id: commentLike
+        width: 20
+        height: 20
+        anchors.right: commentLikeCount.left
+        anchors.rightMargin: 10
+        anchors.bottom: commentLikeCount.bottom
+        //anchors.bottomMargin: -10
+        source: "qrc:/images/common/commentLike.png"
+        opacity: 0.6
+
+        property bool isClick: false
+        MouseArea{
+            id:commentLikeMouse
+            anchors.fill: commentLike
+            hoverEnabled: true
+            cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
+            onClicked: {
+                console.log(commentLike.isClick)
+                if (commentLike.isClick){
+                    commentLike.opacity = 0.6
+                    commentLike.isClick = false
+                    point = point - 1
+                    deletePoint()
+                } else {
+                    commentLike.opacity = 1.0
+                    commentLike.isClick = true
+                    point = point + 1
+                    addPoint()
+                }
+            }
+        }
+    }
+    Text {
+        id: commentLikeCount
+        text: "(" + point + ")"
+        anchors.right: commentItem.right
+        anchors.rightMargin: 20
+        anchors.bottom: commentItem.bottom
+        color: "#9b9b9b"
     }
 }

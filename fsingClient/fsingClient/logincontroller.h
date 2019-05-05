@@ -13,7 +13,8 @@ public:
 
     QString getFanUserName();
     QString getFanIcon();
-    //QList<QString> getUserCreateSongList();
+    QString getFanId();
+    void createSongList(Json::Value resultRoot);
     QList<QString> getCreateSongNameLists();
     void userLogout();
     void registerUser(Json::Value resultRoot);

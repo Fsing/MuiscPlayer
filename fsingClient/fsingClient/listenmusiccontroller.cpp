@@ -21,12 +21,12 @@ void ListenMusicController::dealMessage(std::string type, Json::Value resultRoot
             getRecSongList(resultRoot);
         } else if (type == "SONGINFO"){
             songInfo(resultRoot);
-        }else if(type == "CREATESONGLIST"){
-
         }else if (type == "SONGLIST"){
             songListInfo(resultRoot);
         }else if(type == "COMMENT"){
             getSongListComment(resultRoot);
+        }else if(type == "ADDCOMMENT"){
+
         }
     }catch(...){
         std::cout<< "listenMusicController dealMessage error!" << std::endl;

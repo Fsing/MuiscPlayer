@@ -15,7 +15,8 @@ using boost::asio::ip::address;
 using boost::asio::io_service;
 
 io_service service;
-ip::tcp::endpoint ep(address::from_string("127.0.0.1"),2001);
+//ip::tcp::endpoint ep(address::from_string("192.168.43.32"),2001);
+ip::tcp::endpoint ep(address::from_string("192.168.43.164"),2001);
 //客户端异步连接，有多个套接字，每次发送信息、接受信息都重新分配一个套接字，并且分配一个线程独立进行
 ip::tcp::socket sock(service);
 ip::tcp::socket sock_fileTransfer(service);
@@ -209,6 +210,28 @@ QString FSingClient::getUserIcon()
     return icon;
 }
 
+//QString FSingClient::getUserId()
+//{
+//    //return _loginController->;
+//    return;
+//}
+
+void FSingClient::addCreateSongList(QString username, QString songlistName, QString time)
+{
+    Json::Value root;
+    root["type"] = "CREATESONGLIST";
+    root["username"] = username.toStdString();
+    root["songListName"] = songlistName.toStdString();
+    root["createTime"] = time.toStdString();
+    root.toStyledString();
+    std::string out = root.toStyledString();
+
+    boost::system::error_code ec;
+
+    sendServerMessage(ec,out);
+    receiveMessage(ec);
+}
+
 //QList<QString> FSingClient::createdSongLists()
 //{
 //    return _loginController;
@@ -315,9 +338,21 @@ QList<QString> FSingClient::getComments()
     return _listenMusicController->getCommnets();
 }
 
-void FSingClient::getSongComment()
+void FSingClient::postComment(QString songOrListId, QString userId, QString commnet)
 {
+    Json::Value root;
+    root["type"] = "ADDCOMMENT";
+    root["songId"] = songOrListId.toStdString();
+    root["accountId"] = userId.toStdString();
+    root["comment"] = commnet.toStdString();
 
+    root.toStyledString();
+    std::string out = root.toStyledString();
+
+    boost::system::error_code ec;
+
+    sendServerMessage(ec,out);
+    receiveMessage(ec);
 }
 
 QList<QString> FSingClient::getRecommendSongListNames()
@@ -420,15 +455,17 @@ void FSingClient::receiveMessage(boost::system::error_code ec)
                 _loginController->dealMessage(type, resultRoot);
             }else if (type == "REGISTER") {
                 _loginController->dealMessage(type, resultRoot);
+            }else if(type == "CREATESONGLIST"){
+                _loginController->dealMessage(type, resultRoot);
             }else if (type == "INTERFACE"){
                 _listenMusicController->dealMessage(type, resultRoot);
             }else if(type == "SONGINFO"){
                 _listenMusicController->dealMessage(type, resultRoot);
-            }else if(type == "CREATESONGLIST"){
-                _listenMusicController->dealMessage(type, resultRoot);
             }else if (type == "SONGLIST"){
                 _listenMusicController->dealMessage(type, resultRoot);
             }else if (type =="COMMENT"){
+                _listenMusicController->dealMessage(type, resultRoot);
+            }else if (type == "ADDCOMMENT"){
                 _listenMusicController->dealMessage(type, resultRoot);
             }
         }

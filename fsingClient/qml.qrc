@@ -108,5 +108,6 @@
         <file>images/common/azl.png</file>
         <file>images/common/ayi.9.png</file>
         <file>middleArea/rightAreaComponents/Advert.qml</file>
+        <file>images/common/commentLike.png</file>
     </qresource>
 </RCC>

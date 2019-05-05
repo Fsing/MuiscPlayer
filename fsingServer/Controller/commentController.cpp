@@ -11,6 +11,8 @@ CommentController::CommentController()
 
 string CommentController::getComment(string songId,string left = "1", string right = "10"){
     auto redisControl = RedisControl::getInstance();
+    Json::Value root;
+    Json::Value arryObj;
     string command;
     command += "zrevrange ";
     command += "point_";
@@ -46,6 +48,8 @@ string CommentController::getComment(string songId,string left = "1", string rig
                     result = mysql_store_result(&mysql);
                     if(result){
                           while((row = mysql_fetch_row(result))){
+                              if(""==string(row[0]))
+                                  throw "there is no comment";
                         string command3;
                         command3 += "zadd point_";
                         command3 += row[1];
@@ -67,14 +71,12 @@ string CommentController::getComment(string songId,string left = "1", string rig
                           }
                     }
                 }
-            } catch (...) {
-                throw ;
+            } catch (const char * e) {
+                throw e;
             }
         }
 
         vec = redisControl->excuteCommand(command);
-        Json::Value root;
-        Json::Value arryObj;
         root["type"] = "COMMENT";
         root["songId"] = songId.c_str();
         for(unsigned long i = 0;i < vec.size();i+=2){
@@ -95,7 +97,6 @@ string CommentController::getComment(string songId,string left = "1", string rig
                 setAccount(vec[i]);
                 accountMeta = getAccount(vec[i]);
             } catch (int & e){
-
                 cout << "getComment receive exception " << e << endl;
                 throw e;
             }
@@ -112,11 +113,13 @@ string CommentController::getComment(string songId,string left = "1", string rig
         return root.toStyledString();
     } catch (const char * e) {
         cout << "getComment receive exception " << e << endl;
-        throw e;
+        root["msg"] = e;
     } catch (int & e){
         cout << "getComment receive exception " << e << endl;
-        throw e;
+        root["msg"] = e;
     }
+    root["status"] = "500";
+    return root.toStyledString();
 }
 string CommentController::commentLike(string songId, string accountId, string method){
     auto redisControl = RedisControl::getInstance();

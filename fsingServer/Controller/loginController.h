@@ -21,7 +21,7 @@ public:
     //
     void createCollectionRelationTable();
     //添加行到Account表
-    bool insertUser(string username, string userpassword, std::string label, std::string sex, std::string birthday, std::string address, std::string icon);
+    bool insertUser(string username, string userpassword);
     //获得指定表最大id
     int getMaxid(string tableName);
     //像指定用户的原创歌单表中添加一行信息

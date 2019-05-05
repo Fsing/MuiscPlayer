@@ -136,7 +136,7 @@ std::string LoginController::myRegister(std::string username, std::string passwo
                 root["registerSuccess"] = "FAILD";
                 throw "registerFaild1";
             }
-            if(insertUser(username,password,"","","","","")){
+            if(insertUser(username,password)){
                 root["registerSuccess"] = "SUCCESS";
             }else{
                 root["registerSuccess"] = "FAILD";
@@ -151,7 +151,7 @@ std::string LoginController::myRegister(std::string username, std::string passwo
 
             //用户不存在，可以注册,往数据库中添加一个用户
             if(res == nullptr){
-                if(insertUser(username,password,"","","","","")){
+                if(insertUser(username,password)){
                     root["registerSuccess"] = "SUCCESS";
                 }else{
                     root["registerSuccess"] = "FAILD";
@@ -211,8 +211,7 @@ int LoginController::getMaxid(string tableName)
     }
     return ++maxid;
 }
-bool LoginController::insertUser(string username,string userpassword,string label,string sex,string birthday,string address,string icon)
-{
+bool LoginController::insertUser(string username,string userpassword){
     MYSQL mysql;
     mysql_init(&mysql);
     if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,nullptr,0)){
@@ -221,12 +220,13 @@ bool LoginController::insertUser(string username,string userpassword,string labe
     }
 
     char sql[1024];
-    auto maxid = getMaxid("Account");
-    std::sprintf(sql,"insert into Account(id,name,password,label,sex,birthday,address,icon)"
-                     " values('%d','%s','%s','%s','%s','%s','%s','%s')",
-                 maxid,username.data(),userpassword.data(),label.data(),sex.data(),birthday.data(),address.data(),icon.data());
+    //auto maxid = getMaxid("Account");
+    std::sprintf(sql,"insert into Account(name,password)"
+                     " values('%s','%s')",
+                 username.data(),userpassword.data());
     auto length = strlen(sql);
-    if(mysql_real_query(&mysql,sql,length)){
+    cout << sql <<endl;
+    if(!mysql_real_query(&mysql,sql,length)){
         cout <<"create user " << username << " success " << endl;
         return true;
     }

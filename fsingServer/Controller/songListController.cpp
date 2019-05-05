@@ -118,7 +118,7 @@ std::string SongListController::addSongList(std::string username, std::string so
         auto ctime = time.data();
         std::shared_ptr<LoginController> loginController;
         auto maxid = loginController->getMaxid("SongList");
-        std::sprintf(sql,"insert into SongList(id,name,author,createTime,label,info,icon,collectionQuantity,clickQuantity,shareQuantity) values('%d','%s','%s','%s','0','0','0',0,0,0)",maxid,lname,uname,ctime);
+        std::sprintf(sql,"insert into SongList(name,author,createTime,label,info,icon,collectionQuantity,clickQuantity,shareQuantity) values('%s','%s','%s','0','0','0',0,0,0)",lname,uname,ctime);
         auto length = strlen(sql);
         if(!mysql_real_query(&mysql1,sql,length)){
             //如果缓存中有该用户，则从缓存中删除，下一次查找更新

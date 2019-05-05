@@ -107,6 +107,7 @@ string CommentController::getComment(string songId,string left = "1", string rig
             item["accountName"] = accountMeta[0];
             item["points"] = vec[i+1].c_str();
             item["comment"] = setVec[0].c_str();
+            item["icon"] = accountMeta[5];
             arryObj.append(item);
         }
         root["array"] = arryObj;

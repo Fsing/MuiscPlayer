@@ -176,6 +176,7 @@ std::string LoginController::myRegister(std::string username, std::string passwo
         root["message"] = "unknon error";
     }
     root["status"] = "500";
+    cout << root.toStyledString() << endl;
     return root.toStyledString();
 }
 
@@ -221,8 +222,8 @@ bool LoginController::insertUser(string username,string userpassword){
 
     char sql[1024];
     //auto maxid = getMaxid("Account");
-    std::sprintf(sql,"insert into Account(name,password)"
-                     " values('%s','%s')",
+    std::sprintf(sql,"insert into Account(name,password,label,sex,birthday,address,icon)"
+                     " values('%s','%s',' ',' ',sysdate(),' ',' ')",
                  username.data(),userpassword.data());
     auto length = strlen(sql);
     cout << sql <<endl;

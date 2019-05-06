@@ -5,8 +5,8 @@ Fan::Fan()
 
 }
 
-Fan::Fan(std::string name, std::string password, std::string label, std::string sex, std::string birthday, std::string address, std::string icon)
-    :m_name{name},m_password{password},m_label{label},m_sex{sex},m_birthday{birthday},m_address{address},m_icon{icon}
+Fan::Fan(std::string id, std::string name, std::string password, std::string label, std::string sex, std::string birthday, std::string address, std::string icon)
+    :m_userID{id}, m_name{name},m_password{password},m_label{label},m_sex{sex},m_birthday{birthday},m_address{address},m_icon{icon}
 {
 
 }

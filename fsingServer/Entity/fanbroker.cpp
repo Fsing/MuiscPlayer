@@ -151,6 +151,7 @@ std::shared_ptr<Fan> FanBroker::findUserByUserName(string username)
         return nullptr;
     }
 
+    string id;
     string name;
     string password;
     string label;
@@ -170,6 +171,7 @@ std::shared_ptr<Fan> FanBroker::findUserByUserName(string username)
         result = mysql_store_result(&mysql);
         if(result){
             while((row = mysql_fetch_row(result))){
+                id = row[0];
                 name = row[1];
                 password = row[2];
                 label = row[3];
@@ -177,7 +179,7 @@ std::shared_ptr<Fan> FanBroker::findUserByUserName(string username)
                 birthday = row[5];
                 address = row[6];
                 icon = row[7];
-                return std::make_shared<Fan>(Fan(name,password,label,sex,birthday,address,icon));
+                return std::make_shared<Fan>(Fan(id,name,password,label,sex,birthday,address,icon));
             }
         }
     }

@@ -13,42 +13,52 @@ Item {
         ListElement {
             icon: "file:///root/gridView/zhenhy.jpg"
             name: "未知"
+            clickQuantity:0
         }
         ListElement {
             icon: "file:///root/gridView/zhenhy.jpg"
             name: "未知"
+            clickQuantity:0
         }
         ListElement {
             icon: "file:///root/gridView/zhenhy.jpg"
             name: "未知"
+            clickQuantity:0
         }
         ListElement {
             icon: "file:///root/gridView/zhenhy.jpg"
             name: "未知"
+            clickQuantity:0
         }
         ListElement {
             icon: "file:///root/gridView/zhenhy.jpg"
             name: "未知"
+            clickQuantity:0
         }
         ListElement {
             icon: "file:///root/gridView/zhenhy.jpg"
             name: "未知"
+            clickQuantity:0
         }
         ListElement {
             icon: "file:///root/gridView/zhenhy.jpg"
             name: "未知"
+            clickQuantity:0
         }
         ListElement {
             icon: "file:///root/gridView/zhenhy.jpg"
             name: "未知"
+            clickQuantity:0
         }
         ListElement {
             icon: "file:///root/gridView/zhenhy.jpg"
             name: "未知"
+            clickQuantity:0
         }
         ListElement {
             icon: "file:///root/gridView/zhenhy.jpg"
             name: "未知"
+            clickQuantity:0
         }
     }
 

@@ -176,6 +176,13 @@ Rectangle {
 //                onHeightChanged: {
 //                    console.log("parent.height:  " + parent.height)
 //                }
+                onAddCommnet: {
+
+                    console.log("leftArea.currentSongId :   "+leftArea.currentSongId)
+                    console.log("client.getUserId() :   "+client.getUserId())
+                    console.log("onAddCommnet:          " + str)
+                    client.postComment(leftArea.currentSongId, client.getUserId(), str)
+                }
             }
         }
 
@@ -184,16 +191,21 @@ Rectangle {
     Connections{
         target: leftArea
         onShowComment:{
+console.log("leftArea.currentSongId :onShowComment:   "+leftArea.currentSongId)
+            client.comment(leftArea.currentSongId,1,10)
+            leftArea.comments = client.getComments()
+            console.log("client.getComments(): "+ leftArea.comments.length)
+
             commentModel_.clear()
             if (leftArea.comments.length !== 0){
                 console.log("show Commnet!!!!")
                 commentModel_.clear()
                 console.log("show Commnet count: " +  leftArea.comments.length)
-                for (var i = 0; i < leftArea.comments.length/3; i++){
-                    var number = parseInt(leftArea.comments[i*3+2])
+                for (var i = 0; i < leftArea.comments.length/5; i++){
+                    var number = parseInt(leftArea.comments[i*5+4])
                     commentModel_.append({image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg",
-                                             name: leftArea.comments[i*3],
-                                             comment: leftArea.comments[i*3+1],
+                                             name: leftArea.comments[i*5+1],
+                                             comment: leftArea.comments[i*5+2],
                                          point:number})
                 }
             }

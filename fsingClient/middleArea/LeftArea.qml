@@ -44,14 +44,13 @@ Rectangle {
         MouseArea {
             anchors.fill: parent
             onClicked: {
-                console.log("Commetnt!!!!")
-                client.comment(leftArea.currentSongId,1,10)
+                console.log("Commetnt!!!!    : "+ leftArea.currentSongId)
                 console.log("lyric")
                 client.fileTransfer(lyricSource)
                 leftAreaClicked(-1)
-
-                comments = client.getComments()
-
+//                client.comment(leftArea.currentSongId,1,10)
+//                comments = client.getComments()
+//                console.log("client.getComments(): "+ comments.length)
                 showComment()
             }
         }
@@ -226,7 +225,16 @@ Rectangle {
         x: mainWindow.width / 2 - 150
         y: 100
         onInputAccepted: {
-
+            if (client.getLoginControllerResult()){
+                listModel.append({
+                                     recColor: "#F5F5F7",
+                                     imagesource: "../images/leftArea/list.png",
+                                     tx: createSongListDialog.inputText,
+                                     opaci: 0.55,
+                                     classifyText: "",
+                                     delegate_listVisible: true
+                                 })
+            }
         }
     }
 }

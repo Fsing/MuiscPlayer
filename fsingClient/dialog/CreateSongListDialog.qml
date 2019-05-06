@@ -19,7 +19,7 @@ CommonDialog {
             console.log(client.getUserName() + createSongListDialog.inputText + getCurDate(
                             ))
             if (client.checkLogin()) {
-                client.addCreateSongList(client.userName,
+                client.addCreateSongList(client.getUserName(),
                                          createSongListDialog.inputText,
                                          getCurDate())
 //                middleArea.personal.songlistModel.append({
@@ -29,6 +29,7 @@ CommonDialog {
 //                                                             songlistname: createSongListDialog.inputText
 //                                                         })
             }
+            inputAccepted()
         }
     }
 

@@ -22,6 +22,11 @@ QString LoginController::getFanIcon()
     return m_fan.icon();
 }
 
+QString LoginController::getFanId()
+{
+    return m_fan.userId();
+}
+
 void LoginController::createSongList(Json::Value resultRoot)
 {
     std::string ret = resultRoot["recordSuccess"].asString();
@@ -95,6 +100,7 @@ void LoginController::dealMessage(std::string type, Json::Value resultRoot)
         if (ret == "SUCCESS"){
             m_fan.clear();
             //设置用户基本信息
+            m_fan.setId(QString::fromStdString(resultRoot["id"].asString()));
             m_fan.setUserName(QString::fromStdString(resultRoot["userName"].asString()));
             m_fan.setPassword(QString::fromStdString(resultRoot["userPassword"].asString()));
             m_fan.setLabel(QString::fromStdString(resultRoot["userLabel"].asString()));

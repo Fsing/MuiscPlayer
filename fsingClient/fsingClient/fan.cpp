@@ -40,6 +40,11 @@ void Fan::clear()
     _fanUsers.clear();
 }
 
+QString Fan::userId()
+{
+    return m_id;
+}
+
 //getting
 QMap<QString,QList<QString>> Fan::createdSongLists()
 {
@@ -59,6 +64,11 @@ QMap<QString,QList<QString>> Fan::attentedUsers()
 QMap<QString,QList<QString>>Fan::fanUsers()
 {
     return _fanUsers;
+}
+
+void Fan::setId(const QString &id)
+{
+    m_id = id;
 }
 
 QString Fan::userName(){

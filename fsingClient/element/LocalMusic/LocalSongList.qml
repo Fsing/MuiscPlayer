@@ -3,19 +3,15 @@ import QtQuick.Controls 1.4
 
 Item {
     width: parent.width
-    height: model.count * 28 +30
-    property alias model:libraryModel
+    //height: model.count * 28 +30
+    height: _locaMusicModel.count*28+30
+    //property alias model:libraryModel
     property double length: (width-50)/5
-
-    ListModel {
-        id: libraryModel
-    }
-
     TableView {
         id:view
         anchors.fill: parent
         enabled: true
-        model: libraryModel
+        model: _locaMusicModel
         frameVisible:false
         //model: localMusic.songList()
 
@@ -113,7 +109,7 @@ Item {
 
         onClicked: {
             console.log("row clicked")
-            console.log("info:    " + libraryModel.get(view.currentRow).title)
+            console.log("info:    " + _locaMusicModel.get(view.currentRow).title)
             console.log("path: " + songInfoList[row].path)
             console.log(index);
         }

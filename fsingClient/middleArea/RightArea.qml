@@ -20,6 +20,9 @@ Rectangle {
     property var songListInfo
     property var model_: songsModel_
     property alias stackView: stackView
+    property int localListSongsHeight: _locaMusicModel.count * 28 + 130
+    property var songInfoList: []
+    property bool isLocalListVisable: false
     //property alias searchComponent: searchComponent
 
     StackView {
@@ -169,5 +172,12 @@ Rectangle {
 
     ListModel{
         id:songsModel_
+    }
+
+    ListModel{
+        id:_locaMusicModel
+    }
+    ListModel{
+        id:_localMusicDir
     }
 }

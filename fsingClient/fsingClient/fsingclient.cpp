@@ -439,7 +439,7 @@ void FSingClient::receiveMessage(boost::system::error_code ec)
 
             //std::cout << "receiveData.length():  " <<receiveData.length() << std::endl;
             //std::cout << "atoi(dataSize):  " <<atoi(dataSize) << std::endl;
-            std::cout << "receive from server: " << std::endl;
+            //std::cout << "receive from server: " << std::endl;
             std::cout << receiveData << std::endl;
             if(receiveData.data() == nullptr || receiveData.length() == 0)
                 continue;
@@ -447,6 +447,9 @@ void FSingClient::receiveMessage(boost::system::error_code ec)
                 break;
             }
         }
+
+        std::cout << "receive from server: " << std::endl;
+        std::cout << receiveData << std::endl;
 
 
         Json::Reader reader;

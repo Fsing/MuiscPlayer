@@ -121,15 +121,11 @@ Rectangle {
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
-        ListModel{
-            id:pathModel
-        }
-
         ListView{
             id:pathView
             width: centeritem.width
             height: centeritem.height
-            model: pathModel
+            model: _localMusicDir
             anchors.top: text_.bottom
             anchors.topMargin: 5
             delegate: Rectangle{
@@ -148,7 +144,7 @@ Rectangle {
 
                     onCheckedChanged: {
                         //checkChanged()
-                        pathModel.setProperty(index, "isChecked", checked)
+                        _localMusicDir.setProperty(index, "isChecked", checked)
                     }
                 }
 
@@ -180,7 +176,7 @@ Rectangle {
                         focus: true
                         acceptedButtons: Qt.LeftButton
                         onClicked: {
-                            pathModel.remove(pathView.currentIndex)
+                            _localMusicDir.remove(pathView.currentIndex)
                         }
                     }
                 }
@@ -188,11 +184,6 @@ Rectangle {
         }
 
     }
-//    onCheckChanged: {
-//        pathModel.setProperty(pathView.currentIndex, "isChecked", pathView.currentItem)
-//        console.log("isChecked:   " + pathModel.get(pathView.currentIndex).isChecked)
-//    }
-
 
     Item {
         id: bottomitem
@@ -254,17 +245,17 @@ Rectangle {
 
             console.log("You chose: " + fileDialog.fileUrl)
             //console.log("res" + res)
-            pathModel.append({"isChecked": true, "path": res})
+            _localMusicDir.append({"isChecked": true, "path": res})
         }
     }
 
     function getSelectPath(){
-        var count = pathModel.count
+        var count = _localMusicDir.count
         var i = 0;
         var list = []
         for (; i <  count; i++){
-            if (pathModel.get(i).isChecked === true){
-                list.push(pathModel.get(i).path)
+            if (_localMusicDir.get(i).isChecked === true){
+                list.push(_localMusicDir.get(i).path)
             }
         }
         console.log(list.length)

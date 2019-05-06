@@ -12,7 +12,7 @@ Rectangle {
     color:"#fafafa"
     //anchors.fill: parent
 
-    property int numbers
+    property int numbers:_locaMusicModel.count
     property var songInfoList: []
 
     ScrollView{
@@ -39,13 +39,17 @@ Rectangle {
                 id:initView
                 width: parent.width
                 height: parent.height
+                //visible: songInfoView.visible === true ? false : true
+                visible: !isLocalListVisable
             }
 
             Rectangle{
                 id:songInfoView
-                visible: false
+                //visible: _locaMusicModel.count == 0 ? false : true
+                visible: isLocalListVisable
                 width: scroll.width
-                height: scroll.height - top.height
+                //height: scroll.height - top.height
+                height: isLocalListVisable? localListSongsHeight : (scroll.height - top.height)
                 color: "transparent"
 
                 onHeightChanged: {
@@ -98,7 +102,7 @@ Rectangle {
         onOkClicked: {
             console.log("selectlocal")
             songInfoList = client.getLocalSongInfo(selectLocalMusicDialog.pathList)
-            songInfo.model.clear()
+            _locaMusicModel.clear()
             //songInfoView.visible = false
 
             console.log("songInfoList: " + songInfoList.length)
@@ -116,9 +120,9 @@ Rectangle {
 
                 }
 
-                songInfo.model.append({"number": num, "title":songInfoList[i].title, "artist": songInfoList[i].artist, "album":songInfoList[i].album, "time": songInfoList[i].time, "size":songInfoList[i].size+'MB', "path": songInfoList[i].path})
+                _locaMusicModel.append({"number": num, "title":songInfoList[i].title, "artist": songInfoList[i].artist, "album":songInfoList[i].album, "time": songInfoList[i].time, "size":songInfoList[i].size+'MB', "path": songInfoList[i].path})
             }
-            numbers = songInfo.model.count
+            //numbers = songInfo.model.count
             songInfoView.height = songInfoList.length * 28 +30+100
             column.height = top.height + songInfoView.height
 //            console.log("column.width " +   column.width)
@@ -127,8 +131,14 @@ Rectangle {
 //            console.log("scroll.height " +   scroll.height)
 //            console.log("songInfo.height " +   songInfo.height)
             songInfoView.update()
-            initView.visible = false
-            songInfoView.visible = true
+            //initView.visible = false
+            //songInfoView.visible = true
+            localListSongsHeight = songInfoList.length * 28 +30+100
+            if (_locaMusicModel.count === 0){
+                isLocalListVisable = false
+            } else {
+                isLocalListVisable = true
+            }
         }
     }
 }

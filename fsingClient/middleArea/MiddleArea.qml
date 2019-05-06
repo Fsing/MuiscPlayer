@@ -7,6 +7,9 @@ Rectangle {
     property var listmodel: leftArea.listmodel
     property alias leftArea: leftArea
 
+//    property alias lyricCurrent: rightArea.lyricCurrent
+//    property alias lyricIndex: rightArea.lyricIndex
+
     SplitView{
         width: parent.width
         height: parent.height

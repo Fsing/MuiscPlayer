@@ -114,7 +114,13 @@ Item {
             console.log(index);
         }
         onDoubleClicked:{
-            localPlay.play(songInfoList[row].path)
+//            localPlay.play(songInfoList[row].path)
+            currentPlaylist.addItem(songInfoList[row].path)
+            console.debug("currentPlaylist.rowCount: " + currentPlaylist.rowCount())
+            currentPlaylist.currentIndex = currentPlaylist.rowCount()-1
+            mediaPlayer.play()
+//            bottomArea.leftLocalVisible = true;
+//            bottomArea.leftonlieVisible = false;
         }
     }
 }

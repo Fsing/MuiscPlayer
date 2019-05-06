@@ -5,7 +5,7 @@
 
 #include "./fsingClient/fsingclient.h"
 #include "./rtspClient/qmlrtspclient.h"
-#include "./localMusicPlay/localplay.h"
+//#include "./localMusicPlay/localplay.h"
 
 int main(int argc, char *argv[])
 {
@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
 
     qmlRegisterType<FSingClient>("FSingClient", 1, 0, "FSingClient");
     qmlRegisterType<QmlRtspClient>("RtspClient", 1, 0, "RtspClient");
-    qmlRegisterType<LocalPlay>("LocalPlay", 1, 0, "LocalPlay");
+//    qmlRegisterType<LocalPlay>("LocalPlay", 1, 0, "LocalPlay");
 
     QQmlApplicationEngine engine;
     engine.rootContext()->setContextProperty("applicationDirPath",

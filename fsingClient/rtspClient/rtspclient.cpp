@@ -87,6 +87,7 @@ int CRtspClient::Play(string songName)
     //开启接收数据
 
     //停止解码
+    cout << "CRtspClient::Play" << endl;
     m_rtpSession.clear();
     if(m_rtpSession.m_encodeSrc.IsDestroyed() == false)
         m_rtpSession.m_encodeSrc.setDestroyed(true);
@@ -96,6 +97,7 @@ int CRtspClient::Play(string songName)
     }
 
     m_rtpSession.m_encodeSrc.play();
+    cout <<"CRtspClient:Play :m_is_play: "<< m_rtpSession.m_encodeSrc.isPlay() << endl;
 
 //    m_rtpSession.clear();
     m_rtpSession.setDestroyed(false);       //开始接收
@@ -112,7 +114,7 @@ void CRtspClient::continuePlay()
 int CRtspClient::Pause()
 {
     m_rtpSession.Pause();
-    return send_simple_cmd( RTSP_PAUSE );
+//    return send_simple_cmd( RTSP_PAUSE );
     return 0;
 }
 

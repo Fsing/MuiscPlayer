@@ -334,25 +334,13 @@ int CRtspSession::handle_setup( const char* data, int len )
 
 int CRtspSession::handle_play( const char* data, int len )
 {
-//    int range = m_data_src.GetRange();
-//    int s_sec = 0;                                          //s_sec:"Range:npt"的结尾位置
-//    int e_sec = range;
-//    //rang_s:Range: npt的起始位置
-//    const char* range_s = strstr( data, "Range: npt=" );    //rang_s:Range: npt的起始位置
-//    if( range_s != nullptr){
-//        //s_sec:"Range:npt"的结尾位置
-//        s_sec = atoi( range_s+strlen("Range: npt=") );
-//        //e_ses_pos:"-"的位置
-//        const char* e_sec_pos = strstr( range_s+strlen("Range: npt="), "-" );   //e_ses_pos:"-"的位置
-//        if( e_sec_pos != nullptr ){
-//            int sec = atoi( e_sec_pos+1 );
-//            if( sec != 0 )
-//                e_sec = sec;
-//        }
-//    }
-//    m_data_src.PerPlay( s_sec, e_sec );
-//    CDataSrc::MediaInfo media_info;
-//    m_data_src.GetMediaInfo( 0, media_info );
+    std::stringstream ss(data);
+
+
+
+
+
+
     //获得歌曲名
     auto it = strstr(data,"\r\n\r\n");
     auto first = strstr(data,"CSeq");
@@ -371,9 +359,6 @@ int CRtspSession::handle_play( const char* data, int len )
         return -1;
     //发送数据
     string s(fileName);
-//    auto d = s.c_str();
-//    auto p1 = strstr(d,"RTSP");
-//    s = string(d+1,p1);
     m_rtpSession.Play(s,s.size());
     return 0;
 //    return m_data_src.Play( &m_sock, m_rtp_ch );

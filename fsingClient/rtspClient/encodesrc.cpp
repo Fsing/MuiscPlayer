@@ -122,7 +122,6 @@ int CEncodeSrc::readBuf(uint8_t *data, int len)
     }
 
     return (data_to_read > 0) ? -1 : len;
-
 }
 
 //void CEncodeSrc::audio_callback(void *userdata, uint8_t *stream, int len)
@@ -305,6 +304,7 @@ void CEncodeSrc::thread_proc(long user_info)
             }
 
             // Close the codecs
+            SDL_CloseAudio();
             avcodec_close(aCodecCtxOrig);
             avcodec_close(aCodecCtx);
             av_frame_free(&aFrame);

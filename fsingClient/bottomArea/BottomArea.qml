@@ -10,6 +10,12 @@ Rectangle {
     property string controlButtonColor: ""
     property string sliderColor: ""
     property alias duration : bottomMiddleButton.duration
+    property alias playingSongName: bottomLeftButton.playingSongName
+
+//    property alias leftonlieVisible: bottomLeftButton.visible
+//    property alias leftLocalVisible: bottomLeftButtonLocal.visible
+
+//    property alias isPlaying: bottomLeftButton.isPlaying
 
 
     //    border.color: "#CCCCCC"
@@ -19,6 +25,11 @@ Rectangle {
         id: bottomLeftButton
         buttonColor: controlButtonColor
     }
+//    BottomLeftButtonLocal{
+//        id:bottomLeftButtonLocal
+//        visible: false;
+//    }
+
     BottomRightButton {
         id: bottomRightButton
         slidercolor: sliderColor

@@ -2,6 +2,7 @@
 #include "printlog.h"
 #include <algorithm>
 #include <iostream>
+#include <sstream>
 
 //ffmpeg
 extern "C"{
@@ -9,7 +10,7 @@ extern "C"{
 #include "libavformat/avformat.h"
 }
 
-using std::min;
+using std::min;         using std::stringstream;
 
 CDecodeSrc::CDecodeSrc()
 {
@@ -56,20 +57,21 @@ void CDecodeSrc::thread_proc(long user_info)
 {
     while(1){
         if(IsDestroyed() == false){
+            cout <<" Enter CDencodeSrc::thread_pro" << endl;
             AVFormatContext	*pFormatCtx;
             AVCodecContext	*pCodecCtx;
             AVCodec			*pCodec;
             AVPacket		packet;
             int				i, audioStream;
 
-            FILE *pFile=nullptr;
-            //    string fileurl = "../rtspServer/music" + fileName;
-            //char *url = fileurl.c_str();
-//            char *urll = m_fileName;
             cout << m_fileName <<endl;
+            stringstream ss("./music/");
             char urll[128];
             memset(urll,0,sizeof(urll));
-            strncpy(urll,"./music/",8);
+
+            string path1;
+            ss >> path1;
+            strncpy(urll,path1.c_str(),path1.size());
             auto it = strstr(m_fileName,"mp3");
 
             if(strncpy(urll+8,m_fileName,it+3-m_fileName) == nullptr){
@@ -124,7 +126,7 @@ void CDecodeSrc::thread_proc(long user_info)
 
             //解码--------------------------------------------------------------------------
             while(IsDestroyed() == false){
-                while(av_read_frame(pFormatCtx,&packet) >= 0){
+                if(av_read_frame(pFormatCtx,&packet) >= 0){
                     if(packet.stream_index == audioStream){
                         PacketNode node;
                         node.buf = new uint8_t[BUFF_MAX_SIZE*2];//每次读1024字节,不超过1400就行
@@ -144,6 +146,7 @@ void CDecodeSrc::thread_proc(long user_info)
                 }
             }
             avformat_close_input(&pFormatCtx);
+            cout << "leave CDecodeSrc::thread_pro" << endl;
         }
     }
 }

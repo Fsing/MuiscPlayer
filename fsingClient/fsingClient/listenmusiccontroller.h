@@ -6,8 +6,8 @@
 //#include "json/json.h"
 //#include <string>
 #include "localmusic.h"
-#include "songlist.h"
-#include "song.h"
+//#include "songlist.h"
+//#include "song.h"
 
 class ListenMusicController : public FSingController
 {
@@ -62,10 +62,6 @@ public:
     QList<QString> m_songInformation;
     //评论信息
     QList<QString> m_comments;
-
-    //歌单歌曲缓存
-    std::map<int,std::shared_ptr<SongList>> m_songListsMap;
-    std::map<int,std::shared_ptr<Song>> m_songsMap;
 };
 
 #endif // LISTENMUSICCONTROLLER_H

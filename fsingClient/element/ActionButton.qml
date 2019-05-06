@@ -5,6 +5,7 @@ import QtQuick.Controls 2.2
 Item {
     //anchors.verticalCenter: parent.verticalCenter
     //anchors.centerIn: parent
+    property bool isLike:false
     property string firstSource: firstButtonImage.source
     property string secondSource: secondButtonImage.source
     signal buttonClick
@@ -15,18 +16,27 @@ Item {
             id: firstButtonMouseArea
             anchors.fill: parent
             hoverEnabled: true
+            cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
             onClicked: {
                 console.log("like")
                 buttonClick()
+                if (isLike){
+                    isLike = false
+                }else{
+                    isLike = true
+                }
             }
         }
 
         background: Image {
             id: firstButtonImage
-            anchors.fill: parent
-            scale: 0.9
-            opacity: 1
-            source: "qrc:/images/leftArea/btnfavorite.png"
+            //anchors.fill: parent
+            //anchors.centerIn: parent
+            anchors.bottom: firstButton.bottom
+            anchors.bottomMargin: -6
+            //scale: 0.9
+            opacity: firstButtonMouseArea.containsMouse? 1.0: 0.7
+            source: isLike ? "qrc:/images/common/btn_islove (2).png":"qrc:/images/common/btn_love (2).png"
         }
     }
 
@@ -40,6 +50,7 @@ Item {
             id: secondButtonMouseArea
             anchors.fill: parent
             hoverEnabled: true
+            cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
             onClicked: {
                 console.log("download")
                 buttonClick()
@@ -49,7 +60,8 @@ Item {
         background: Image {
             id: secondButtonImage
             anchors.fill: parent
-            opacity: 1
+            scale: 0.9
+            opacity: secondButtonMouseArea.containsMouse ? 1.0: 0.7
             source: "qrc:/images/leftArea/btndownload.png"
         }
     }

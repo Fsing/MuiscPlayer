@@ -21,6 +21,7 @@ Rectangle {
     property string titleColor: "#ffffff"
 
     property alias loginDialog: loginDialog
+    property alias topSearch_: topSearch
 
     Text {
         id: titleName

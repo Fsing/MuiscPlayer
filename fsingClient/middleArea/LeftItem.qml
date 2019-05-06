@@ -49,6 +49,7 @@ Item {
             acceptedButtons: Qt.RightButton | Qt.LeftButton
             hoverEnabled: true
             propagateComposedEvents: true
+            cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
             enabled: true
             onEntered: {
                 create.opacity = 1
@@ -84,6 +85,7 @@ Item {
             hoverEnabled: true
             propagateComposedEvents: true
             enabled: true
+            cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
             onEntered: {
                 showAllCreate.opacity = 1
             }
@@ -146,6 +148,7 @@ Item {
             propagateComposedEvents: true
             enabled: true
             anchors.fill: parent
+            cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
             onEntered: {
                 listModel.setProperty(index, "opaci", 1)
             }

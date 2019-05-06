@@ -2,9 +2,10 @@ import QtQuick 2.0
 
 Rectangle {
     id:search_
-    width: 200
+    width: 220
     height: 20
     radius: 10
+    signal searchKey
 //    anchors.left: leftRightButton.right
 //    anchors.leftMargin: 10
 //    anchors.verticalCenter: parent.verticalCenter
@@ -28,7 +29,7 @@ Rectangle {
     //    signal startSearch
     TextInput {
         id: searchEdit
-        width: parent.width
+        width: parent.width-30
         anchors.left: parent.left
         anchors.leftMargin: 10
         anchors.verticalCenter: parent.verticalCenter
@@ -52,8 +53,31 @@ Rectangle {
         onAccepted: {
             //searchList = client.search(text)
             //searchCount = client.getSearchCount()
-            search()
-            middleArea.rightArea.searchSongs(searchList, searchCount)
+
+            //middleArea.rightArea.searchSongs(searchList, searchCount)
         }
     }
+    Image {
+        id: searchImage
+        width: 20
+        height: 20
+        scale: 0.8
+        anchors.verticalCenter: parent.verticalCenter
+        anchors.right: parent.right
+        anchors.rightMargin: 5
+        source: "qrc:/images/middleArea/search.png"
+        opacity: searchImageMouse.containsMouse ? 1.0: 0.7
+        MouseArea{
+            id:searchImageMouse
+            hoverEnabled: true
+            anchors.fill: searchImage
+            cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
+            onClicked: {
+                client.searchMusic(searchEdit.text)
+                console.log("search(){}{}{}{}{}}{}{}}{}")
+                searchKey()
+            }
+        }
+    }
+
 }

@@ -28,8 +28,28 @@ public:
     ~FSingClient(){}
 
 public:
+    Q_INVOKABLE void connect_server();
+    //请求文件
+    Q_INVOKABLE void fileTransfer(QString fileName);
+    //filetransfer
+    //接收文件
+    void fileReceiver();
+    //传文件调用函数
+    void handle_write(const boost::system::error_code& error, size_t bytes_transferred);
+    void receive_file_content(std::string fileName);
+    void handle_file(const boost::system::error_code& error);
+    void handle_header(const boost::system::error_code& error);
+
+
     //获取本地音乐信息
     Q_INVOKABLE QList<QObject *> getLocalSongInfo(QList<QString> dirList);
+
+    //注册用户
+    Q_INVOKABLE void registerUser(QString name,QString password);
+    //登录账户,服务器数据库查找用户信息
+    Q_INVOKABLE void login(QString userName, QString userPassword);
+    //退出账户
+    Q_INVOKABLE void logout();
     //检测是否已经登录
     Q_INVOKABLE bool checkLogin();
     //获取用户名字信息
@@ -44,6 +64,8 @@ public:
     //获取用户原创歌单
 //    Q_INVOKABLE QList<QString> createdSongLists();
 
+    //获取推荐歌单Lists huang
+    void getRecommendSongLists();
     //获取用户创建歌单的名字集合 huang
     Q_INVOKABLE QList<QString> getCreateSongNameLists();
     //获取推荐歌单名字集合
@@ -74,36 +96,14 @@ public:
     //获取歌单信息 huang
     Q_INVOKABLE QString getSongInformation(QString songId);
 
-
-public:
-
-    Q_INVOKABLE void connect_server();
-    //请求文件
-    Q_INVOKABLE void fileTransfer(QString fileName);
-    //filetransfer
-    //接收文件
-    void fileReceiver();
-    //传文件调用函数
-    void handle_write(const boost::system::error_code& error, size_t bytes_transferred);
-    void receive_file_content(std::string fileName);
-    void handle_file(const boost::system::error_code& error);
-    void handle_header(const boost::system::error_code& error);
-
-    //注册用户
-    Q_INVOKABLE void registerUser(QString name,QString password);
-    //登录账户,服务器数据库查找用户信息
-    Q_INVOKABLE void login(QString userName, QString userPassword);
-    //退出账户
-    Q_INVOKABLE void logout();
-
-    //获取推荐歌单Lists huang
-    void getRecommendSongLists();
-
     //获取评论信息
     Q_INVOKABLE void comment(QString id, int start, int end);
     Q_INVOKABLE QList<QString> getComments();
     //发布评论
     Q_INVOKABLE void postComment(QString songOrListId, QString userId, QString commnet);
+    //查找音乐
+    Q_INVOKABLE void searchMusic(QString key);
+    Q_INVOKABLE QList<QString> searchResult();
 
     //直接将通过参数传入的封装好的json字符串传送给服务器。参数string由用况controller里的各个函数封装
     void sendStreamMediaRequest(std::string string);
@@ -121,6 +121,7 @@ private:
     std::shared_ptr<LoginController> _loginController;
     std::shared_ptr<ListenMusicController> _listenMusicController;
     std::shared_ptr<DownloadMusicController> _downloadMusicController;
+    std::shared_ptr<SearchController> _searchController;
     //结果信息
     QString m_loginConcrollerResult;
 

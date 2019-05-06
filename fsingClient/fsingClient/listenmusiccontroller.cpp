@@ -144,7 +144,6 @@ void ListenMusicController::songListInfo(Json::Value resultRoot)
     }
     ret->setSongs(songs);
     m_songListsMap.insert(std::make_pair(resultRoot["id"].asInt(),ret)) ;
-
 }
 
 QList<QString> ListenMusicController::getSongListSongs(QString songListId)

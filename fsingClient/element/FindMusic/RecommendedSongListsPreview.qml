@@ -180,6 +180,7 @@ Item {
             var k = '0'
             var m = ''
             for (var i = 0; i < count; i++){
+                //设置歌曲的序号
                 var num
                 if (i < 9){
                     num = k+j

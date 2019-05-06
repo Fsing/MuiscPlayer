@@ -109,5 +109,9 @@
         <file>images/common/ayi.9.png</file>
         <file>middleArea/rightAreaComponents/Advert.qml</file>
         <file>images/common/commentLike.png</file>
+        <file>images/middleArea/search.png</file>
+        <file>middleArea/rightAreaComponents/Search.qml</file>
+        <file>images/common/btn_love (2).png</file>
+        <file>images/common/btn_islove (2).png</file>
     </qresource>
 </RCC>

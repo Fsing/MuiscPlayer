@@ -2,6 +2,7 @@
 #include "fsingcontroller.h"
 #include "logincontroller.h"
 #include "listenmusiccontroller.h"
+#include "searchcontroller.h"
 #include <iostream>
 #include <boost/thread.hpp>
 #include "json/json.h"
@@ -30,6 +31,7 @@ FSingClient::FSingClient()
     try{
         _loginController = std::make_shared<LoginController>();
         _listenMusicController = std::make_shared<ListenMusicController>();
+        _searchController = std::make_shared<SearchController>();
         getRecommendSongLists();
         auto adverts = getAdvertImages();
         for (int j = 0; j < adverts.count(); j++){
@@ -355,6 +357,26 @@ void FSingClient::postComment(QString songOrListId, QString userId, QString comm
     receiveMessage(ec);
 }
 
+void FSingClient::searchMusic(QString key)
+{
+    Json::Value root;
+    root["type"] = "SEARCH";
+    root["songKey"] = key.toStdString();
+    root.toStyledString();
+    std::string out = root.toStyledString();
+
+    boost::system::error_code ec;
+
+    sendServerMessage(ec,out);
+    receiveMessage(ec);
+}
+
+QList<QString> FSingClient::searchResult()
+{
+    std::cout <<"searchResult: " << _searchController->getSearchResult().size() <<std::endl;
+    return _searchController->getSearchResult();
+}
+
 QList<QString> FSingClient::getRecommendSongListNames()
 {
     return _listenMusicController->getRecSongListNames();
@@ -477,6 +499,8 @@ void FSingClient::receiveMessage(boost::system::error_code ec)
                 _listenMusicController->dealMessage(type, resultRoot);
             }else if (type == "ADDCOMMENT"){
                 _listenMusicController->dealMessage(type, resultRoot);
+            }else if (type == "SEARCH"){
+                _searchController->dealMessage(type, resultRoot);
             }
         }
     }catch(char *e){

@@ -6,6 +6,7 @@ Item {
 //    height: model.count * 28 +30
     height: songListModel.count * 28 +30
     //property alias model:songsModel
+    property var _songListModel_:songListModel
     property double length: (width-120)/4
 
     TableView {
@@ -13,7 +14,7 @@ Item {
         anchors.fill: parent
         enabled: true
         //model: songsModel
-        model: songListModel
+        model: _songListModel_
         //model: localMusic.songList()
         frameVisible:false
 
@@ -128,7 +129,7 @@ Item {
 
         onClicked: {
             console.log("row clicked")
-            console.log("info:    " + songListModel.get(view.currentRow).time)
+            console.log("info:    " + _songListModel_.get(view.currentRow).time)
             console.log("leftArea.lyricSource : " +leftArea.lyricSource )
             console.log("info:    " + songsListTable[row*9])
         }
@@ -139,7 +140,7 @@ Item {
             //界面左下角的歌曲界面
             console.log("applicationDirPath:   "+applicationDirPath)
             leftArea.lyricSource = rightArea.songsListTable[row*9+1] + ".lrc"
-            var albumImg = songListModel.get(view.currentRow).album +".jpg"
+            var albumImg = _songListModel_.get(view.currentRow).album +".jpg"
             client.fileTransfer(albumImg)
             leftArea.albumImage = "file://" + applicationDirPath +"/" + albumImg
             leftArea.currentSongId = songsListTable[row*9]

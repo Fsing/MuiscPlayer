@@ -153,6 +153,14 @@ Rectangle {
         }
     }
 
+    Component {
+        id: searchComponent
+        Search {
+            id: search
+
+        }
+    }
+
     Component{
         id:songListComponent
         SongList{
@@ -170,6 +178,38 @@ Rectangle {
         }
     }
 
+    Connections{
+        target: topArea.topSearch_
+        onSearchKey:{
+            console.log("onSearch")
+            Js.popView(-2)
+
+            var lists = client.searchResult()
+            var count = lists.length/9
+            var j = 1;
+            var k = '0'
+            var m = ''
+            for (var i = 0; i < count; i++){
+                var num
+                if (i < 9){
+                    num = k+j
+                    j++
+                }else{
+                    num = m+j
+                    j++
+
+                }
+                searchModel.append({"number": num,
+                                       "operator":"",
+                                       "title":lists[i * 9 + 1],
+                                       "artist":lists[i * 9 + 2],
+                                       "album":lists[i * 9 + 4],
+                                       "time":lists[i * 9 + 3]})
+            }
+
+        }
+    }
+
     ListModel{
         id:songsModel_
     }
@@ -179,5 +219,8 @@ Rectangle {
     }
     ListModel{
         id:_localMusicDir
+    }
+    ListModel{
+        id:searchModel
     }
 }

@@ -91,8 +91,9 @@ Item {
                     border.width: 2
                     width: gridView.cellWidth - 15
                     height: gridView.cellWidth -15
-                    Image { source: icon; anchors.fill: rectangle; fillMode: Image.Stretch }
+                    Image { id:recImae; source: icon; anchors.fill: rectangle; fillMode: Image.Stretch }
                     MouseArea{
+                        id:recMouse
                         anchors.fill: rectangle
                         hoverEnabled: true
                         cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
@@ -105,6 +106,42 @@ Item {
                             appendSong(rightArea.songsListTable)
                             Js.popView(11)
                         }
+                    }
+
+                    Rectangle {
+                        id:playQuantityRectangle
+                        anchors.top:recImae.top
+                        anchors.right: recImae.right
+                        width:  recImae.height * 0.15
+                        height:recImae.width * 0.4
+                        anchors.rightMargin: 18
+                        anchors.topMargin: -18
+                        color: parent.color
+                        rotation:90
+                        //visible:!recMouse.containsMouse && backImage.status === Image.Ready
+                        visible: recMouse.containsMouse ? false : true
+                        gradient: Gradient {
+                            GradientStop{
+                                position: 0.0;
+                                color: Qt.rgba(0,0,0,0.7);
+
+                            }
+                            GradientStop{
+                                position: 1.0;
+                                color: Qt.rgba(0,0,0,0);
+                            }
+                        }
+                    }
+                    Text {
+                        anchors.top:rectangle.top
+                        anchors.topMargin: 0
+                        anchors.right: rectangle.right
+                        anchors.rightMargin: 5
+                        //anchors.topMargin: 15
+                        id: clickQuantityText
+                        text: clickQuantity
+                        color: "white"
+                        visible: recMouse.containsMouse ? false : true
                     }
                 }
                 Text {

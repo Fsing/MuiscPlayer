@@ -17,6 +17,7 @@ using boost::asio::io_service;
 io_service service;
 //ip::tcp::endpoint ep(address::from_string("192.168.43.32"),2001);
 ip::tcp::endpoint ep(address::from_string("192.168.43.164"),2001);
+//ip::tcp::endpoint ep(address::from_string("192.168.42.159"),2001);
 //客户端异步连接，有多个套接字，每次发送信息、接受信息都重新分配一个套接字，并且分配一个线程独立进行
 ip::tcp::socket sock(service);
 ip::tcp::socket sock_fileTransfer(service);
@@ -334,7 +335,6 @@ void FSingClient::comment(QString id, int start, int end)
 
 QList<QString> FSingClient::getComments()
 {
-    std::cout <<"Client Comment!" <<std::endl;
     return _listenMusicController->getCommnets();
 }
 
@@ -363,6 +363,11 @@ QList<QString> FSingClient::getRecommendSongListNames()
 QList<QString> FSingClient::getRecommendSongListIcons()
 {
     return _listenMusicController->getRecSongListIcons();
+}
+
+QList<int> FSingClient::getRecommendSongListClickQuantity()
+{
+    return _listenMusicController->getRecSongListClickQuantity();
 }
 
 QList<QString> FSingClient::getAdvertImages()
@@ -432,8 +437,10 @@ void FSingClient::receiveMessage(boost::system::error_code ec)
                 return;
             }
 
-            std::cout << "receiveData.length():  " <<receiveData.length() << std::endl;
-            std::cout << "atoi(dataSize):  " <<atoi(dataSize) << std::endl;
+            //std::cout << "receiveData.length():  " <<receiveData.length() << std::endl;
+            //std::cout << "atoi(dataSize):  " <<atoi(dataSize) << std::endl;
+            std::cout << "receive from server: " << std::endl;
+            std::cout << receiveData << std::endl;
             if(receiveData.data() == nullptr || receiveData.length() == 0)
                 continue;
             else{

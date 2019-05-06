@@ -60,6 +60,7 @@ Rectangle {
             text: "精彩评论"
             font.pixelSize: 15
             color: "#8b8b8b"
+            visible: commentModel_.count === 0 ? false: true
         }
 
         ListView{

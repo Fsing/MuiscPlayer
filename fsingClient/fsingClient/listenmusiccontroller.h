@@ -24,6 +24,8 @@ public:
     QList<QString> getRecSongListNames();
     //获取推荐歌单图片集合
     QList<QString> getRecSongListIcons();
+    //获取推荐歌单播放量
+    QList<int> getRecSongListClickQuantity();
     //获取广告
     QList<QString> getAdvertsImages();
     //获取推荐歌单的Id集合

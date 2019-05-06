@@ -12,6 +12,7 @@ Rectangle {
     property var recSongListNames: client.getRecommendSongListNames()
     property var recSongListIcons: client.getRecommendSongListIcons()
     property var recSongListIds: client.getRecommendSongListIds()
+    property var recSongListClickQuantity: client.getRecommendSongListClickQuantity()
 
     //数据格式：[id,listName,userName,createTime,label,info,icon,collectionQuantity,clickQuantity,shareQuantity,]
     //property var recSongListsInfo: client.getRecSongListBasicInfo()
@@ -142,11 +143,11 @@ Rectangle {
         if (recSongListNames.length !== 0){
             var i = 0
             for (; i < recSongListNames.length; i++){
-//                recommendedSongListsPreview.recModel.append({"icon": "file:///root/gridView/zhenhy.jpg","name":recSongListNames[i]})
                 recommendedSongListsPreview.recModel.setProperty(i, "name", recSongListNames[i])
-                //client.fileTransfer(recSongListIcons[i])
                 var path = "file://" + applicationDirPath + "/" + recSongListIcons[i]
                 recommendedSongListsPreview.recModel.setProperty(i, "icon", path)
+                recommendedSongListsPreview.recModel.setProperty(i, "clickQuantity", recSongListClickQuantity[i])
+
             }
         }
     }

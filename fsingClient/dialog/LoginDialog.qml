@@ -52,8 +52,8 @@ CommonDialog {
                         middleArea.listmodel.append({
                                                         recColor: "#F5F5F7",
                                                         imagesource: "../images/leftArea/list.png",
-                                                        tx: client.createdSongLists(
-                                                                )[i],
+                                                        tx: client.getCreateSongNameLists(
+                                                                )[i*2],
                                                         opaci: 0.55,
                                                         classifyText: "",
                                                         delegate_listVisible: true

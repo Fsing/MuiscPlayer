@@ -51,6 +51,7 @@ Rectangle {
                 leftAreaClicked(-1)
 
                 comments = client.getComments()
+
                 showComment()
             }
         }

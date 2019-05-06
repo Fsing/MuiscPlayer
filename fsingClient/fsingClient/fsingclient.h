@@ -50,6 +50,8 @@ public:
     Q_INVOKABLE QList<QString> getRecommendSongListNames();
     //获取推荐歌单图片集合
     Q_INVOKABLE QList<QString> getRecommendSongListIcons();
+    //获取推荐歌单的播放量
+    Q_INVOKABLE QList<int> getRecommendSongListClickQuantity();
     //获取广告图片
     Q_INVOKABLE QList<QString> getAdvertImages();
     //获取推荐歌单Id集合

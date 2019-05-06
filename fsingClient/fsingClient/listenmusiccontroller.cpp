@@ -182,7 +182,7 @@ void ListenMusicController::getSongListComment(Json::Value resultRoot)
         m_comments.append(QString::fromStdString(arrayObj[i]["comment"].asString()));
         m_comments.append(QString::fromStdString(arrayObj[i]["points"].asString()));
     }
-    qDebug() << m_comments.count();
+    std::cout << "m_comments.count():        " << m_comments.count() << std::endl;
 }
 
 QList<QString> ListenMusicController::getCommnets()
@@ -227,6 +227,19 @@ QList<QString> ListenMusicController::getRecSongListIcons()
         }
     }
     return icons;
+}
+
+QList<int> ListenMusicController::getRecSongListClickQuantity()
+{
+    QList<int> clickQuantitys;
+    if (m_songList.size() != 0){
+        for (auto it = m_songList.begin(); it != m_songList.end(); it++){
+            auto songList = it->second;
+            int clickQuantity = songList->getClickQuantity();
+            clickQuantitys.append(clickQuantity);
+        }
+    }
+    return clickQuantitys;
 }
 
 QList<QString> ListenMusicController::getAdvertsImages()

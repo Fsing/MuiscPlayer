@@ -122,7 +122,6 @@ int CEncodeSrc::readBuf(uint8_t *data, int len)
     }
 
     return (data_to_read > 0) ? -1 : len;
-
 }
 
 //void CEncodeSrc::audio_callback(void *userdata, uint8_t *stream, int len)

@@ -50,7 +50,8 @@ SOURCES += \
     fsingClient/song.cpp \
     fsingClient/songinfo.cpp \
     fsingClient/songlist.cpp \
-    fsingClient/localmusic.cpp
+    fsingClient/localmusic.cpp \
+    rtspClient/position.cpp
 
 RESOURCES += qml.qrc
 
@@ -95,6 +96,7 @@ HEADERS += \
     fsingClient/songinfo.h \
     fsingClient/songlist.h \
     fsingClient/localmusic.h \
-    localMusicPlay/localplay.h
+    localMusicPlay/localplay.h \
+    rtspClient/position.h
 
 LIBS += -lpthread -lboost_system -lboost_thread -ljsoncpp

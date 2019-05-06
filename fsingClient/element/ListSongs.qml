@@ -146,6 +146,7 @@ Item {
             leftArea.currentSongName = songListModel.get(view.currentRow).title
             leftArea.currentSinger = songListModel.get(view.currentRow).artist
             leftArea.currentAlbum = songListModel.get(view.currentRow).album
+            bottomArea.duration = songListModel.get(view.currentRow).time
         }
     }
 }

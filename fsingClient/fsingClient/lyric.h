@@ -9,8 +9,8 @@ class Lyric:public QObject
     Q_PROPERTY(int time READ time WRITE setTime NOTIFY timeChanged)
     Q_PROPERTY(QString text READ text WRITE setText NOTIFY timeChanged)
 public:
-    Lyric(QObject *parent = 0);
-    Lyric(const int time, const QString text, QObject *parent = 0);
+    Lyric(QObject *parent = nullptr);
+    Lyric(const int time, const QString text, QObject *parent = nullptr);
     Q_INVOKABLE QList<QObject *> resolveLyric(const QString &filePath);//解析歌词文件
 
     int time() const;

@@ -25,6 +25,8 @@ static  Uint8  *audio_chunk;            //chunk:数据块，音频帧缓冲区
 static  Uint32  audio_len;              //缓冲区大小
 static  Uint8  *audio_pos;              //等于audio_chunk
 
+extern long int myposition;
+
 CEncodeSrc::CEncodeSrc()
 {
     setDestroyed(true);
@@ -277,8 +279,10 @@ void CEncodeSrc::thread_proc(long user_info)
                             //解码播放
                             ret = avcodec_decode_audio4( aCodecCtx, aFrame,&got_picture, &packet);
 
-                            cout.precision(2);
-                            cout << aFrame->pkt_pts * av_q2d(pFormatCtx->streams[audioStream]->time_base)/60 << endl;
+//                            cout.precision(2);
+//                            cout << aFrame->pkt_pts * av_q2d(pFormatCtx->streams[audioStream]->time_base)/60 << endl;
+                            myposition = aFrame->pkt_pts * av_q2d(pFormatCtx->streams[audioStream]->time_base);
+
                             int dst_nb_samples = av_rescale_rnd(swr_get_delay(au_convert_ctx,aFrame->sample_rate) + aFrame->nb_samples,aFrame->sample_rate,aFrame->format,AVRounding(1));
                             if(got_picture > 0){
                                 //此函数便是将输入的音频按照定义的参数进行转换，并输出

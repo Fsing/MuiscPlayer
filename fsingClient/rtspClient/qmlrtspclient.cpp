@@ -4,9 +4,13 @@
 
 using std::ifstream;
 
+long int myposition;
+
 QmlRtspClient::QmlRtspClient()
 {
     start("0.mp3");
+    m_position = 0;
+    m_munite_position = myposition = 0;
 }
 
 int QmlRtspClient::start(QString SongName)
@@ -19,6 +23,9 @@ int QmlRtspClient::start(QString SongName)
     //开启rtsp线程
 
     m_rtspClient.Start(url,data_cb_fun,0,m_client_port);
+    _position.Start((long)this);
+//    pthread_t handle;
+//    pthread_create(&handle,nullptr,position_thread,this);
 }
 
 void QmlRtspClient::pause()
@@ -33,6 +40,8 @@ void QmlRtspClient::play(QString songName)
         m_rtspClient.continuePlay();
         m_rtspClient.send_play_cmd(songName.toStdString());
     }else{
+        m_position = 0;
+        myposition = 0;
         m_fileName = songName.toStdString();
         string songname = songName.toStdString();
         m_rtspClient.Play(songName.toStdString());
@@ -83,6 +92,15 @@ int QmlRtspClient::get_str(const char *data, const char *s_mark, bool with_s_mak
     return -1;
 }
 
+double QmlRtspClient::calculationDuration(QString duration)
+{
+    auto list = duration.split(":");
+    int m = list[0].toInt() * 60;
+    int s = list[1].toInt();
+    //    cout <<"duration : " << m+s << endl;
+    return (m+s) * 1000;
+}
+
 void QmlRtspClient::data_cb_fun(const char *data, int len)
 {
     if( data == nullptr )
@@ -92,3 +110,17 @@ void QmlRtspClient::data_cb_fun(const char *data, int len)
     }
 
 }
+
+//void *QmlRtspClient::position_thread(void *arg)
+//{
+//    QmlRtspClient *qmlClient = (QmlRtspClient*)arg;
+//    while(1){
+//        if(myposition - qmlClient->m_munite_position >= 1){
+//            qmlClient->m_munite_position = myposition;
+
+//            qmlClient->m_position++;
+//            cout <<"position_thread: " << qmlClient->m_munite_position << endl;
+//            emit qmlClient->positionChanged();
+//        }
+//    }
+//}

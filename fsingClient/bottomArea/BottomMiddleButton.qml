@@ -9,18 +9,19 @@ Rectangle {
     color: parent.color
 
     property string slidercolor: ""
+    property alias duration: totalTime.text
 
     Text {
         id: totalTime
         anchors.right: parent.right
         anchors.verticalCenter: parent.verticalCenter
-        text: ""
+        text: "00:00"
     }
     Text {
         id: currentTime
         anchors.left: parent.left
         anchors.verticalCenter: parent.verticalCenter
-        text: ""
+        text: change(rtspClient.position)
     }
     Slider {
         id: positionSlider
@@ -29,7 +30,7 @@ Rectangle {
         anchors.verticalCenter: parent.verticalCenter
         from: 0.0
         to: 1.0
-        value: 0
+        value:rtspClient.position /rtspClient.calculationDuration(totalTime.text)
 
         handle: Rectangle {
             id: handleRectangle
@@ -73,8 +74,9 @@ Rectangle {
     }
 
     function change(value){
-        var s = Math.round(value / 1000);
-        var m = Math.round(s / 60);
+        var s = Math.round(value / 1000);           //取整
+        var m = Math.floor(s / 60);
+        console.debug("Change m: " + m)
         s = s % 60;
         var mm = "0" + m;
         if(m > 9)

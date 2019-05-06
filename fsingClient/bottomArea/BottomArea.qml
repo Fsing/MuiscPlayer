@@ -9,6 +9,9 @@ Rectangle {
 
     property string controlButtonColor: ""
     property string sliderColor: ""
+    property alias duration : bottomMiddleButton.duration
+
+
     //    border.color: "#CCCCCC"
     //    border.width: 1
     //---------左下控制按钮

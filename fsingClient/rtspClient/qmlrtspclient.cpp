@@ -11,6 +11,7 @@ QmlRtspClient::QmlRtspClient()
     start("0.mp3");
     m_position = 0;
     m_munite_position = myposition = 0;
+    m_playState = 0;
 }
 
 int QmlRtspClient::start(QString SongName)
@@ -30,7 +31,11 @@ int QmlRtspClient::start(QString SongName)
 
 void QmlRtspClient::pause()
 {
+    m_playState = 0;
+    emit playStateChanged();
+
     m_rtspClient.Pause();
+    cout <<"QmlRtspClient->Pause: PlayState:  " << m_playState << endl;
 }
 
 void QmlRtspClient::play(QString songName)
@@ -38,10 +43,13 @@ void QmlRtspClient::play(QString songName)
     if(m_fileName == songName.toStdString()){
         cout <<"continue play,songName: " << songName.toStdString() << endl;
         m_rtspClient.continuePlay();
-        m_rtspClient.send_play_cmd(songName.toStdString());
+//        m_rtspClient.send_play_cmd(songName.toStdString());
     }else{
-        m_position = 0;
-        myposition = 0;
+        cout<< "QmlRtspClient::play" << endl;
+        m_position = myposition = 0;        //播放进度条设置为0
+        m_playState = 1;                    //播放状态
+        emit playStateChanged();
+
         m_fileName = songName.toStdString();
         string songname = songName.toStdString();
         m_rtspClient.Play(songName.toStdString());
@@ -90,6 +98,22 @@ int QmlRtspClient::get_str(const char *data, const char *s_mark, bool with_s_mak
         return 0;
     }
     return -1;
+}
+
+long QmlRtspClient::position()
+{
+    return m_position * 1000;
+}
+
+int QmlRtspClient::playState()
+{
+    return m_playState;
+}
+
+void QmlRtspClient::setPlayState(int l)
+{
+    m_playState = l;
+    emit playStateChanged();
 }
 
 double QmlRtspClient::calculationDuration(QString duration)

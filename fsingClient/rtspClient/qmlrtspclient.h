@@ -13,6 +13,8 @@ class QmlRtspClient : public QObject
 {
     Q_OBJECT
     Q_PROPERTY(long position READ position NOTIFY positionChanged)
+    Q_PROPERTY(int playState READ playState WRITE setPlayState NOTIFY playStateChanged)
+
 public:
     QmlRtspClient();
     Q_INVOKABLE int start(QString songName);
@@ -24,15 +26,19 @@ public:
     //提取字符串字段
     int get_str( const char* data, const char* s_mark, bool with_s_make, const char* e_mark, bool with_e_make, char* dest );
 
-    Q_INVOKABLE long position(){return m_position * 1000;}
+    Q_INVOKABLE long position();
+    Q_INVOKABLE int playState();
+    Q_INVOKABLE void setPlayState(int l);
+
     Q_INVOKABLE double calculationDuration(QString duration);
 private:
     static void data_cb_fun( const char* data, int len );
 //    static void *position_thread(void *arg);
 signals:
     void positionChanged();
-    friend class Position;
+    void playStateChanged();
 
+    friend class Position;
 private:
     CRtspClient m_rtspClient;
     Position _position;
@@ -42,7 +48,9 @@ private:
 
     long int m_munite_position;
     long int m_position;
-    CMutex m_mutex;
+//    CMutex m_mutex;
+
+    bool m_playState;
 };
 
 #endif // QMLRTSPCLIENT_H

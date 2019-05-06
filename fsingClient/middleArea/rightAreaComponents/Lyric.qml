@@ -22,7 +22,7 @@ Rectangle {
     property string album:leftArea.currentAlbum
     //property var comments_:leftArea.comments
 
-    property int current: 0
+    property int current: rtspClient.position/5000
     property bool increasing: true
 
     ScrollView {

@@ -30,7 +30,7 @@ void Position::thread_proc(long user_info)
         if(myposition - qmlClient->m_munite_position>= 1){
             qmlClient->m_munite_position = myposition;
             qmlClient->m_position++;
-            cout <<"position_thread: " << qmlClient->position() << endl;
+//            cout <<"position_thread: " << qmlClient->position() << endl;
             emit qmlClient->positionChanged();
         }
     }

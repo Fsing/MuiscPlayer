@@ -113,8 +113,8 @@ QObject *LocalMusic::resolveSongInfo(const QString filePath)
     file.open(QIODevice::ReadOnly);
     double size_tmp = (file.size()/1024.0)/1024;
     QString size = QString::number(size_tmp, 'f', 1);
-    //QString path = "file://" + filePath;
-    QString path = filePath;
+    QString path = "file://" + filePath;
+//    QString path = filePath;
 
     QObject *info = new SongInfo(title, artist, album, time, size,path);
     return info;

@@ -12,7 +12,7 @@ Rectangle {
     property double hoverOpacity:0.8
 
     //    property bool isPlaying: false                      //是否正在播放
-    property string playingSongName                     //正在播放的歌曲名字
+//    property string playingSongName                     //正在播放的歌曲名字
 
     Button {
         id: prebutton
@@ -62,17 +62,12 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onClicked: {
-                //                                console.log("mediaPlayer.playbackState:   " + mediaPlayer.playbackState)
-                //                                if(mediaPlayer.playbackState === 1)
-                //                                            mediaPlayer.pause()
-                //                                else
-                //                                    mediaPlayer.play()
-                //在线音乐
-                console.log("onlineMedia.playbackState:   " + rtspClient.playState +":  " + playingSongName)
-                if(rtspClient.playState === 0){
-                    rtspClient.play(playingSongName)
-                }else if(rtspClient.playState === 1)
-                    rtspClient.pause()
+                console.log("mediaPlayer.playbackState:   " + mediaPlayer.playbackState)
+                if(mediaPlayer.playbackState === 1)
+                    mediaPlayer.pause()
+                else
+                    mediaPlayer.play()
+
             }
         }
         background:Rectangle{
@@ -86,10 +81,7 @@ Rectangle {
                 id:pauseButtonImage
                 anchors.centerIn:parent
                 opacity: pauseButtonMouseArea.containsMouse ? hoverOpacity : noHoverOpacity
-//                source: mediaPlayer.playbackState === 1 ?
-//                            "qrc:/images/bottomArea/pause.png"
-//                          : "qrc:/images/bottomArea/play.png"
-                source: rtspClient.playState === 1 ?
+                source: mediaPlayer.playbackState === 1 ?
                             "qrc:/images/bottomArea/pause.png"
                           : "qrc:/images/bottomArea/play.png"
             }
@@ -108,14 +100,6 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onClicked: {
-                //                var nextIndex = mediaPlayer.playlist.nextIndex()
-                //                if (nextIndex === -1) {
-                //                    mediaPlayer.playlist.currentIndex = 0
-                //                } else {
-                //                    mediaPlayer.playlist.next()
-                //                }
-                //                mediaPlayer.play()
-                //            }
                 var nextIndex = mediaPlayer.playlist.nextIndex()
                 if (nextIndex === -1) {
                     mediaPlayer.playlist.currentIndex = 0

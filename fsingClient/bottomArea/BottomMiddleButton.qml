@@ -76,7 +76,7 @@ Rectangle {
     function change(value){
         var s = Math.round(value / 1000);           //取整
         var m = Math.floor(s / 60);
-        console.debug("Change m: " + m)
+        //        console.debug("Change m: " + m)
         s = s % 60;
         var mm = "0" + m;
         if(m > 9)

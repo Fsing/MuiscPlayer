@@ -45,6 +45,7 @@ public:
     //停止播放
     void pause();
     void play();
+    bool isPlay(){return m_is_play;}
 
 private:
 

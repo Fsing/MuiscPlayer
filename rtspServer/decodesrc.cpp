@@ -124,7 +124,7 @@ void CDecodeSrc::thread_proc(long user_info)
 
             //解码--------------------------------------------------------------------------
             while(IsDestroyed() == false){
-                while(av_read_frame(pFormatCtx,&packet) >= 0){
+                if(av_read_frame(pFormatCtx,&packet) >= 0){
                     if(packet.stream_index == audioStream){
                         PacketNode node;
                         node.buf = new uint8_t[BUFF_MAX_SIZE*2];//每次读1024字节,不超过1400就行

@@ -146,7 +146,11 @@ Item {
             leftArea.currentSongName = songListModel.get(view.currentRow).title
             leftArea.currentSinger = songListModel.get(view.currentRow).artist
             leftArea.currentAlbum = songListModel.get(view.currentRow).album
+
             bottomArea.duration = songListModel.get(view.currentRow).time
+            bottomArea.playingSongName = songsListTable[row*9]+".mp3"
+//            bottomArea.leftLocalVisible = false;
+//            bottomArea.leftonlieVisible = true;
         }
     }
 }

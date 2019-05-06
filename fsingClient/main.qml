@@ -8,7 +8,7 @@ import "element"
 
 import FSingClient 1.0
 import RtspClient 1.0
-import LocalPlay 1.0
+//import LocalPlay 1.0
 
 Window {
     id:mainWindow
@@ -20,6 +20,7 @@ Window {
     flags: Qt.Window | Qt.FramelessWindowHint
 
     property alias client: client
+    property string localOrOnline: "online"
 
     TopArea {
         id: topArea
@@ -58,9 +59,12 @@ Window {
 
     RtspClient{
         id:rtspClient
+        onPositionChanged: {
+//            middleArea.lyricCurrent = ++middleArea.lyricIndex
+        }
     }
 
-    LocalPlay{
-        id:localPlay
-    }
+    //    LocalPlay{
+    //        id:localPlay
+    //    }
 }

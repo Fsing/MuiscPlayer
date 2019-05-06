@@ -305,6 +305,7 @@ void CEncodeSrc::thread_proc(long user_info)
             }
 
             // Close the codecs
+            SDL_CloseAudio();
             avcodec_close(aCodecCtxOrig);
             avcodec_close(aCodecCtx);
             av_frame_free(&aFrame);

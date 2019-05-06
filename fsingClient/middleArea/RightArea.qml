@@ -22,6 +22,9 @@ Rectangle {
     property alias stackView: stackView
     //property alias searchComponent: searchComponent
 
+//    property alias lyricCurrent: lyric.current
+//    property alias lyricIndex: lyric.index
+
     StackView {
         id: stackView
         anchors.fill: parent

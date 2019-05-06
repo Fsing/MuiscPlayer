@@ -178,8 +178,10 @@ void ListenMusicController::getSongListComment(Json::Value resultRoot)
     const Json::Value arrayObj = resultRoot["array"];
     for (unsigned int i = 0; i < arrayObj.size(); i++)
     {
+        m_comments.append(QString::fromStdString( arrayObj[i]["accountId"].asString()));
         m_comments.append(QString::fromStdString( arrayObj[i]["accountName"].asString()));
-        m_comments.append(QString::fromStdString(arrayObj[i]["comment"].asString()));
+        m_comments.append(QString::fromStdString( arrayObj[i]["comment"].asString()));
+        m_comments.append(QString::fromStdString(arrayObj[i]["icon"].asString()));
         m_comments.append(QString::fromStdString(arrayObj[i]["points"].asString()));
     }
     std::cout << "m_comments.count():        " << m_comments.count() << std::endl;

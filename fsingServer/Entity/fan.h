@@ -17,7 +17,7 @@ class Fan:public User
 {
 public:
     Fan();
-    Fan(string name,string password,string label,string sex,string birthday,string address,string icon);
+    Fan(string id,string name,string password,string label,string sex,string birthday,string address,string icon);
 
     //getting
     std::map<std::string, std::shared_ptr<SongList>> getCollectedSongList();
@@ -28,6 +28,7 @@ public:
     string getUserPw();
 //    int getUserId();
     string getlabel(){return m_label;}
+    string getId(){return m_userID;}
     string getSex(){return m_sex;}
     string getBirthday(){return m_birthday;}
     string getAddress(){return m_address;}
@@ -43,7 +44,7 @@ public:
     void addCreatedSongList(string songlistID,std::shared_ptr<SongList> songlist);
 
 private:
-//    int m_userID;               //用户id
+    std::string m_userID;               //用户id
     std::string m_name;         //用户名
     std::string m_password;     //用户密码
     std::string m_label;        //用户标签

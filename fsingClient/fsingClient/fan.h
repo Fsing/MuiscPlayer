@@ -28,6 +28,7 @@ public:
     void clear();
 
     //getting
+    QString userId();
     QString userName();
     QString password();
     QString label();
@@ -42,6 +43,7 @@ public:
     QMap<QString, QList<QString> > fanUsers();
 
     //setting
+    void setId(const QString &id);
     void setUserName(QString username);
     void setPassword(QString password);
     void setLabel(QString label);
@@ -67,6 +69,7 @@ signals:
     void addressChanged();
     void iconChanged();
 private:
+    QString m_id;
     QString m_name;         //用户名
     QString m_password;     //用户密码
     QString m_label;        //用户标签

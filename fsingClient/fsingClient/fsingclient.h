@@ -37,7 +37,7 @@ public:
     //获取用户头像
     Q_INVOKABLE QString getUserIcon();
     //获取用户Id
-    //Q_INVOKABLE QString getUserId();
+    Q_INVOKABLE QString getUserId();
 
     //创建歌单
     Q_INVOKABLE void addCreateSongList(QString username, QString songlistName, QString time);

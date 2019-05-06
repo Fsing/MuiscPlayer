@@ -13,6 +13,9 @@ string CommentController::getComment(string songId,string left = "1", string rig
     auto redisControl = RedisControl::getInstance();
     Json::Value root;
     Json::Value arryObj;
+    root["type"] = "COMMENT";
+    root["songId"] = songId.c_str();
+
     string command;
     command += "zrevrange ";
     command += "point_";
@@ -77,8 +80,6 @@ string CommentController::getComment(string songId,string left = "1", string rig
         }
 
         vec = redisControl->excuteCommand(command);
-        root["type"] = "COMMENT";
-        root["songId"] = songId.c_str();
         for(unsigned long i = 0;i < vec.size();i+=2){
             string vecCommand;
             vecCommand += "get ";

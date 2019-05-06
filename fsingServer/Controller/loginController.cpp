@@ -27,6 +27,7 @@ std::string LoginController::myLogin(std::string username, std::string password)
             throw "NAME_INVALID";
         }else{
             //用户存在
+            root["id"] = res->getId();
             root["userName"] = username;
             root["userPassword"] = password;
             root["userLabel"] = res->getlabel();
@@ -34,6 +35,7 @@ std::string LoginController::myLogin(std::string username, std::string password)
             root["userBirthday"] = res->getBirthday();
             root["userAddress"] = res->getAddress();
             root["userIcon"] = res->getIcon();
+
             if(password != res->getUserPw()){
                 root["loginSuccess"] = "PW_INVALID";  //用户密码错误
                 throw  "PW_INVALID";

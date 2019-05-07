@@ -27,6 +27,16 @@ QString LoginController::getFanId()
     return m_fan.userId();
 }
 
+QString LoginController::getFanLabel()
+{
+    return m_fan.label();
+}
+
+QString LoginController::getFanAddress()
+{
+    return m_fan.address();
+}
+
 void LoginController::createSongList(Json::Value resultRoot)
 {
     std::string ret = resultRoot["recordSuccess"].asString();

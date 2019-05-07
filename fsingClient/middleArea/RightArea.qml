@@ -164,6 +164,14 @@ Rectangle {
         }
     }
 
+    Component {
+        id: personInfoComponent
+        PersonInfo {
+            id: personInfo
+           // width: parent.width
+        }
+    }
+
     Component{
         id:songListComponent
         SongList{
@@ -230,6 +238,15 @@ Rectangle {
             }
         }
     }
+    Connections{
+        target: topArea.topRightButton_
+        onShowPersonInfo:{
+            if (client.checkLogin()){
+                Js.popView(-3)
+            }
+        }
+    }
+
 
     //歌单 songListComponent的model
     ListModel{

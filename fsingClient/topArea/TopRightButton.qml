@@ -27,6 +27,7 @@ Rectangle {
 
     signal loginButtonClicked()
     signal skinButtonClicked()
+    signal showPersonInfo()
 
     Button {
         id: closebutton
@@ -152,7 +153,7 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onClicked: {
-               // client.onlineSongLists()
+                // client.onlineSongLists()
             }
         }
 
@@ -232,24 +233,57 @@ Rectangle {
         }
     }
 
-    Button {
+    //    Button {
+    //        id: userImageButton
+    //        anchors.right: loginButton.left
+    //        anchors.rightMargin: 10
+    //        anchors.verticalCenter: parent.verticalCenter
+    //        width: 25
+    //        height: 25
+    //        opacity: 1.0
+
+    //        onClicked: {
+    //            console.log("userImageClick")
+    //            showPersonInfo()
+
+    //        }
+
+    //        background: CircleIcon {
+    //            id: loginbuttonImage
+    //            anchors.fill: parent
+    //            opacity: hoverOpacity
+    //            userImage: loginButtonSource
+    //        }
+    //    }
+
+    Rectangle {
         id: userImageButton
         anchors.right: loginButton.left
         anchors.rightMargin: 10
         anchors.verticalCenter: parent.verticalCenter
-        width: 25
-        height: 25
-        opacity: 1.0
+        width: 30
+        height: 30
+        color: "transparent"
 
-        onClicked: {
-            console.log("userImageClick")
+        MouseArea{
+            anchors.fill: userImageButton
+            hoverEnabled: true
+            cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
+
+            onClicked: {
+                console.log("userImageClick")
+                showPersonInfo()
+
+            }
+
         }
 
-        background: CircleIcon {
+        CircleIcon {
             id: loginbuttonImage
             anchors.fill: parent
             opacity: hoverOpacity
             userImage: loginButtonSource
         }
+
     }
 }

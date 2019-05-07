@@ -219,6 +219,16 @@ QString FSingClient::getUserId()
     return _loginController->getFanId();
 }
 
+QString FSingClient::getUserLabel()
+{
+    return _loginController->getFanLabel();
+}
+
+QString FSingClient::getUserAddress()
+{
+    return _loginController->getFanAddress();
+}
+
 void FSingClient::addCreateSongList(QString username, QString songlistName, QString time)
 {
     Json::Value root;
@@ -308,6 +318,7 @@ void FSingClient::getRecommendSongLists()
 {
     Json::Value root;
     root["type"] = "INTERFACE";
+    //root["interfaceName"] = "";
 
     root.toStyledString();
     std::string out = root.toStyledString();

@@ -14,6 +14,8 @@ public:
     QString getFanUserName();
     QString getFanIcon();
     QString getFanId();
+    QString getFanLabel();
+    QString getFanAddress();
     void createSongList(Json::Value resultRoot);
     QList<QString> getCreateSongNameLists();
     void userLogout();

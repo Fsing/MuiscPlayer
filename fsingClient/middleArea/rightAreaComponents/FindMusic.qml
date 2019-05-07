@@ -13,6 +13,7 @@ Rectangle {
     property var recSongListIcons: client.getRecommendSongListIcons()
     property var recSongListIds: client.getRecommendSongListIds()
     property var recSongListClickQuantity: client.getRecommendSongListClickQuantity()
+    property var onlineSongListInfo
 
     property alias tabBar: bar
 
@@ -145,16 +146,16 @@ Rectangle {
 
     onShowOnlineSongLists: {
         onlineListModel.clear()
-        var lists = client.getOnlineSongListsInfo()
-        var count = lists.length/10
+        onlineSongListInfo = client.getOnlineSongListsInfo()
+        var count = onlineSongListInfo.length/10
         for (var i = 0; i < count; i++){
-            console.log("lists[i*10+6]:    "+lists[i*10+6])
-            client.fileTransfer(lists[i*10+6])
+            console.log("lists[i*10+6]:    "+onlineSongListInfo[i*10+6])
+            client.fileTransfer(onlineSongListInfo[i*10+6])
             var path = "file:///" + applicationDirPath
-                    + "/" +lists[i*10+6]
-            onlineListModel.append({name: lists[i*10+1],
+                    + "/" +onlineSongListInfo[i*10+6]
+            onlineListModel.append({name: onlineSongListInfo[i*10+1],
                                    icon: path,
-                                   clickQuantity: lists[i*10+8]})
+                                   clickQuantity: onlineSongListInfo[i*10+8]})
         }
     }
 

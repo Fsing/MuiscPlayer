@@ -7,7 +7,6 @@ Rectangle {
     id:commentEnd
     color: "#fafafa"
     property alias commentView: commentView__
-
     signal addCommnet(var str)
     signal addPoint()
     signal deletePoint()

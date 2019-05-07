@@ -115,5 +115,12 @@
         <file>images/common/btn_islove (2).png</file>
         <file>bottomArea/BottomLeftButtonLocal.qml</file>
         <file>element/OnlineSongList.qml</file>
+        <file>middleArea/rightAreaComponents/PersonInfo.qml</file>
+        <file>element/personalInfo/PersonBaseInfo.qml</file>
+        <file>element/personalInfo/MyButton.qml</file>
+        <file>element/personalInfo/NumberText.qml</file>
+        <file>element/personalInfo/TextText.qml</file>
+        <file>element/personalInfo/UserIcon.qml</file>
+        <file>element/personalInfo/PersonSongLists.qml</file>
     </qresource>
 </RCC>

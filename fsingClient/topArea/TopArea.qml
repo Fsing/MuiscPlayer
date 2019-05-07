@@ -25,6 +25,7 @@ Rectangle {
     property alias loginDialog: loginDialog
     property alias topSearch_: topSearch
     property alias backAndForwardButton: leftRightButton
+    property alias topRightButton_:topRightButton
 
     signal back()
     signal forward()
@@ -126,6 +127,7 @@ Rectangle {
         //搜索栏和设置按钮中间区域的拖动栏
         anchors.left: topSearch.right
         anchors.right: topRightButton.left
+        anchors.rightMargin: 15
         height: parent.height
         hoverEnabled: false
         acceptedButtons: Qt.LeftButton

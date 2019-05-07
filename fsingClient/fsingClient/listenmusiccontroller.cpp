@@ -65,6 +65,7 @@ void ListenMusicController::getRecSongList(Json::Value resultRoot)
 
 void ListenMusicController::getOnlineSongList(Json::Value resultRoot)
 {
+    m_onlineSongList.clear();
     const Json::Value arrayObj = resultRoot["array"];
     for (unsigned int i = 0; i < arrayObj.size(); i++){
         m_onlineSongList.append(QString::fromStdString(arrayObj[i]["id"].asString()));

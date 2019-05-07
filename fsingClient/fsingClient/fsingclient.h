@@ -58,6 +58,10 @@ public:
     Q_INVOKABLE QString getUserIcon();
     //获取用户Id
     Q_INVOKABLE QString getUserId();
+    //获取个人简介
+    Q_INVOKABLE QString getUserLabel();
+    //获取用户地区
+    Q_INVOKABLE QString getUserAddress();
 
     //创建歌单
     Q_INVOKABLE void addCreateSongList(QString username, QString songlistName, QString time);

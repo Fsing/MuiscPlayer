@@ -14,6 +14,7 @@ Item {
         fillMode: Image.PreserveAspectCrop
         smooth: true
         visible: false //是图片变成圆形
+        enabled: true
     }
 
     //轮廓
@@ -29,5 +30,6 @@ Item {
         anchors.fill: img
         source: img
         maskSource: mask
+        enabled: true
     }
 }

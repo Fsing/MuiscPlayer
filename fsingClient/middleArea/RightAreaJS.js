@@ -206,6 +206,24 @@ function popView(n) {
         }
         ;
         break
+
+    case -3:
+        var psersonInfo = stackView.find(function (item) {
+
+            return item.index === n ? true : false
+        })
+        if (psersonInfo === null) {
+            stackView.push(personInfoComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
+        } else {
+            stackView.pop(psersonInfo)
+        }
+        ;
+        break
     default:
         var songList = stackView.find(function (item) {
 

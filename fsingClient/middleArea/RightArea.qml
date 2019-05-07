@@ -10,11 +10,11 @@ Rectangle {
     anchors.top: parent.top
     anchors.bottom: parent.bottom
 
-   // property alias downloadModel2:downloadModel1
+    // property alias downloadModel2:downloadModel1
 
-//    ListModel{
-//        id:downloadModel1
-//    }
+    //    ListModel{
+    //        id:downloadModel1
+    //    }
 
     property var songsListTable         //歌曲列表对象
     property var songListInfo
@@ -25,8 +25,8 @@ Rectangle {
     property bool isLocalListVisable: false
     //property alias searchComponent: searchComponent
 
-//    property alias lyricCurrent: lyric.current
-//    property alias lyricIndex: lyric.index
+    //    property alias lyricCurrent: lyric.current
+    //    property alias lyricIndex: lyric.index
 
     StackView {
         id: stackView
@@ -124,7 +124,7 @@ Rectangle {
     }
     Component {
         id: downloadComponent
-//        property alias dowload: download
+        //        property alias dowload: download
         Download {
             id: download
             //downloadModels:downloadModel1
@@ -212,18 +212,43 @@ Rectangle {
 
         }
     }
+    Connections{
+        target: topArea
+        onBack:{
+            if (topArea.backStackView.length > 1){
+                topArea.backStackView.pop()
+//                if(topArea.backStackView.length > 0){
+                    var tmpIndex = topArea.backStackView.length - 1
+                    var tmp = topArea.backStackView[tmpIndex]
+                    console.log("tmp:                           "+ tmp)
+                    Js.popView(topArea.backStackView[tmpIndex])
+                if (topArea.backStackView.length === 1)
+                    topArea.backAndForwardButton.leftButtonOpacity = 0.5
+//                }
+            }else {
+                topArea.backAndForwardButton.leftButtonOpacity = 0.5
+            }
+        }
+    }
 
+    //歌单 songListComponent的model
     ListModel{
         id:songsModel_
     }
-
+    //本地音乐界面的歌曲列表model
     ListModel{
         id:_locaMusicModel
     }
+    //本地音乐界面文件目录的model
     ListModel{
         id:_localMusicDir
     }
+    //搜索界面的model
     ListModel{
         id:searchModel
+    }
+    //在线歌单界面的model
+    ListModel{
+        id:onlineListModel
     }
 }

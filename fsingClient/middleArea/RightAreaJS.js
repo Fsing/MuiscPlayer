@@ -7,6 +7,11 @@ function popView(n) {
         })
         if (findMusic === null) {
             stackView.push(findMusicComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(findMusic)
         }
@@ -19,6 +24,11 @@ function popView(n) {
         })
         if (fm === null) {
             stackView.push(fmComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(fm)
         }
@@ -31,6 +41,11 @@ function popView(n) {
         })
         if (mv === null) {
             stackView.push(mvComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(mv)
         }
@@ -44,6 +59,11 @@ function popView(n) {
         console.log("friend: " + friend)
         if (friend === null) {
             stackView.push(friendComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(friend)
         }
@@ -56,6 +76,11 @@ function popView(n) {
         })
         if (localMusic === null) {
             stackView.push(localMusicComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(localMusic)
         }
@@ -68,6 +93,11 @@ function popView(n) {
         })
         if (download === null) {
             stackView.push(downloadComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(download)
         }
@@ -80,6 +110,11 @@ function popView(n) {
         })
         if (myMusicCloudDisk === null) {
             stackView.push(myMusicCloudDiskComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(myMusicCloudDisk)
         }
@@ -92,6 +127,11 @@ function popView(n) {
         })
         if (mySinger === null) {
             stackView.push(mySingerComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(mySinger)
         }
@@ -106,6 +146,11 @@ function popView(n) {
         console.log("mymv:*************** " + mymv)
         if (mymv === null) {
             stackView.push(myMvComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(mymv)
         }
@@ -119,6 +164,11 @@ function popView(n) {
         console.log("songlist:*************** " + favorite)
         if (favorite === null) {
             stackView.push(favoriteComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(favoriteComponent)
         }
@@ -146,6 +196,11 @@ function popView(n) {
         })
         if (search_ === null) {
             stackView.push(searchComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(search_)
         }
@@ -159,6 +214,11 @@ function popView(n) {
         console.log("songlist:*************** " + songList)
         if (songList === null) {
             stackView.push(songListComponent)
+            topArea.backStackView.push(n)
+            topArea.backAndForwardButton.leftButtonOpacity = 1.0
+            topArea.forwardStackView = []
+            console.log("topArea.forwardStackView.count:   " +topArea.forwardStackView.length)
+            console.log("topArea.backStackView.count:   " +topArea.backStackView.length)
         } else {
             stackView.pop(songListComponent)
         }

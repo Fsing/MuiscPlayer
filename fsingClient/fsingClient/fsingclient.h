@@ -78,8 +78,11 @@ public:
     Q_INVOKABLE QList<QString> getAdvertImages();
     //获取推荐歌单Id集合
     Q_INVOKABLE QList<QString> getRecommendSongListIds();
+    //获取在线歌单
+    Q_INVOKABLE void onlineSongLists();
+    Q_INVOKABLE QList<QString> getOnlineSongListsInfo();
 
-    //获取推荐歌单基本信息
+    //获取歌单基本信息
     Q_INVOKABLE QList<QString> getSongListBasicInfo(QString recSongListId);
     //获取歌单歌曲列表
     Q_INVOKABLE QList<QString> getSongListSongs(QString songListId);

@@ -18,7 +18,13 @@ void ListenMusicController::dealMessage(std::string type, Json::Value resultRoot
 {
     try{
         if(type == "INTERFACE"){
-            getRecSongList(resultRoot);
+            std::string interfaceName = resultRoot["interfaceName"].asString();
+            if (interfaceName == "FINDMUSIC"){
+                std::cout << "deal FINDMUSIC" << std::endl;
+                getOnlineSongList(resultRoot);
+            }else{
+                getRecSongList(resultRoot);
+            }
         } else if (type == "SONGINFO"){
             songInfo(resultRoot);
         }else if (type == "SONGLIST"){
@@ -55,6 +61,29 @@ void ListenMusicController::getRecSongList(Json::Value resultRoot)
     {
         m_adverts.append(QString::fromStdString( advertArrayObj[i]["source"].asString()));
     }
+}
+
+void ListenMusicController::getOnlineSongList(Json::Value resultRoot)
+{
+    const Json::Value arrayObj = resultRoot["array"];
+    for (unsigned int i = 0; i < arrayObj.size(); i++){
+        m_onlineSongList.append(QString::fromStdString(arrayObj[i]["id"].asString()));
+        m_onlineSongList.append(QString::fromStdString(arrayObj[i]["name"].asString()));
+        m_onlineSongList.append(QString::fromStdString(arrayObj[i]["author"].asString()));
+        m_onlineSongList.append(QString::fromStdString(arrayObj[i]["createTime"].asString()));
+        m_onlineSongList.append(QString::fromStdString(arrayObj[i]["label"].asString()));
+        m_onlineSongList.append(QString::fromStdString(arrayObj[i]["info"].asString()));
+        m_onlineSongList.append(QString::fromStdString(arrayObj[i]["icon"].asString()));
+        m_onlineSongList.append(QString::fromStdString(arrayObj[i]["collectionQuantity"].asString()));
+        m_onlineSongList.append(QString::fromStdString(arrayObj[i]["clickQuantity"].asString()));
+        m_onlineSongList.append(QString::fromStdString(arrayObj[i]["shareQuantity"].asString()));
+    }
+    std::cout <<"m_onlineSongList.size() :  " << m_onlineSongList.size() << std::endl;
+}
+
+QList<QString> ListenMusicController::getOnlineSongListsInfo()
+{
+    return m_onlineSongList;
 }
 
 QList<QString > ListenMusicController::getSongListBasicInfo(QString recSongListId)

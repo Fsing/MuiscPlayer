@@ -114,5 +114,6 @@
         <file>images/common/btn_love (2).png</file>
         <file>images/common/btn_islove (2).png</file>
         <file>bottomArea/BottomLeftButtonLocal.qml</file>
+        <file>element/OnlineSongList.qml</file>
     </qresource>
 </RCC>

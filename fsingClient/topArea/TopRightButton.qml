@@ -151,6 +151,9 @@ Rectangle {
             id: emailbuttonMouseArea
             anchors.fill: parent
             hoverEnabled: true
+            onClicked: {
+               // client.onlineSongLists()
+            }
         }
 
         background: Image {

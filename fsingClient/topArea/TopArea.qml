@@ -14,6 +14,8 @@ Rectangle {
     radius: 0
     border.width: 0
 
+    property var backStackView:[0]
+    property var forwardStackView:[]
     property double xPosition: 0.0
     property double yPosition: 0.0
 
@@ -22,6 +24,10 @@ Rectangle {
 
     property alias loginDialog: loginDialog
     property alias topSearch_: topSearch
+    property alias backAndForwardButton: leftRightButton
+
+    signal back()
+    signal forward()
 
     Text {
         id: titleName
@@ -156,4 +162,13 @@ Rectangle {
             }
         }
     }
+
+//    onBackStackViewChange: {
+//        console.log("onBackStackViewChanged")
+//        if (backStackView.length === 0){
+//            leftRightButton.leftButtonOpacity = 1.0
+//        }else{
+//            leftRightButton.leftButtonOpacity = 0.5
+//        }
+//    }
 }

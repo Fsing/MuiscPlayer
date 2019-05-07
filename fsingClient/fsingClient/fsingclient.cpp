@@ -16,9 +16,10 @@ using boost::asio::ip::address;
 using boost::asio::io_service;
 
 io_service service;
-//ip::tcp::endpoint ep(address::from_string("192.168.43.164"),2001);
-ip::tcp::endpoint ep(address::from_string("192.168.43.32"),2001);
+ip::tcp::endpoint ep(address::from_string("192.168.43.164"),2001);
+//ip::tcp::endpoint ep(address::from_string("192.168.43.32"),2001);
 // ip::tcp::endpoint ep(address::from_string("127.0.0.1"),2001);
+// ip::tcp::endpoint ep(address::from_string("192.168.42.159"),2001);
 //客户端异步连接，有多个套接字，每次发送信息、接受信息都重新分配一个套接字，并且分配一个线程独立进行
 ip::tcp::socket sock(service);
 ip::tcp::socket sock_fileTransfer(service);
@@ -399,6 +400,26 @@ QList<QString> FSingClient::getAdvertImages()
 QList<QString> FSingClient::getRecommendSongListIds()
 {
     return _listenMusicController->getRecSongListIds();
+}
+
+void FSingClient::onlineSongLists()
+{
+    Json::Value root;
+    root["type"] = "INTERFACE";
+    root["interfaceName"] = "FINDMUSIC";
+
+    root.toStyledString();
+    std::string out = root.toStyledString();
+
+    boost::system::error_code ec;
+
+    sendServerMessage(ec,out);
+    receiveMessage(ec);
+}
+
+QList<QString> FSingClient::getOnlineSongListsInfo()
+{
+    return _listenMusicController->getOnlineSongListsInfo();
 }
 
 QString FSingClient::getSongInformation(QString songId)

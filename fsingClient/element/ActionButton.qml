@@ -33,7 +33,8 @@ Item {
             //anchors.fill: parent
             //anchors.centerIn: parent
             anchors.bottom: firstButton.bottom
-            anchors.bottomMargin: -6
+            anchors.bottomMargin: -4
+            fillMode: Image.PreserveAspectCrop
             //scale: 0.9
             opacity: firstButtonMouseArea.containsMouse? 1.0: 0.7
             source: isLike ? "qrc:/images/common/btn_islove (2).png":"qrc:/images/common/btn_love (2).png"

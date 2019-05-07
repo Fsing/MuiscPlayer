@@ -14,8 +14,12 @@ Rectangle {
     property var recSongListIds: client.getRecommendSongListIds()
     property var recSongListClickQuantity: client.getRecommendSongListClickQuantity()
 
+    property alias tabBar: bar
+
     //数据格式：[id,listName,userName,createTime,label,info,icon,collectionQuantity,clickQuantity,shareQuantity,]
     //property var recSongListsInfo: client.getRecSongListBasicInfo()
+
+    signal showOnlineSongLists()
 
     ListModel{
         id: menuModel
@@ -73,6 +77,14 @@ Rectangle {
                     lineColor: topArea.color
 
                     myModel: ["个性推荐", "歌单", "排行榜","歌手","最新音乐"]
+
+                    onCurrentIndexChanged: {
+                        if (currentIndex === 1){
+                            client.onlineSongLists()
+                            showOnlineSongLists()
+                        }
+                    }
+
                 }
                 Rectangle{
                     width: findMusicView.width - 60
@@ -81,7 +93,7 @@ Rectangle {
                     anchors.bottom: bar.bottom
                 }
             }
-
+            //广告显示
             Advert{
                 id: advert
                 modle: advertListmodle
@@ -89,24 +101,30 @@ Rectangle {
                 //Layout.fillWidth: true
                 visible: bar.currentIndex === 0 ? true : false
             }
+            //推荐歌单显示
+            RecommendedSongListsPreview{
+                //property int number: 0
+                id:recommendedSongListsPreview
+                width: recTopView.width
+                visible: bar.currentIndex === 0 ? true : false
 
-                RecommendedSongListsPreview{
-                    //property int number: 0
-                    id:recommendedSongListsPreview
-                    width: recTopView.width
-                    visible: bar.currentIndex === 0 ? true : false
+            }
+            //在线歌单显示
+            Rectangle{
+                id:songList
+                //property int number: 0
 
+                width: findMusicView.width-60
+                //width: recTopView.width
+                height:(onlineListModel.count % 5) === 0?((findMusicView.width-45)/5 + 50) * (onlineListModel.count/5):((findMusicView.width-45)/5 + 50) * (onlineListModel.count/5 + 1)
+                color: "transparent"
+                visible: bar.currentIndex === 1 ? true : false
+                OnlineSongList{
+                    width: songList.width+15
+                    height: songList.height
+                    onlineSongListModel:onlineListModel
                 }
-                Rectangle{
-                    id:songList
-                    //property int number: 0
-
-                    //width: findMusicView.width-60
-                    width: recTopView.width
-                    height: 600
-                    color: "pink"
-                    visible: bar.currentIndex === 1 ? true : false
-                }
+            }
 
         }
     }
@@ -114,7 +132,7 @@ Rectangle {
     onRecSongListNamesChanged: {
         recSongListsModel()
     }
-
+    //推荐歌单界面的广告model
     ListModel {
         id: advertListmodle
     }
@@ -125,6 +143,20 @@ Rectangle {
         onTriggered: advertAppend()
     }
 
+    onShowOnlineSongLists: {
+        onlineListModel.clear()
+        var lists = client.getOnlineSongListsInfo()
+        var count = lists.length/10
+        for (var i = 0; i < count; i++){
+            console.log("lists[i*10+6]:    "+lists[i*10+6])
+            client.fileTransfer(lists[i*10+6])
+            var path = "file:///" + applicationDirPath
+                    + "/" +lists[i*10+6]
+            onlineListModel.append({name: lists[i*10+1],
+                                   icon: path,
+                                   clickQuantity: lists[i*10+8]})
+        }
+    }
 
     function advertAppend() {
         var list = client.getAdvertImages();
@@ -139,7 +171,6 @@ Rectangle {
 
     //TODO
     function recSongListsModel(){
-//        if (recSongListNames.length !== 0){
         if (recSongListNames.length !== 0){
             var i = 0
             for (; i < recSongListNames.length; i++){
@@ -151,14 +182,4 @@ Rectangle {
             }
         }
     }
-
-
-
-    //        RecommendedSongListsPreview{
-    //            id:recommendedSongListsPreview
-    //            //y:50
-    //            width: findMusicView.width - 60
-    //        }
-
-
 }

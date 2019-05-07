@@ -128,7 +128,10 @@ std::string DatabaseController::interface(std::string interfaceName){
     }
     char sql[512];
     memset(sql,0,sizeof(char)*512);
+    Json::Value root;
+
     if("FINDMUSIC"==interfaceName){
+        root["interfaceName"] = "FINDMUSIC";
     std::sprintf(sql,"select * from SongList limit 0,10");
     }else{
         std::sprintf(sql,"select * from SongList");
@@ -144,7 +147,7 @@ std::string DatabaseController::interface(std::string interfaceName){
 
         result = mysql_store_result(&mysql);
         if(result){
-            Json::Value root;
+
             Json::Value arrayObj;
             Json::Value advertArrayObj;
             root["type"] = "INTERFACE";

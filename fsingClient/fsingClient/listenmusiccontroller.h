@@ -32,6 +32,10 @@ public:
     QList<QString> getRecSongListIds();
     //获取推荐歌单基本信息集合
     QList<QString> getSongListBasicInfo(QString recSongListId);
+    //从服务器获取在线歌单
+    void getOnlineSongList(Json::Value resultRoot);
+    //获取在线歌单基本信息
+    QList<QString> getOnlineSongListsInfo();
     //获取歌单实体
     bool findSongList(QString songListId);
     //从服务器获取歌曲信息
@@ -58,6 +62,8 @@ public:
     //std::vector<SongList> m_songList; //歌单的基本信息
     //QMap<QString, SongList> m_songList;
     std::map<int,std::shared_ptr<SongList>> m_songList;
+
+    QList<QString> m_onlineSongList;
 
     QList<QString> m_songInformation;
     //评论信息

@@ -8,6 +8,9 @@ Item {
     //height: (recTopView.width/5 + 50) *2
     height:recSongListsLabel.height + gridViewRec.height
     property alias recModel:recommendSongListsModel
+
+    signal showMoreOnlineSongList()
+
     ListModel {
         id:recommendSongListsModel
         ListElement {
@@ -71,6 +74,26 @@ Item {
             text: "推荐歌单"
             color: "#3b3b3b"
             font.pixelSize: 18
+        }
+        Text {
+            id: moreText
+            text: "更多"
+            color: "#696969"
+            anchors.right: recSongListsLabel.right
+            anchors.rightMargin: 20
+            anchors.bottom: recSongListsLabel.bottom
+            anchors.bottomMargin: 15
+
+            opacity: moreTextMouse.containsMouse ? 1.0 : 0.8
+            MouseArea{
+                id:moreTextMouse
+                anchors.fill: moreText
+                hoverEnabled: true
+                cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
+                onClicked: {
+                    tabBar.currentIndex = 1
+                }
+            }
         }
         Rectangle{
             width: recSongLists.width-15

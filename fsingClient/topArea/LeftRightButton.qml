@@ -13,9 +13,10 @@ Rectangle {
 
     property int buttonWidth: 15
     property int buttonHeight: 15
-
-    property double noHoverOpacity: 1.0
-    property double hoverOpacity:0.5
+    property double leftButtonOpacity : 0.5
+    property double rightButtonOpacity : 0.5
+    property double noHoverOpacity: 0.5
+    property double hoverOpacity:1.0
     Rectangle{
         width: parent.width
         height: 1
@@ -60,15 +61,18 @@ Rectangle {
             id: leftButtonMouseArea;
             anchors.fill: parent;
             hoverEnabled: true;
+            cursorShape:((leftButtonImage.opacity === 1.0) && (pressed||containsMouse))? Qt.PointingHandCursor: Qt.ArrowCursor
             onClicked: {
-
+                back()
             }
         }
 
         background: Image {
             id:leftButtonImage
             anchors.fill: parent
-            opacity: leftButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
+            //opacity: leftButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
+            //opacity: backStackView.length === 0 ? noHoverOpacity :  hoverOpacity
+            opacity: leftButtonOpacity
             source: "qrc:/images/topArea/left.png"
         }
 
@@ -93,13 +97,18 @@ Rectangle {
             id: rightButtonMouseArea;
             anchors.fill: parent;
             hoverEnabled: true;
-            onClicked:{}
+            onClicked:{
+                forward()
+            }
 
         }
         background: Image {
+            id:rightButtonImage
             mirror: true
             anchors.fill: parent
-            opacity: rightButtonMouseArea.containsMouse ? noHoverOpacity : hoverOpacity
+            //opacity: rightButtonMouseArea.containsMouse ? hoverOpacity : noHoverOpacity
+            //opacity: forwardStackView.length === 0 ? noHoverOpacity : hoverOpacity
+            opacity: rightButtonOpacity
             source: "qrc:/images/topArea/left.png"
         }
     }

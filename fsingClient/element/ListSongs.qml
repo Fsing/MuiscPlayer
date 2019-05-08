@@ -157,10 +157,16 @@ Item {
                     console.log("songListModel_.get(view.currentRow).id:   " + _songListModel_.get(j).id)
                     currentListRectangle.playListModel.append({"id":_songListModel_.get(j).id,"title":_songListModel_.get(j).title,"artist":_songListModel_.get(j).artist, "time":_songListModel_.get(j).time})
                 }
+                currentListRectangle.listView.currentIndex = row
                 currentListRectangle.songNumber = currentListRectangle.playListModel.count
                 currentListRectangle.listView.height = currentListRectangle.playListModel.count * 30
-                currentListRectangle.noSongsView.visible = false
-                currentListRectangle.listView.visible = true
+                currentListRectangle.noSongsView.visible = false;
+                currentListRectangle.listView.visible = true;
+
+//                bottomArea.leftLocalVisible = false;
+//                bottomArea.leftonlieVisible = true;
+//                bottomArea.middleLocalVisible = false;
+//                bottomArea.middleonlineVisible = true;
             }
         }
     }

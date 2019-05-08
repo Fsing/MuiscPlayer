@@ -9,6 +9,8 @@ const RtspMethodStr g_method[RTSP_METHOD_MAX] = {
 	{RTSP_TEARDOWN, "TEARDOWN"},
 	{RTSP_SET_PARAMETER, "SET_PARAMETER"},
 	{RTSP_GET_PARAMETER, "GET_PARAMETER"},
+    {RTSP_SPEED,"SEPPD"},
+    {RTSP_BACK,"BACK"},
 };
 
 const RspCodeStr g_rsp_code_str[15] = {

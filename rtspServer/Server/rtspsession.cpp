@@ -368,6 +368,18 @@ int CRtspSession::handle_teardowm()
     return -1;          //返回-1,直接结束RTSPSession 会话线程
 }
 
+int CRtspSession::hand_speed(const char* data, int len )
+{
+    //获取时间，毫秒
+
+    m_rtpSession.speed();
+}
+
+int CRtspSession::hand_back()
+{
+
+}
+
 int CRtspSession::handle_other_method()
 {
     return send_simple_cmd( 200 );

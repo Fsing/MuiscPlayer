@@ -187,6 +187,15 @@ int CRtpSession::Play(string fileName,int len)
     return 0;
 }
 
+int CRtpSession::speed()
+{
+    //先停止传输
+    if(IsDestroyed() == false){
+        setDestroyed(true);
+    }
+    //
+}
+
 int CRtpSession::close()
 {
     Destroy();

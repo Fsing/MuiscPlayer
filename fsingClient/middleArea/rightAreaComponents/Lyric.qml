@@ -22,7 +22,9 @@ Rectangle {
     property string album:leftArea.currentAlbum
     //property var comments_:leftArea.comments
 
-    property int current: rtspClient.position/5000
+    property int current
+    property int  playPosition : rtspClient.position
+    property int lyricIndex : 1
     property bool increasing: true
 
     ScrollView {
@@ -137,11 +139,26 @@ Rectangle {
                                 }
                                 MouseArea {
                                     anchors.fill: parent
-                                    onClicked: rec0.current = index
+                                    onClicked:{
+                                        rec0.current = index
+                                        var lists = client.getLyric(songSource)
+                                        console.log("歌词：     "+lists[index].time)
+                                        console.log("index: " + index)
+                                    }
                                 }
                             }
 
                             currentIndex: rec0.current
+                            /*{
+                                var lists = client.getLyric(songSource)
+                                console.debug("index: " + index);
+                                console.debug("position: " +rtspClient.position)
+                                if(lists[index+1].time === rtspClient.position){
+                                    index++;
+                                    return index
+                                }
+                            }*/
+
                             onCurrentIndexChanged: {
                             }
                         }
@@ -173,9 +190,9 @@ Rectangle {
                 width:rec0.width - 40
                 height:  commentModel_.count * 60+200
                 //commentView.height: commentModel_.count * 50
-//                onHeightChanged: {
-//                    console.log("parent.height:  " + parent.height)
-//                }
+                //                onHeightChanged: {
+                //                    console.log("parent.height:  " + parent.height)
+                //                }
                 onAddCommnet: {
 
                     console.log("leftArea.currentSongId :   "+leftArea.currentSongId)
@@ -191,7 +208,7 @@ Rectangle {
     Connections{
         target: leftArea
         onShowComment:{
-console.log("leftArea.currentSongId :onShowComment:   "+leftArea.currentSongId)
+            console.log("leftArea.currentSongId :onShowComment:   "+leftArea.currentSongId)
             client.comment(leftArea.currentSongId,1,10)
             leftArea.comments = client.getComments()
             console.log("client.getComments(): "+ leftArea.comments.length)
@@ -206,7 +223,7 @@ console.log("leftArea.currentSongId :onShowComment:   "+leftArea.currentSongId)
                     commentModel_.append({image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg",
                                              name: leftArea.comments[i*5+1],
                                              comment: leftArea.comments[i*5+2],
-                                         point:number})
+                                             point:number})
                 }
             }
             console.log("_commnets.height: " + _commnets.height)
@@ -215,34 +232,34 @@ console.log("leftArea.currentSongId :onShowComment:   "+leftArea.currentSongId)
 
     ListModel{
         id:commentModel_
-//        ListElement{
+        //        ListElement{
 
-//            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
-//            name:"Eva: "
-//            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
+        //            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
+        //            name:"Eva: "
+        //            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
 
-//        }
-//        ListElement{
+        //        }
+        //        ListElement{
 
-//            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
-//            name:"Eva: "
-//            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
+        //            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
+        //            name:"Eva: "
+        //            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
 
-//        }
-//        ListElement{
+        //        }
+        //        ListElement{
 
-//            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
-//            name:"Eva: "
-//            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
+        //            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
+        //            name:"Eva: "
+        //            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
 
-//        }
-//        ListElement{
+        //        }
+        //        ListElement{
 
-//            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
-//            name:"Eva: "
-//            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
+        //            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
+        //            name:"Eva: "
+        //            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
 
-//        }
+        //        }
 
     }
 }

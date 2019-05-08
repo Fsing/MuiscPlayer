@@ -6,6 +6,7 @@ Rectangle {
 
     property var listmodel: leftArea.listmodel
     property alias leftArea: leftArea
+    property alias rightArea: rightArea
 
 //    property alias lyricCurrent: rightArea.lyricCurrent
 //    property alias lyricIndex: rightArea.lyricIndex

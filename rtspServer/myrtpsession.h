@@ -39,6 +39,7 @@ public:
 
     int Pause();
     int Play(string fileName, int len);
+    int speed();
     //将解码和RTPSession线程destroy()
     int close();
 

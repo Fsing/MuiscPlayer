@@ -105,7 +105,6 @@ void CDecodeSrc::thread_proc(long user_info)
                 printf("Could not open codec.\n");
             }
 
-
             //解码--------------------------------------------------------------------------
             while(IsDestroyed() == false && !isDestroyHasChanged()){
                 if(av_read_frame(pFormatCtx,&packet) >= 0 ){

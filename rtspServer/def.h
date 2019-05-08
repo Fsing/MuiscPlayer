@@ -3,15 +3,11 @@
 
 #include <stdint.h>
 #include <stdio.h>
-#ifndef _WIN32
 #include <unistd.h>
 #include <fcntl.h>
 #include <errno.h>
 #include <sys/socket.h>
 #include <netdb.h>
-#else
-#include <WinSock2.h>
-#endif
 #include <string.h>
 #include <stdlib.h>
 
@@ -110,6 +106,8 @@ typedef enum{
     RTSP_TEARDOWN = 5,
     RTSP_SET_PARAMETER = 6,
     RTSP_GET_PARAMETER = 7,
+    RTSP_SPEED = 8,
+    RTSP_BACK = 9,
     RTSP_METHOD_MAX
 }RtspMethodT;
 

@@ -12,8 +12,10 @@ Rectangle {
     property alias duration : bottomMiddleButton.duration
     property alias playingSongName: bottomLeftButton.playingSongName
 
-//    property alias leftonlieVisible: bottomLeftButton.visible
+    property alias leftonlieVisible: bottomLeftButton.visible
 //    property alias leftLocalVisible: bottomLeftButtonLocal.visible
+//    property alias middleLocalVisible: bottomMiddleButtonLocal.visible
+//    property alias middleonlineVisible: bottomMiddleButton.visible
 
 //    property alias isPlaying: bottomLeftButton.isPlaying
 
@@ -27,7 +29,8 @@ Rectangle {
     }
 //    BottomLeftButtonLocal{
 //        id:bottomLeftButtonLocal
-//        visible: false;
+//        buttonColor: controlButtonColor
+//        visible: false
 //    }
 
     BottomRightButton {
@@ -38,4 +41,9 @@ Rectangle {
         id: bottomMiddleButton
         slidercolor: sliderColor
     }
+//    BottomMiddleButtonLocal{
+//        id:bottomMiddleButtonLocal
+//        slidercolor: sliderColor
+//        visible: false
+//    }
 }

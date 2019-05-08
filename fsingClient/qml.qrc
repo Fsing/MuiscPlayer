@@ -122,5 +122,6 @@
         <file>element/personalInfo/TextText.qml</file>
         <file>element/personalInfo/UserIcon.qml</file>
         <file>element/personalInfo/PersonSongLists.qml</file>
+        <file>bottomArea/BottomMiddleButtonLocal.qml</file>
     </qresource>
 </RCC>

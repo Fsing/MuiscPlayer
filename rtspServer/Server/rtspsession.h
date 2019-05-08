@@ -90,6 +90,8 @@ private:
 	int handle_play( const char* data, int len );
 	int handle_pause();
 	int handle_teardowm();
+    int hand_speed(const char *data, int len);       //处理快进
+    int hand_back();        //后退
     //只发送一个200 ok响应
 	int handle_other_method();
     //----------------------------------------

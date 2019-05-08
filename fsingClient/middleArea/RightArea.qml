@@ -87,6 +87,14 @@ Rectangle {
         Lyric{
             id:lyric
             songSource:applicationDirPath +"/" + leftArea.lyricSource
+            onPlayPositionChanged: {
+                var list = client.getLyric(songSource)
+                if(playPosition === list[lyricIndex].time){
+                    console.debug("--------------------------------")
+                    current = lyricIndex
+                    lyricIndex = lyricIndex+1
+                }
+            }
         }
     }
 
@@ -196,6 +204,7 @@ Rectangle {
             Js.popView(-2)
 
             var lists = client.searchResult()
+            songsListTable = lists
             var count = lists.length/9
             var j = 1;
             var k = '0'

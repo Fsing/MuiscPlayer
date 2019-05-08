@@ -56,6 +56,11 @@ void QmlRtspClient::play(QString songName)
     }
 }
 
+void QmlRtspClient::speed(QString position)
+{
+
+}
+
 int QmlRtspClient::readUrl(char *url,char *port,string songName)
 {
     memset(url,0,sizeof(url));

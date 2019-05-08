@@ -27,13 +27,32 @@ Rectangle {
             anchors.fill: parent
             hoverEnabled: true
             onClicked: {
-                var previousIndex = mediaPlayer.playlist.previousIndex()
-                if (previousIndex === -1) {
-                    mediaPlayer.playlist.currentIndex = mediaPlayer.playlist.itemCount - 1
-                } else {
-                    mediaPlayer.playlist.previous()
+//                var previousIndex = mediaPlayer.playlist.previousIndex()
+//                if (previousIndex === -1) {
+//                    mediaPlayer.playlist.currentIndex = mediaPlayer.playlist.itemCount - 1
+//                } else {
+//                    mediaPlayer.playlist.previous()
+//                }
+//                mediaPlayer.play()
+                var i = currentListRectangle.listView.currentIndex-1
+                if(i < 0){
+                    i = currentListRectangle.playListModel.count;
                 }
-                mediaPlayer.play()
+                currentListRectangle.listView.currentIndex = i;
+
+                //专辑图、歌词
+                middleArea.leftArea.lyricSource =  middleArea.rightArea.songsListTable[i*9+1] + ".lrc"
+//                var p = currentListRectangle.listView.currentIndex
+                var albumImg = middleArea.rightArea.model_.get(i).album +".jpg"
+                client.fileTransfer(albumImg)
+                middleArea.leftArea.albumImage = "file://" + applicationDirPath +"/" + albumImg
+                middleArea.leftArea.currentSongId = middleArea.rightArea.songsListTable[i*9]
+                middleArea.leftArea.currentSongName = currentListRectangle.playListModel.get(i).title
+                middleArea.leftArea.currentSinger = middleArea.rightArea.model_.get(i).artist
+                middleArea.leftArea.currentAlbum = middleArea.rightArea.model_.get(i).album
+
+                rtspClient.play(currentListRectangle.playListModel.get(i).id + ".mp3")
+                console.log("urrentListRectangle.playListModel.get(currentPlaylist.currentIndex).id" + currentListRectangle.playListModel.get(i).id)
             }
         }
         background:Rectangle{
@@ -118,15 +137,34 @@ Rectangle {
                 //            }
 
                 var i = currentListRectangle.listView.currentIndex+1
+                if(currentListRectangle.playListModel.count === i){
+                    i = 0;
+                }
+                currentListRectangle.listView.currentIndex = i;
+
+                //专辑图、歌词
+//                var p = currentListRectangle.listView.currentIndex
+//                console.debug("current index" + i)
+//                console.debug("count" + currentListRectangle.playListModel.count)
+                middleArea.leftArea.lyricSource =  middleArea.rightArea.songsListTable[i*9+1] + ".lrc"
+                var albumImg = middleArea.rightArea.model_.get(i).album +".jpg"
+                client.fileTransfer(albumImg)
+                middleArea.leftArea.albumImage = "file://" + applicationDirPath +"/" + albumImg
+                middleArea.leftArea.currentSongId = middleArea.rightArea.songsListTable[i*9]
+                middleArea.leftArea.currentSongName = currentListRectangle.playListModel.get(i).title
+                middleArea.leftArea.currentSinger = middleArea.rightArea.model_.get(i).artist
+                middleArea.leftArea.currentAlbum = middleArea.rightArea.model_.get(i).album
+
+                rtspClient.play(currentListRectangle.playListModel.get(i).id + ".mp3")
                 console.log("urrentListRectangle.playListModel.get(currentPlaylist.currentIndex).id" + currentListRectangle.playListModel.get(i).id)
 
-                var nextIndex = mediaPlayer.playlist.nextIndex()
-                if (nextIndex === -1) {
-                    mediaPlayer.playlist.currentIndex = 0
-                } else {
-                    mediaPlayer.playlist.next()
-                }
-                mediaPlayer.play()
+//                var nextIndex = mediaPlayer.playlist.nextIndex()
+//                if (nextIndex === -1) {
+//                    mediaPlayer.playlist.currentIndex = 0
+//                } else {
+//                    mediaPlayer.playlist.next()
+//                }
+//                mediaPlayer.play()
             }
         }
         background:Rectangle{

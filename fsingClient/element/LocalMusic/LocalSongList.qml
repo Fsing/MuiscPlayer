@@ -120,7 +120,9 @@ Item {
             currentPlaylist.currentIndex = currentPlaylist.rowCount()-1
             mediaPlayer.play()
 //            bottomArea.leftLocalVisible = true;
-//            bottomArea.leftonlieVisible = false;
+//            bottomArea.leftonlineVisible = false;
+//            bottomArea.middleLocalVisible = true;
+//            bottomArea.middleonlineVisible = false;
         }
     }
 }

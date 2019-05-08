@@ -20,6 +20,7 @@ public:
     Q_INVOKABLE int start(QString songName);
     Q_INVOKABLE void pause();
     Q_INVOKABLE void play(QString songName);
+    Q_INVOKABLE void speed(QString position);
 
     //从配置文件中读取url信息
     int readUrl(char *url, char *port, string songName);

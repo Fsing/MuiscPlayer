@@ -205,3 +205,61 @@ std::string SongListController::addSongToSongList(std::string songlistID, std::s
         return root.toStyledString();
     }
 }
+
+std::string SongListController::collectSongList(std::string userId, std::string songListId){
+    Json::Value root;
+    root["type"] = "COLLECTSONGLIST";
+    root["userID"] = userId;
+    root["songListID"] = songListId;   //歌单名
+
+    MYSQL mysql;
+    mysql_init(&mysql);
+    if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,NULL,0)){
+        cout << "collectSongList conect MYSQL failed!" << endl;
+        root["status"] = "800";
+        root["msg"] = "connect mysql fail";
+        return root.toStyledString();
+    }
+
+    //验证歌单中是否已经存在此歌曲
+    char sql[512];
+    MYSQL_RES *result;
+    MYSQL_ROW row;
+    std::sprintf(sql,"select 1 from CollectRelation where collectedUser=(select"
+                     " id from Account where name = '%s') and songlistID='%s'",userId.data(),songListId.data());
+    if(!mysql_real_query(&mysql,sql,strlen(sql))){
+        result = mysql_store_result(&mysql);
+        if(result){
+            while((row = mysql_fetch_row(result))){
+                if(""!=string(row[0])){
+                root["status"] = "400";
+                root["msg"] = "the songlist is already collect";
+                return root.toStyledString();
+                }
+            }
+        }
+    }else{
+        cout <<"addSongToSongList: select * from SongListRelation faild!" << endl;
+        root["status"] = "400";
+        root["msg"] = "CollectRelation query failed";
+        return root.toStyledString();
+    }
+
+    //插入收藏歌曲信息
+    char sql1[512];
+    std::sprintf(sql1,"insert into CollectRelation(collectedUser, songlistID) values(("
+                      "select id from Account where name ='%s'),'%s')",userId.data(),songListId.data());
+    auto length = strlen(sql1);
+    if(!mysql_real_query(&mysql,sql1,length)){
+        cout <<"CollectRelation:insert into CollectRelation success!" << endl;
+        root["status"] = "800";
+        return root.toStyledString();
+    }else {
+        cout <<"record insert song to songlist false" << endl;
+        root["status"] = "400";
+        root["msg"] = "CollectRelation insert failed";
+        root.toStyledString();
+        return root.toStyledString();
+    }
+
+}

@@ -113,6 +113,8 @@ void Server::dealMessage(string sig,vector<string> str,socket_ptr sock)
             res = _songListController->songListInformation(str[1]);
         }else if(sig == "SONGLIST"){
             res = _songListController->songListInformation(str[1]) ;
+        }else if(sig == "COLLECTSONGLIST"){
+            res = _songListController->collectSongList(str[1],str[2]) ;
         }else if(sig == "INTERFACE"){
             res = database.interface(str[1]);
         }else if(sig == "FETCHSONG"){

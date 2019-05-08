@@ -111,7 +111,7 @@ std::map<string,std::shared_ptr<SongList>> SongListBroker::findSongListsByCollec
     std::map<string,std::shared_ptr<SongList>> collectedSongLists;
     MYSQL mysql;
     mysql_init(&mysql);
-    if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,NULL,0)){
+    if(!mysql_real_connect(&mysql,"localhost","fsing","fsing","Fsing",3306,nullptr,0)){
         cout << "findSongListsByCollectionRelation: conect MYSQL failed!" << endl;
         return collectedSongLists;
     }

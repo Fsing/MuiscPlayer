@@ -15,7 +15,7 @@ CommonDialog {
         onQuitClicked: createSongListDialog.close()
         onOkButtonClicked: {
             createSongListDialog.close()
-            inputAccepted()
+            //inputAccepted()
             console.log(client.getUserName() + createSongListDialog.inputText + getCurDate(
                             ))
             if (client.checkLogin()) {

@@ -116,6 +116,10 @@ Rectangle {
                 //                }
                 //                mediaPlayer.play()
                 //            }
+
+                var i = currentListRectangle.listView.currentIndex+1
+                console.log("urrentListRectangle.playListModel.get(currentPlaylist.currentIndex).id" + currentListRectangle.playListModel.get(i).id)
+
                 var nextIndex = mediaPlayer.playlist.nextIndex()
                 if (nextIndex === -1) {
                     mediaPlayer.playlist.currentIndex = 0

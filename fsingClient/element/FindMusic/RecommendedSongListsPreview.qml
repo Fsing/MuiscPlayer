@@ -214,7 +214,8 @@ Item {
 
                 }
 
-                rightArea.model_.append({"number": num,
+                rightArea.model_.append({"id":lists[i*9],
+                                            "number": num,
                                             "operator":"",
                                             "title":lists[i * 9 + 1],
                                             "artist":lists[i * 9 + 2],

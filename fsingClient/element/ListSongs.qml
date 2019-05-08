@@ -8,6 +8,7 @@ Item {
     //property alias model:songsModel
     property var _songListModel_:songListModel
     property double length: (width-120)/4
+    property bool isAddToCurrentList:false
 
     TableView {
         id:view
@@ -150,8 +151,17 @@ Item {
 
             bottomArea.duration = songListModel.get(view.currentRow).time
             bottomArea.playingSongName = songsListTable[row*9]+".mp3"
-//            bottomArea.leftLocalVisible = false;
-//            bottomArea.leftonlieVisible = true;
+            if (!isAddToCurrentList){
+                currentListRectangle.playListModel.clear()
+                for (var j = 0; j < _songListModel_.count; j++){
+                    console.log("songListModel_.get(view.currentRow).id:   " + _songListModel_.get(j).id)
+                    currentListRectangle.playListModel.append({"id":_songListModel_.get(j).id,"title":_songListModel_.get(j).title,"artist":_songListModel_.get(j).artist, "time":_songListModel_.get(j).time})
+                }
+                currentListRectangle.songNumber = currentListRectangle.playListModel.count
+                currentListRectangle.listView.height = currentListRectangle.playListModel.count * 30
+                currentListRectangle.noSongsView.visible = false
+                currentListRectangle.listView.visible = true
+            }
         }
     }
 }

@@ -174,7 +174,7 @@ Rectangle {
     function recSongListsModel(){
         if (recSongListNames.length !== 0){
             var i = 0
-            for (; i < recSongListNames.length; i++){
+            for (; i < 10; i++){
                 recommendedSongListsPreview.recModel.setProperty(i, "name", recSongListNames[i])
                 var path = "file://" + applicationDirPath + "/" + recSongListIcons[i]
                 recommendedSongListsPreview.recModel.setProperty(i, "icon", path)

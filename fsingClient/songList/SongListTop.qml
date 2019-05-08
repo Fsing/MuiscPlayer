@@ -103,7 +103,8 @@ Rectangle {
                             currentListRectangle.playListModel.clear()
                             var i = 0
                             for (; i < songlist.songListModel.count; i++){
-                                currentListRectangle.playListModel.append({"title":songlist.songListModel.get(i).title,"artist":songlist.songListModel.get(i).artist, "time":songlist.songListModel.get(i).time})
+                                //console.log("songlist.songListModel.get(i).id:   " + songlist.songListModel.get(i).id)
+                                currentListRectangle.playListModel.append({"id":songlist.songListModel.get(i).id,"title":songlist.songListModel.get(i).title,"artist":songlist.songListModel.get(i).artist, "time":songlist.songListModel.get(i).time})
                                 //currentPlaylist.addItem(songlist.songListModel.get(i).path)
                             }
                             currentListRectangle.songNumber = currentListRectangle.playListModel.count

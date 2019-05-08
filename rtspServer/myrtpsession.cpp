@@ -108,6 +108,7 @@ void CRtpSession::thread_proc(long user_info)
 
     //        session.SetDefaultMark(true);
     //        RTPTime delay(10);
+    {
 
     auto readBytesPerSec = 2 * 1024 * 1024/8;
     RTPTime delay(BUFF_MAX_SIZE * 1.0/readBytesPerSec);
@@ -129,16 +130,18 @@ void CRtpSession::thread_proc(long user_info)
     //    std::ofstream writeMedioStream;
     //    writeMedioStream.open("")
 
-
+}
     while(1){
         while(IsDestroyed() == false){
             if(m_is_Play == true){
                 if((bufLength = m_decodeSrc.getNextPacket(buffer,SEND_BUFFE_SIZE,pts)) > 0 ){
                     session.SendPacket(buffer,bufLength);
 //                    cout <<"Send paccket  " << bufLength << "bytes" << endl;
-                    //                                    has_send_length += bufLength;
+                    //
+                    {has_send_length += bufLength;
                     write << pts << endl;
                     bufLength = 0;
+                    }
                 }
             }
             currentTime = time(nullptr);

@@ -132,7 +132,7 @@ std::string DatabaseController::interface(std::string interfaceName){
 
     if("FINDMUSIC"==interfaceName){
         root["interfaceName"] = "FINDMUSIC";
-    std::sprintf(sql,"select * from SongList limit 10,20");
+    std::sprintf(sql,"select * from SongList limit 10,2");
     }else{
         root["interfaceName"] = "";
         std::sprintf(sql,"select * from SongList");

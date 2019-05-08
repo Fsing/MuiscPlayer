@@ -6,21 +6,15 @@
 #include <string.h>
 #include <fstream>
 #include <time.h>
+#include <sstream>
 
-////jrtplib
-//#include "rtpsession.h"
-//#include "rtpsessionparams.h"
-//#include "rtpudpv4transmitter.h"
-//#include "rtppacket.h"
-//#include "rtpipv4address.h"
-//#include "rtptimeutilities.h"
 
 #define SEND_BUFFE_SIZE 1045        //每次读1045字节,一个NAL,不超过1400就行
 
 using namespace jrtplib;
 
 using std::string;                  using std::cout;
-using std::endl;
+using std::endl;                    using std::stringstream;
 
 
 CRtpSession::CRtpSession()
@@ -61,8 +55,8 @@ int CRtpSession::init(char *clienturl)
     //    strncpy(m_fileName,filename,strlen(filename));
     //    get_ip(clienturl,strlen(clienturl),"/",":");
 //    get_port(clienturl+strlen("rtsp://"),strlen(clienturl)-strlen("rtsp://"),":","/");
-    get_fileName(clienturl+strlen("rtsp://"),strlen(clienturl)-strlen("rtsp://"),"/");
-    if(m_decodeSrc.Start(m_fileName) < 0)
+//    get_fileName(clienturl);
+    if(m_decodeSrc.Start() < 0)
         ret = -1;
     return ret;
 }
@@ -108,7 +102,6 @@ void CRtpSession::thread_proc(long user_info)
 
     //        session.SetDefaultMark(true);
     //        RTPTime delay(10);
-    {
 
     auto readBytesPerSec = 2 * 1024 * 1024/8;
     RTPTime delay(BUFF_MAX_SIZE * 1.0/readBytesPerSec);
@@ -130,18 +123,16 @@ void CRtpSession::thread_proc(long user_info)
     //    std::ofstream writeMedioStream;
     //    writeMedioStream.open("")
 
-}
+
     while(1){
         while(IsDestroyed() == false){
             if(m_is_Play == true){
                 if((bufLength = m_decodeSrc.getNextPacket(buffer,SEND_BUFFE_SIZE,pts)) > 0 ){
                     session.SendPacket(buffer,bufLength);
 //                    cout <<"Send paccket  " << bufLength << "bytes" << endl;
-                    //
-                    {has_send_length += bufLength;
+                    //                                    has_send_length += bufLength;
                     write << pts << endl;
                     bufLength = 0;
-                    }
                 }
             }
             currentTime = time(nullptr);
@@ -176,33 +167,23 @@ int CRtpSession::Pause()
 
 int CRtpSession::Play(string fileName,int len)
 {
-    //    string name(m_fileName.data());
-//    char name[64];
-//    strncpy(name,fileName.c_str(),len);
-//    name[len]='\0';
+    //更新歌曲信息
+    m_fileName = fileName;
+    m_decodeSrc.setFileName(m_fileName);
 
-    //    if(strcmp(m_fileName,name) != 0){
-    CGuard lock(m_mutex);
     if(IsDestroyed() == false){
         setDestroyed(true);
     }
     if(m_decodeSrc.IsDestroyed() == false)
         m_decodeSrc.setDestroyed(true);
     m_decodeSrc.clear();            //清理数据缓存
-    //更新歌曲信息
-    strncpy(m_fileName,fileName.c_str(),len);
-    m_fileName[len] = '\0';
-    m_decodeSrc.setFileName(m_fileName);
 
     m_is_Play = true;
     setDestroyed(false);
     m_decodeSrc.setDestroyed(false);
 
-    //    }else if(strcmp(m_fileName,name) != 0){
-    //        m_mutex.Enter();
-    //        m_is_Play = true;
-    //        m_mutex.Leave();
-    //    }
+    m_decodeSrc.setIsDestroyHasChanged(true);
+    cout << "CDecodeSrc::destroy: " << m_decodeSrc.IsDestroyed() << endl;
     return 0;
 }
 
@@ -210,12 +191,7 @@ int CRtpSession::close()
 {
     Destroy();
     m_decodeSrc.Destroy();
-    //    Destroy();
-    //    m_decodeSrc.clear();
-    //    WaitExit();
-    //    m_decodeSrc.close();
 }
-
 
 int CRtpSession::get_ip(const char *data, int len, const char *s_mark, const char *e_mark)
 {
@@ -247,18 +223,22 @@ int CRtpSession::get_port(const char *data, int len, const char *s_mark, const c
     return -1;
 }
 
-int CRtpSession::get_fileName(const char *data, int len, const char *s_mark)
+int CRtpSession::get_fileName(char *clientUrl)
 {
     //找到s_mark的位置
-    const char* satrt = strstr( data, s_mark );
-    if( satrt != nullptr ){
-        //找到e_mark的位置
-        //        const char* end = strstr( satrt, e_mark);
-        //        if( end != nullptr )
-        memcpy(m_fileName,satrt+1,strlen(satrt)-1);
-        return 0;
-    }
-    return -1;
+//    const char* satrt = strstr( data, s_mark );
+//    if( satrt != nullptr ){
+//        //找到e_mark的位置
+//        //        const char* end = strstr( satrt, e_mark);
+//        //        if( end != nullptr )
+//        memcpy(m_fileName,satrt+1,strlen(satrt)-1);
+//        return 0;
+//    }
+//    return -1;
+//    for(int i = 0; i< )
+//    string s(clientUrl);
+//    s.find("mp3");
+
 }
 
 //char *CRtpSession::getFileName()

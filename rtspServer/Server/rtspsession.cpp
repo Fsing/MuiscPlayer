@@ -334,34 +334,24 @@ int CRtspSession::handle_setup( const char* data, int len )
 
 int CRtspSession::handle_play( const char* data, int len )
 {
-    std::stringstream ss(data);
-
-
-
-
-
-
     //获得歌曲名
-    auto it = strstr(data,"\r\n\r\n");
-    auto first = strstr(data,"CSeq");
-    char fileName[128];
-    memset(fileName,0,sizeof (fileName));
-    strncpy(fileName,first+9,it-first-9);
-    fileName[it-first-9] = '\0';
-
+    std::stringstream ss(data);
+    string pp;
+    for(auto i = 0; i < 6;i++){
+        ss >> pp;
+    }
     char cmd[1024] = "";
     snprintf( cmd, sizeof(cmd),
         "RTSP/1.0 200 OK\r\n"
         "%s%s"
         "RTP-Info: url=%s\r\n",
-        m_cseq, m_session, m_url );
+        m_cseq, m_session, m_url);
     if( send_cmd( cmd, strlen(cmd) ) < 0 )
         return -1;
+
     //发送数据
-    string s(fileName);
-    m_rtpSession.Play(s,s.size());
+    m_rtpSession.Play(pp,pp.size());
     return 0;
-//    return m_data_src.Play( &m_sock, m_rtp_ch );
 }
 
 int CRtspSession::handle_pause()

@@ -50,14 +50,14 @@ public:
     //data:需要拆分的字符串，len：data长度
     int get_ip(const char* data, int len, const char* s_mark, const char* e_mark);
     int get_port(const char *data,int len,const char *s_mark,const char *e_mark);
-    int get_fileName(const char *data, int len, const char *s_mark);
+    int get_fileName(char *clientUrl);
 private:
     CMutex m_mutex;                 //m_is_play修改锁
     bool m_is_Play;                 //判断是否pause
     long m_user_info;               //m_fun需要的参数：CRtspSession变量
     NotifyFun m_fun;                //CRtspSession::notify_fun()
     int m_fd;                       //RTSP sock fd
-    char m_fileName[128];             //需要解码的文件名
+    string m_fileName;             //需要解码的文件名
 
     char m_client_ip[128];                 // 客户端地址：192.168.43.32
     char m_server_ip[128];

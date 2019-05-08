@@ -4,10 +4,13 @@
 #include "thread.h"
 #include "mutex.h"
 #include <list>
+#include <string>
 //#include <memory>
 
 //解码
 #define BUFF_MAX_SIZE 1024
+
+using std::string;
 
 class CDecodeSrc:public CThread
 {
@@ -16,11 +19,11 @@ public:
     ~CDecodeSrc();
 public:
     //开启解码线程
-    int Start(char *fileName);
+    int Start();
 
 //    int close();
     //setting
-    void setFileName(char *fileName);
+    void setFileName(string fileName);
 
     //put
     virtual void thread_proc(long user_info);
@@ -37,6 +40,6 @@ private:
     };
     std::list<PacketNode> m_packetList;         //数据缓冲队列
     CMutex m_mutex;                             //m_packetList数据队列缓冲区访问锁
-    char m_fileName[128];                       //文件名
+    string m_fileName;                      //文件名
 };
 #endif // DECODESRC_H

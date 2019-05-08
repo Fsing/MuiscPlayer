@@ -14,7 +14,7 @@ using std::min;         using std::stringstream;
 
 CDecodeSrc::CDecodeSrc()
 {
-    memset(m_fileName,0,sizeof (m_fileName));
+//    memset(m_fileName,0,sizeof (m_fileName));
     setDestroyed(true);
 }
 
@@ -26,12 +26,10 @@ CDecodeSrc::~CDecodeSrc()
     WaitExit();
 }
 
-int CDecodeSrc::Start(char *fileName)
+int CDecodeSrc::Start()
 {
     setDestroyed(true);
-    if(fileName == nullptr)
-        return -1;
-    strncpy(m_fileName,fileName,strlen(fileName));
+//    strncpy(m_fileName,fileName,strlen(fileName));
     if(Create("Decode Source Thread",0) < 0){
         LogError( "Decode source thread failed\n" );
         return -1;
@@ -39,10 +37,10 @@ int CDecodeSrc::Start(char *fileName)
     return 0;
 }
 
-void CDecodeSrc::setFileName(char *fileName)
+void CDecodeSrc::setFileName(string fileName)
 {
     cout << "CDecodeSrc::setFileName : " << fileName << endl;
-    strncpy(m_fileName,fileName,strlen(fileName));
+    m_fileName = fileName;
 }
 
 //int CDecodeSrc::close()
@@ -58,34 +56,18 @@ void CDecodeSrc::thread_proc(long user_info)
     while(1){
         if(IsDestroyed() == false){
             cout <<" Enter CDencodeSrc::thread_pro" << endl;
+            setIsDestroyHasChanged(false);
             AVFormatContext	*pFormatCtx;
             AVCodecContext	*pCodecCtx;
             AVCodec			*pCodec;
             AVPacket		packet;
             int				i, audioStream;
 
-            cout << m_fileName <<endl;
+//            cout << m_fileName <<endl;
             stringstream ss("./music/");
-            char urll[128];
-            memset(urll,0,sizeof(urll));
-
-            string path1;
-            ss >> path1;
-            strncpy(urll,path1.c_str(),path1.size());
-            auto it = strstr(m_fileName,"mp3");
-
-            if(strncpy(urll+8,m_fileName,it+3-m_fileName) == nullptr){
-                strncpy(urll+8,m_fileName,it+3-m_fileName);
-            }
-//            string file(m_fileName);
-//            file = "./music/" + file;
-//            strncpy(urll,file.c_str(),file.size());
-//            url[strlen(m_fileName)] = '\0';
-//            auto it = strstr(urll,"3");
-
-//            char url[64];
-//            memset(url,0,sizeof (url));
-//            strncpy(url,urll,it-urll+1);
+            string urll;
+            ss >> urll;
+            urll = urll + m_fileName;
 
             cout << urll << endl;
             cout << m_fileName << endl;
@@ -94,11 +76,11 @@ void CDecodeSrc::thread_proc(long user_info)
             avformat_network_init();
             pFormatCtx = avformat_alloc_context();
             //Open
-            if(avformat_open_input(&pFormatCtx,urll,nullptr,nullptr)!=0){
+            if(avformat_open_input(&pFormatCtx,urll.c_str(),nullptr,nullptr)!=0){
                 printf("Couldn't open input stream.\n");
                 return;
             }
-            av_dump_format(pFormatCtx, 0, urll, false);
+            av_dump_format(pFormatCtx, 0, urll.c_str(), false);
             audioStream=-1;
             for(i=0; i < pFormatCtx->nb_streams; i++)
                 if(pFormatCtx->streams[i]->codec->codec_type==AVMEDIA_TYPE_AUDIO){
@@ -125,9 +107,9 @@ void CDecodeSrc::thread_proc(long user_info)
 
 
             //解码--------------------------------------------------------------------------
-            while(IsDestroyed() == false){
-                if(av_read_frame(pFormatCtx,&packet) >= 0){
-                    if(packet.stream_index == audioStream){
+            while(IsDestroyed() == false && !isDestroyHasChanged()){
+                if(av_read_frame(pFormatCtx,&packet) >= 0 ){
+                    if(packet.stream_index == audioStream ){
                         PacketNode node;
                         node.buf = new uint8_t[BUFF_MAX_SIZE*2];//每次读1024字节,不超过1400就行
                         //                node.buf = std::make_shared

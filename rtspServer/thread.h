@@ -42,6 +42,8 @@ public:
         m_is_destroyed = l;
     }
 
+    bool isDestroyHasChanged(){return is_destroy_has_changed;}
+    void setIsDestroyHasChanged(bool l){is_destroy_has_changed = l;}
     //destroy RTP线程和DEcodeSrc线程
 //    int destroy_childThread();
 
@@ -64,6 +66,8 @@ private:
     ThreadFun m_fun;                //线程函数指针
     long m_user_info;               //用户信息
     char m_thread_name[128];        //线程名字
+
+    bool is_destroy_has_changed;            //专用于CDecodecSrc::thread_pro
 
 //    int m_ffd;
 };

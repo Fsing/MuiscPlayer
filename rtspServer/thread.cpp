@@ -16,6 +16,7 @@ CThread::CThread()
     m_is_exited = true;
     m_fun = nullptr;
     m_user_info = 0;
+    is_destroy_has_changed = false;
     memset( m_thread_name, 0, sizeof(m_thread_name) );
 }
 

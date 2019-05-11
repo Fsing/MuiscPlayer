@@ -30,7 +30,7 @@ public:
     //记录URl:m_base_url,连接服务器，发送OPTIONS命令
     //创建RTSP客户端线程
 //    Q_INVOKABLE int Start(QString url, QString baseport );
-     int Start( const char* url, DataCBFun fun, long user_info,char *baseport );
+     int Start(const string url, DataCBFun fun, long user_info, string baseport );
 
 	int GetRange();
     //send_play_cmd()

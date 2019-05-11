@@ -3,6 +3,7 @@
 #include "logincontroller.h"
 #include "listenmusiccontroller.h"
 #include "searchcontroller.h"
+#include "collectcontroller.h"
 #include <iostream>
 #include <boost/thread.hpp>
 #include "json/json.h"
@@ -16,7 +17,8 @@ using boost::asio::ip::address;
 using boost::asio::io_service;
 
 io_service service;
-ip::tcp::endpoint ep(address::from_string("192.168.43.164"),2001);
+//ip::tcp::endpoint ep(address::from_string("192.168.30.143"),2001);
+ip::tcp::endpoint ep(address::from_string("192.168.43.32"),2001);
 //ip::tcp::endpoint ep(address::from_string("192.168.43.32"),2001);
 // ip::tcp::endpoint ep(address::from_string("127.0.0.1"),2001);
 // ip::tcp::endpoint ep(address::from_string("192.168.42.159"),2001);
@@ -32,6 +34,7 @@ FSingClient::FSingClient()
         _loginController = std::make_shared<LoginController>();
         _listenMusicController = std::make_shared<ListenMusicController>();
         _searchController = std::make_shared<SearchController>();
+        _collectController = std::make_shared<CollectController>();
         getRecommendSongLists();
         auto adverts = getAdvertImages();
         for (int j = 0; j < adverts.count(); j++){
@@ -245,6 +248,11 @@ void FSingClient::addCreateSongList(QString username, QString songlistName, QStr
     receiveMessage(ec);
 }
 
+QList<QString> FSingClient::getAddSongListResult()
+{
+    return _loginController->getAddSongListResult();
+}
+
 //QList<QString> FSingClient::createdSongLists()
 //{
 //    return _loginController;
@@ -254,6 +262,16 @@ QList<QString> FSingClient::getCreateSongNameLists()
 {
     std::cout << "getCreateSongNameLists!!!!!!!!!!!!!!!!!" <<std::endl;
     return _loginController->getCreateSongNameLists();
+}
+
+QList<QString> FSingClient::getCollectSongListNames()
+{
+    return _loginController->getCollectSongListNames();
+}
+
+QList<QString> FSingClient::getUserSongListNames()
+{
+   return _loginController->getUserSongListNames();
 }
 
 QList<QString> FSingClient::getSongListBasicInfo(QString recSongListId)
@@ -273,7 +291,8 @@ QList<QObject *> FSingClient::getLyric(QString filePath)
 
 void FSingClient::songList(QString songListId)
 {
-    if (!_listenMusicController->findSongList(songListId)){
+   // if (!_listenMusicController->findSongList(songListId)){
+    std::cout << "enter songList()" << std::endl;
         Json::Value root;
         root["type"] = "SONGLIST";
         root["songListId"] = songListId.toStdString();
@@ -283,7 +302,7 @@ void FSingClient::songList(QString songListId)
         sendServerMessage(ec,out);
 
         receiveMessage(ec);
-    }
+   // }
 }
 
 
@@ -349,6 +368,23 @@ void FSingClient::comment(QString id, int start, int end)
 QList<QString> FSingClient::getComments()
 {
     return _listenMusicController->getCommnets();
+}
+
+void FSingClient::commentLike(QString songOrListId, QString userId, QString method)
+{
+    Json::Value root;
+    root["type"] = "COMMENTLIKE";
+    root["songId"] = songOrListId.toStdString();
+    root["accountId"] = userId.toStdString();
+    root["method"] = method.toStdString();
+
+    root.toStyledString();
+    std::string out = root.toStyledString();
+
+    boost::system::error_code ec;
+
+    sendServerMessage(ec,out);
+    receiveMessage(ec);
 }
 
 void FSingClient::postComment(QString songOrListId, QString userId, QString commnet)
@@ -433,6 +469,22 @@ QList<QString> FSingClient::getOnlineSongListsInfo()
     return _listenMusicController->getOnlineSongListsInfo();
 }
 
+void FSingClient::collectSongList(QString userId, QString songListId)
+{
+    Json::Value root;
+    root["type"] = "COLLECTSONGLIST";
+    root["userID"] = userId.toStdString();
+    root["songListID"] = songListId.toStdString();
+
+    root.toStyledString();
+    std::string out = root.toStyledString();
+
+    boost::system::error_code ec;
+
+    sendServerMessage(ec,out);
+    receiveMessage(ec);
+}
+
 QString FSingClient::getSongInformation(QString songId)
 {
     Json::Value root;
@@ -474,13 +526,13 @@ void FSingClient::receiveMessage(boost::system::error_code ec)
                 sock.read_some(buffer(dataSize,sizeof(char)*10),ec);
             cout << dataSize <<endl;
 
-            char data[2048];
-            memset(data,0,sizeof(char)*2048);//reset 0 to data[]
+            char data[1024*20];
+            memset(data,0,sizeof(char)*1024*20);//reset 0 to data[]
 
             while(receiveData.length() < atoi(dataSize)){
                 sock.read_some(buffer(data),ec);
                 receiveData.append(data,0,sizeof(data));
-                memset(data,0,sizeof(char)*2048);
+                memset(data,0,sizeof(char)*1024*20);
             }
 
             if(ec)
@@ -532,6 +584,10 @@ void FSingClient::receiveMessage(boost::system::error_code ec)
                 _listenMusicController->dealMessage(type, resultRoot);
             }else if (type == "SEARCH"){
                 _searchController->dealMessage(type, resultRoot);
+            }else if (type =="COLLECTSONGLIST"){
+                _collectController->dealMessage(type, resultRoot);
+            }else if (type =="COMMENTLIKE"){
+                _listenMusicController->dealMessage(type, resultRoot);
             }
         }
     }catch(char *e){

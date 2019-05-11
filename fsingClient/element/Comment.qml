@@ -7,9 +7,10 @@ Rectangle {
     id:commentEnd
     color: "#fafafa"
     property alias commentView: commentView__
+    property var commentModel:commentModel_
     signal addCommnet(var str)
-    signal addPoint()
-    signal deletePoint()
+    signal addPoint(var inx)
+    signal deletePoint(var inx)
 
     ColumnLayout{
         width: parent.width
@@ -48,8 +49,13 @@ Rectangle {
 
                     cursorShape:(pressed||containsMouse)? Qt.PointingHandCursor: Qt.ArrowCursor
                     onClicked: {
+                        console.log("click 评论")
+                        if (client.checkLogin()){
                         addCommnet(editTextArea.text)
                         editTextArea.text = ""
+                        } else {
+                            topArea.loginDialog.open()
+                        }
                     }
                 }
             }
@@ -59,7 +65,7 @@ Rectangle {
             text: "精彩评论"
             font.pixelSize: 15
             color: "#8b8b8b"
-            visible: commentModel_.count === 0 ? false: true
+            visible: commentModel.count === 0 ? false: true
         }
 
         ListView{
@@ -68,18 +74,25 @@ Rectangle {
             //height: commentModel_.count * 120
             //height: 300
             //anchors.top: _label_.bottom
-            model: commentModel_
-            delegate: delegates
+            model: commentModel
+            delegate: CommentItem {
+                id: leftItemDelegates
+                width: commentView.width
+                height: 50
+                inx:index
+
+            }
         }
     }
-    Component {
-        id: delegates
-        CommentItem {
-            id: leftItemDelegates
-            width: commentView.width
-            height: 50
-        }
-    }
+//    Component {
+//        id: delegates
+//        CommentItem {
+//            id: leftItemDelegates
+//            width: commentView.width
+//            height: 50
+
+//        }
+//    }
 
     onHeightChanged: {
        // console.log("height:  " + height)

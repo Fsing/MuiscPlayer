@@ -4,21 +4,6 @@ import QtQuick.Controls 2.2
 import "../element"
 
 Rectangle {
-//    //歌单名
-//    property string listName
-//    //歌单图片
-//    property string listImage
-//    //用户图片
-//    property string userImg
-//    //创建者
-//    property string username
-//    //创建时间
-//    property string createTime
-//    //标签
-//    property string labels
-//    //歌单简介
-//    property string briefInfos
-
     signal userClick
     signal collectClick
     signal shareClick
@@ -120,7 +105,10 @@ Rectangle {
                     iconScale: 0.9
                     buttonText: "收藏"
                     iconSource: "qrc:/images/common/collect.png"
-                    onIconButtonClicked: collectClick()
+                    onIconButtonClicked: {
+                        buttonText = "已收藏"
+                        collectClick()
+                    }
                 }
 
                 IconButton {
@@ -154,6 +142,8 @@ Rectangle {
                     text: "简介: "
                 }
                 Text {
+                    text:briefInfo_
+                    elide: Text.ElideRight
                 }
             }
         }

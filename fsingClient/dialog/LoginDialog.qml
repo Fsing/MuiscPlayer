@@ -45,14 +45,16 @@ CommonDialog {
                 topRightButton.fanName = client.getUserName()
                 console.log("client.getUserIcon():      "+client.getUserIcon())
                 topRightButton.loginButtonSource = "file://" + applicationDirPath + "/" + client.getUserIcon()
-                var createSongListsCount = client.getCreateSongNameLists().length/2
-                console.log("createSongListsCount； "+createSongListsCount)
-                for (var i = 0; i < createSongListsCount; i++){
+                //显示用户相关歌单
+                middleArea.leftArea.userSongListNamesAndIds = client.getUserSongListNames()
+                var songListsCount = client.getUserSongListNames().length/2
+                console.log("createSongListsCount； "+songListsCount)
+                for (var i = 0; i < songListsCount; i++){
                     if (middleArea.leftArea.showAllCreateClicked) {
                         middleArea.listmodel.append({
                                                         recColor: "#F5F5F7",
                                                         imagesource: "../images/leftArea/list.png",
-                                                        tx: client.getCreateSongNameLists(
+                                                        tx: client.getUserSongListNames(
                                                                 )[i*2],
                                                         opaci: 0.55,
                                                         classifyText: "",
@@ -62,7 +64,7 @@ CommonDialog {
                         middleArea.listmodel.append({
                                                         recColor: "#F5F5F7",
                                                         imagesource: "../images/leftArea/list.png",
-                                                        tx: client.getCreateSongNameLists(
+                                                        tx: client.getUserSongListNames(
                                                                 )[i*2],
                                                         opaci: 0.55,
                                                         classifyText: "",
@@ -74,7 +76,7 @@ CommonDialog {
         }
         onRegisterClicked: {
             client.registerUser(registerUserNameText,
-                                         registerUserPasswordText)
+                                registerUserPasswordText)
             setRemindMessage(mainWindow.client.getLoginControllerResult())
             console.log(mainWindow.client.getLoginControllerResult())
         }

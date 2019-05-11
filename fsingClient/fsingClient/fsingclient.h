@@ -65,6 +65,7 @@ public:
 
     //创建歌单
     Q_INVOKABLE void addCreateSongList(QString username, QString songlistName, QString time);
+    Q_INVOKABLE QList<QString> getAddSongListResult();
     //获取用户原创歌单
 //    Q_INVOKABLE QList<QString> createdSongLists();
 
@@ -72,6 +73,10 @@ public:
     void getRecommendSongLists();
     //获取用户创建歌单的名字集合 huang
     Q_INVOKABLE QList<QString> getCreateSongNameLists();
+    //获取用户收藏歌单集合
+    Q_INVOKABLE QList<QString> getCollectSongListNames();
+    //获取用户相关的歌单
+    Q_INVOKABLE QList<QString> getUserSongListNames();
     //获取推荐歌单名字集合
     Q_INVOKABLE QList<QString> getRecommendSongListNames();
     //获取推荐歌单图片集合
@@ -85,6 +90,8 @@ public:
     //获取在线歌单
     Q_INVOKABLE void onlineSongLists();
     Q_INVOKABLE QList<QString> getOnlineSongListsInfo();
+    //收藏歌单
+    Q_INVOKABLE void collectSongList(QString userId, QString songListId);
 
     //获取歌单基本信息
     Q_INVOKABLE QList<QString> getSongListBasicInfo(QString recSongListId);
@@ -106,6 +113,8 @@ public:
     //获取评论信息
     Q_INVOKABLE void comment(QString id, int start, int end);
     Q_INVOKABLE QList<QString> getComments();
+    //评论点赞
+    Q_INVOKABLE void commentLike(QString songOrListId, QString userId, QString method);
     //发布评论
     Q_INVOKABLE void postComment(QString songOrListId, QString userId, QString commnet);
     //查找音乐
@@ -129,6 +138,7 @@ private:
     std::shared_ptr<ListenMusicController> _listenMusicController;
     std::shared_ptr<DownloadMusicController> _downloadMusicController;
     std::shared_ptr<SearchController> _searchController;
+    std::shared_ptr<CollectController> _collectController;
     //结果信息
     QString m_loginConcrollerResult;
 

@@ -17,7 +17,11 @@ public:
     QString getFanLabel();
     QString getFanAddress();
     void createSongList(Json::Value resultRoot);
+    //获取[name,id]
     QList<QString> getCreateSongNameLists();
+    QList<QString> getCollectSongListNames();
+    QList<QString> getUserSongListNames();
+    QList<QString> getAddSongListResult();
     void userLogout();
     void registerUser(Json::Value resultRoot);
     //判断服务端返回的消息的类型,并调用相应的处理函数,纯虚函数，各个用况的controller继承实现，动态绑定
@@ -35,6 +39,8 @@ signals:
 private:
     //消息处理结果
     QString m_result;
+
+    QList<QString> createSongListNameAndId;
 
     bool m_logining = false;
     //用户信息

@@ -16,7 +16,7 @@ Rectangle {
 //        songListName: "我喜欢的音乐"
 //        songListCreateTime: "2017-03-12"
 //        userName: "eva"
-
+        songListName_:"我喜欢的音乐"
         songListModel: songsModel
     }
 }

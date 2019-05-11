@@ -77,7 +77,24 @@ Rectangle {
         target: leftArea
         onLeftAreaClicked: {
             console.log("Js.popView(n)" + n)
-            Js.popView(n)
+            songsModel_.clear()
+            if (n < 10){
+                Js.popView(n)
+            } else {
+                console.log("n；      "+n)
+                var tmp = (n-10)*2+1
+                var songlitId = leftArea.userSongListNamesAndIds[tmp]
+                console.log("(n-10)*2+1；      "+songlitId)
+                client.songList(songlitId)
+                rightArea.songListInfo = client.getSongListBasicInfo(songlitId)
+                console.log("rightArea.songListInfo；      "+songListInfo.length)
+                rightArea.songsListTable = client.getSongListSongs(songlitId)
+                console.log("songsListTable；      "+songsListTable.length)
+                appendSong(rightArea.songsListTable)
+                console.log("appendSong(rightArea.songsListTable)；      "+songlitId)
+                Js.popView(11)
+            }
+
             console.log("deepth" + stackView.depth)
         }
     }
@@ -176,7 +193,7 @@ Rectangle {
         id: personInfoComponent
         PersonInfo {
             id: personInfo
-           // width: parent.width
+            // width: parent.width
         }
     }
 
@@ -234,14 +251,14 @@ Rectangle {
         onBack:{
             if (topArea.backStackView.length > 1){
                 topArea.backStackView.pop()
-//                if(topArea.backStackView.length > 0){
-                    var tmpIndex = topArea.backStackView.length - 1
-                    var tmp = topArea.backStackView[tmpIndex]
-                    console.log("tmp:                           "+ tmp)
-                    Js.popView(topArea.backStackView[tmpIndex])
+                //                if(topArea.backStackView.length > 0){
+                var tmpIndex = topArea.backStackView.length - 1
+                var tmp = topArea.backStackView[tmpIndex]
+                console.log("tmp:                           "+ tmp)
+                Js.popView(topArea.backStackView[tmpIndex])
                 if (topArea.backStackView.length === 1)
                     topArea.backAndForwardButton.leftButtonOpacity = 0.5
-//                }
+                //                }
             }else {
                 topArea.backAndForwardButton.leftButtonOpacity = 0.5
             }
@@ -276,5 +293,36 @@ Rectangle {
     //在线歌单界面的model
     ListModel{
         id:onlineListModel
+    }
+
+    function appendSong(lists){
+        if(lists.length !== 0){
+            rightArea.model_.clear()
+            var count = lists.length/9
+            var j = 1;
+            var k = '0'
+            var m = ''
+            for (var i = 0; i < count; i++){
+                //设置歌曲的序号
+                var num
+                if (i < 9){
+                    num = k+j
+                    j++
+                }else{
+                    num = m+j
+                    j++
+
+                }
+
+                rightArea.model_.append({"id":lists[i*9],
+                                            "number": num,
+                                            "operator":"",
+                                            "title":lists[i * 9 + 1],
+                                            "artist":lists[i * 9 + 2],
+                                            "album":lists[i * 9 + 3],
+                                            "time":lists[i * 9 + 5]})
+
+            }
+        }
     }
 }

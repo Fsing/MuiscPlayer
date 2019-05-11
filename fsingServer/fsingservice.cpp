@@ -63,7 +63,7 @@ void sendMessage(string result2,socket_ptr sock)
     std::cout << result2 << std::endl;
     boost::system::error_code ec;
     if(result2 != "fileTransfer"){
-        char data2[1024*10];
+        char data2[1024*15];
         memset(data2,0,sizeof(data2));
 
         char headLength[10];
@@ -77,6 +77,7 @@ void sendMessage(string result2,socket_ptr sock)
             std::cout << boost::system::system_error(ec).what() << std::endl;
             throw ec;
         }
+        usleep(100);
         sock->write_some(buffer(data2), ec);  //send message to client
         if(ec)
         {
@@ -213,6 +214,10 @@ void Server::parameterAnalysis(char data[], vector<string> &parameter){
                 parameter.push_back(value["type"].asString());
                 parameter.push_back(value["songListID"].asString());
                 parameter.push_back(value["songID"].asString());
+            }else if(type == "COLLECTSONGLIST"){
+                parameter.push_back(value["type"].asString());
+                parameter.push_back(value["userID"].asString());
+                parameter.push_back(value["songListID"].asString());
             }else if(type == "SONGLIST"){
                 parameter.push_back(value["type"].asString());
                 parameter.push_back(value["songListId"].asString());

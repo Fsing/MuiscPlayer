@@ -33,6 +33,8 @@ void ListenMusicController::dealMessage(std::string type, Json::Value resultRoot
             getSongListComment(resultRoot);
         }else if(type == "ADDCOMMENT"){
 
+        }else if (type == "COMMENTLIKE"){
+
         }
     }catch(...){
         std::cout<< "listenMusicController dealMessage error!" << std::endl;

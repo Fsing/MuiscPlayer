@@ -36,4 +36,7 @@ HEADERS += \
     tcpsock.h \
     thread.h \
     tsheader.h
+
+INCLUDEPATH += -I /usr/local/include/jrtplib3/
+
 LIBS += -lpthread -lavformat  -lavcodec -lavutil -lm -lz -lswscale  -lswresample -ljrtp

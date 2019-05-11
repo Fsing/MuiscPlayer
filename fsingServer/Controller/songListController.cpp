@@ -116,9 +116,9 @@ std::string SongListController::addSongList(std::string username, std::string so
         auto uname = username.data();
         auto lname = songListName.data();
         auto ctime = time.data();
-        std::shared_ptr<LoginController> loginController;
-        auto maxid = loginController->getMaxid("SongList");
-        std::sprintf(sql,"insert into SongList(name,author,createTime,label,info,icon,collectionQuantity,clickQuantity,shareQuantity) values('%s','%s','%s','0','0','0',0,0,0)",lname,uname,ctime);
+        //std::shared_ptr<LoginController> loginController;
+        //auto maxid = loginController->getMaxid("SongList");
+        std::sprintf(sql,"insert into SongList(name,author,createTime,label,info,icon,collectionQuantity,clickQuantity,shareQuantity) values('%s','%s','%s','0','0','songListIcon.png',0,0,0)",lname,uname,ctime);
         auto length = strlen(sql);
         if(!mysql_real_query(&mysql1,sql,length)){
             //如果缓存中有该用户，则从缓存中删除，下一次查找更新
@@ -129,9 +129,30 @@ std::string SongListController::addSongList(std::string username, std::string so
                 fanBroker->updateCacheForCreatedSongList(username,songlist);
             }
             cout <<"addSongList:insert into SongList: " << songListName << " success!" << endl;
+
+            char sql3[512];
+            MYSQL_RES *result3;
+            MYSQL_ROW row3;
+            MYSQL mysql3;
+            mysql_init(&mysql3);
+            if(!mysql_real_connect(&mysql3,"localhost","fsing","fsing","Fsing",3306,NULL,0)){
+                cout << "addCreateSongList conect MYSQL failed!" << endl;
+                root["recordSuccess"] = "FAILD";
+                root.toStyledString();
+                return root.toStyledString();
+            }
+            std::sprintf(sql3,"select id from SongList where name='%s' and author='%s'",songListName.data(),username.data());
+            if(!mysql_real_query(&mysql3,sql3,strlen(sql3))){
+                result3 = mysql_store_result(&mysql3);
+                cout << result3 << sql3 <<endl;
+                if(result3){
+                    while((row3 = mysql_fetch_row(result3))){
+                        root["songListID"] = row3[0];
+                    }
+                }
+            }
+
             root["recordSuccess"] = "SUCCESS";
-            root["songListID"] = maxid;
-            root.toStyledString();
             return root.toStyledString();
         }else {
             cout <<"record create song list " << lname << " false" << endl;
@@ -225,8 +246,8 @@ std::string SongListController::collectSongList(std::string userId, std::string 
     char sql[512];
     MYSQL_RES *result;
     MYSQL_ROW row;
-    std::sprintf(sql,"select 1 from CollectRelation where collectedUser=(select"
-                     " id from Account where name = '%s') and songlistID='%s'",userId.data(),songListId.data());
+    std::sprintf(sql,"select 1 from CollectionRelation where collectedUser=(select"
+                     " name from Account where id = '%s') and songlistID='%s'",userId.data(),songListId.data());
     if(!mysql_real_query(&mysql,sql,strlen(sql))){
         result = mysql_store_result(&mysql);
         if(result){
@@ -247,8 +268,9 @@ std::string SongListController::collectSongList(std::string userId, std::string 
 
     //插入收藏歌曲信息
     char sql1[512];
-    std::sprintf(sql1,"insert into CollectRelation(collectedUser, songlistID) values(("
-                      "select id from Account where name ='%s'),'%s')",userId.data(),songListId.data());
+    std::sprintf(sql1,"insert into CollectionRelation(collectedUser, songlistID) values(("
+                      "select name from Account where id ='%s'),'%s')",userId.data(),songListId.data());
+    cout << sql << endl ;
     auto length = strlen(sql1);
     if(!mysql_real_query(&mysql,sql1,length)){
         cout <<"CollectRelation:insert into CollectRelation success!" << endl;

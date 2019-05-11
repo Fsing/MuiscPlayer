@@ -133,8 +133,10 @@ Item {
             Text {
                 id: textx
                 text: tx
+                width: 150
                 font.pixelSize: leftElementTextSize
                 color: leftElementTextColor
+                elide: Text.ElideRight
                 opacity: opaci
             }
         }

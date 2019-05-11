@@ -16,17 +16,29 @@ QmlRtspClient::QmlRtspClient()
 
 int QmlRtspClient::start(QString SongName)
 {
-    char url[128];
-    char port[8];
+    string url;
+    string port;
     readUrl(url,port,SongName.toStdString());
     std::cout <<url <<endl;
-    strncpy(m_client_port,port,strlen(port));
+    m_client_port = port;
     //开启rtsp线程
 
     m_rtspClient.Start(url,data_cb_fun,0,m_client_port);
     _position.Start((long)this);
-//    pthread_t handle;
-//    pthread_create(&handle,nullptr,position_thread,this);
+}
+
+int QmlRtspClient::readUrl(string &url,string &port,string songName)
+{
+    ifstream fp;
+    fp.open("config");
+
+    fp >> url;
+    cout <<"url: " << url << endl;
+    cout << "songName: " << songName << endl;
+    fp >> port;
+    url = url+songName;
+    cout << "port :" << endl;
+    fp.close();
 }
 
 void QmlRtspClient::pause()
@@ -43,6 +55,8 @@ void QmlRtspClient::play(QString songName)
     if(m_fileName == songName.toStdString()){
         cout <<"continue play,songName: " << songName.toStdString() << endl;
         m_rtspClient.continuePlay();
+        m_playState = 1;
+        emit playStateChanged();
 //        m_rtspClient.send_play_cmd(songName.toStdString());
     }else{
         cout<< "QmlRtspClient::play" << endl;
@@ -61,34 +75,37 @@ void QmlRtspClient::speed(QString position)
 
 }
 
-int QmlRtspClient::readUrl(char *url,char *port,string songName)
-{
-    memset(url,0,sizeof(url));
-    memset(port,0,sizeof(port));
+//int QmlRtspClient::readUrl(char *url,string &port,string songName)
+//{
+//    memset(url,0,sizeof(url));
+//    memset(port,0,sizeof(port));
 
-    ifstream fp;
-    fp.open("config");
+//    ifstream fp;
+//    fp.open("config");
 
-    char buf[128];
-    memset(buf,0,sizeof(buf));
+////    char buf[128];
+////    memset(buf,0,sizeof(buf));
 
-    //fp指向文件末尾
-    fp.seekg(0,std::ios::end);
-    int length = fp.tellg();        //文件长度
-    fp.seekg(0,std::ios::beg);      //回到文件开头
-    fp.read(buf,length);
+////    //fp指向文件末尾
+////    fp.seekg(0,std::ios::end);
+////    int length = fp.tellg();        //文件长度
+////    fp.seekg(0,std::ios::beg);      //回到文件开头
+////    fp.read(buf,length);
 
-    cout << buf << songName << endl;
-    auto i = strstr(buf,"\n");
-    strncpy(port,i+1,4);
-    strncpy(url,buf,i-buf);
+//    string buf;
+//    fp >> buf;
+//    cout <<"buf: " << buf << endl;
+//    cout << "songName: " << songName << endl;
+////    auto i = strstr(buf,"\n");
+////    strncpy(port,i+1,4);
+////    strncpy(url,buf,i-buf);
 
-    url[strlen(url)] = '\0';
-    std::cout << url << endl;
-    strncpy(url+strlen(url)-4,songName.c_str(),songName.size());
-    url[i-buf + songName.size()] = '\0';
-    fp.close();
-}
+//    url[strlen(url)] = '\0';
+//    std::cout << url << endl;
+//    strncpy(url+strlen(url)-4,songName.c_str(),songName.size());
+//    url[i-buf + songName.size()] = '\0';
+//    fp.close();
+//}
 
 int QmlRtspClient::get_str(const char *data, const char *s_mark, bool with_s_make, const char *e_mark, bool with_e_make, char *dest)
 {
@@ -137,7 +154,6 @@ void QmlRtspClient::data_cb_fun(const char *data, int len)
     else{
         LogInfo( "data len:%d\n", len );
     }
-
 }
 
 //void *QmlRtspClient::position_thread(void *arg)

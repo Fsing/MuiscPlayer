@@ -3,6 +3,7 @@ import QtQuick 2.0
 
 Item {
     id:commentItem
+    property var inx
 
     Rectangle{
 
@@ -82,15 +83,23 @@ Item {
             onClicked: {
                 console.log(commentLike.isClick)
                 if (commentLike.isClick){
-                    commentLike.opacity = 0.6
-                    commentLike.isClick = false
-                    point = point - 1
-                    deletePoint()
+                    if (client.checkLogin()){
+                        commentLike.opacity = 0.6
+                        commentLike.isClick = false
+                        point = point - 1
+                        deletePoint(inx)
+                    }else {
+                        topArea.loginDialog.open()
+                    }
                 } else {
-                    commentLike.opacity = 1.0
-                    commentLike.isClick = true
-                    point = point + 1
-                    addPoint()
+                    if (client.checkLogin()){
+                        commentLike.opacity = 1.0
+                        commentLike.isClick = true
+                        point = point + 1
+                        addPoint(inx)
+                    }else {
+                        topArea.loginDialog.open()
+                    }
                 }
             }
         }

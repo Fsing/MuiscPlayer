@@ -139,7 +139,6 @@ void Fan::setIcon(QString icon){
 void Fan::addCreatedSongList(QString key, QList<QString> s)
 {
     _createdSongList.insert(key,s);
-    std::cout << _createdSongList.count()<<"+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++" <<std::endl;
 }
 
 QMap<QString, QList<QString> > Fan::createdSongList() const

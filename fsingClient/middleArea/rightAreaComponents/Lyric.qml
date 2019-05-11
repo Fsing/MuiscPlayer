@@ -200,6 +200,14 @@ Rectangle {
                     console.log("onAddCommnet:          " + str)
                     client.postComment(leftArea.currentSongId, client.getUserId(), str)
                 }
+                onDeletePoint: {
+                    var method = "unlike"
+                    client.commentLike(leftArea.currentSongId, leftArea.comments[inx*5],method)
+                }
+                onAddPoint: {
+                    var method = "like"
+                    client.commentLike(leftArea.currentSongId, leftArea.comments[inx*5],method)
+                }
             }
         }
 
@@ -217,10 +225,18 @@ Rectangle {
             if (leftArea.comments.length !== 0){
                 console.log("show Commnet!!!!")
                 commentModel_.clear()
+                for (var j = 0; j< leftArea.comments.length/5; j++){
+                    client.fileTransfer(leftArea.comments[j*5+3])
+                }
+
                 console.log("show Commnet count: " +  leftArea.comments.length)
                 for (var i = 0; i < leftArea.comments.length/5; i++){
+
                     var number = parseInt(leftArea.comments[i*5+4])
-                    commentModel_.append({image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg",
+                    console.log("leftArea.comments[i*5+3]:  "+leftArea.comments[i*5+3])
+
+                    var path = "file://"+applicationDirPath+"/"+leftArea.comments[i*5+3]
+                    commentModel_.append({image:path,
                                              name: leftArea.comments[i*5+1],
                                              comment: leftArea.comments[i*5+2],
                                              point:number})
@@ -232,34 +248,5 @@ Rectangle {
 
     ListModel{
         id:commentModel_
-        //        ListElement{
-
-        //            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
-        //            name:"Eva: "
-        //            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
-
-        //        }
-        //        ListElement{
-
-        //            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
-        //            name:"Eva: "
-        //            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
-
-        //        }
-        //        ListElement{
-
-        //            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
-        //            name:"Eva: "
-        //            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
-
-        //        }
-        //        ListElement{
-
-        //            image:"file:///root/new7/MuiscPlayer/build-fsingClient-Desktop_Qt_5_11_1_GCC-Debug/zhenhy.jpg"
-        //            name:"Eva: "
-        //            comment:"叶凡：“尝尽人间绚烂，难补一生辛酸遗憾”"
-
-        //        }
-
     }
 }

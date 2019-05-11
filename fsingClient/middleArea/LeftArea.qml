@@ -24,6 +24,8 @@ Rectangle {
     property var comments
     property string albumImage: "qrc:/images/common/ayi.9.png"
 
+    property var userSongListNamesAndIds
+
     signal leftAreaClicked(int n)
     signal showComment()
 
@@ -48,9 +50,9 @@ Rectangle {
                 console.log("lyric")
                 client.fileTransfer(lyricSource)
                 leftAreaClicked(-1)
-//                client.comment(leftArea.currentSongId,1,10)
-//                comments = client.getComments()
-//                console.log("client.getComments(): "+ comments.length)
+                //                client.comment(leftArea.currentSongId,1,10)
+                //                comments = client.getComments()
+                //                console.log("client.getComments(): "+ comments.length)
                 showComment()
             }
         }
@@ -225,16 +227,17 @@ Rectangle {
         x: mainWindow.width / 2 - 150
         y: 100
         onInputAccepted: {
-            if (client.getLoginControllerResult()){
-                listModel.append({
-                                     recColor: "#F5F5F7",
-                                     imagesource: "../images/leftArea/list.png",
-                                     tx: createSongListDialog.inputText,
-                                     opaci: 0.55,
-                                     classifyText: "",
-                                     delegate_listVisible: true
-                                 })
-            }
+            console.log(client.getUserName() + createSongListDialog.inputText + getCurDate(
+                            ))
+            middleArea.listmodel.append({
+                                            recColor: "#F5F5F7",
+                                            imagesource: "../images/leftArea/list.png",
+                                            tx: createSongListDialog.inputText,
+                                            opaci: 0.55,
+                                            classifyText: "",
+                                            delegate_listVisible: true
+                                        })
+
         }
     }
 }

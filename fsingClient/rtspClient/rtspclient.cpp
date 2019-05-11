@@ -53,12 +53,12 @@ CRtspClient::~CRtspClient()
 //    }
 //    return 0;
 //}
-int CRtspClient::Start(const char* url, DataCBFun fun, long user_info , char *baseport)
+int CRtspClient::Start(const string url, DataCBFun fun, long user_info , string baseport)
 {
     m_fun = fun;
     m_user_info = user_info;
     memset( m_base_url, 0, sizeof(m_base_url) );
-    strncpy( m_base_url, url, sizeof(m_base_url) );
+    strncpy( m_base_url, url.data(), sizeof(m_base_url) );
 
     std::string port(baseport);
     stringstream ss(port);
@@ -66,7 +66,7 @@ int CRtspClient::Start(const char* url, DataCBFun fun, long user_info , char *ba
     m_rtpSession.setClientPort(m_client_port);
 
     //    m_rtpSession.Start(url);
-    if( open_sock( url ) < 0 )
+    if( open_sock( url.data() ) < 0 )
         return -1;
     if( Create( "RtspClientThread", 0 ) < 0 ){
         LogError( "create thread  RtspClientThread failed\n" );
